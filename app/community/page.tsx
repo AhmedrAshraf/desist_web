@@ -1,15 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ThemeToggle } from "./components/ThemeToggle";
+import { ThemeToggle } from "../components/ThemeToggle";
 
-export default function Home() {
+export default function Community() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-100 dark:border-gray-800">
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</span>
+            <Link href="/" className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</Link>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link href="/about" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">About</Link>
@@ -33,132 +32,151 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col items-center text-center gap-8">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white">
-              Stand Against <span className="text-primary-600 dark:text-primary-400">Harassment</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
-              Join the movement to create safer spaces for everyone. Report incidents, access support, and be part of the community.
-            </p>
-            <div className="flex gap-4">
-              <Link 
-                href="/join"
-                className="btn-primary"
-              >
-                Join the Movement
-              </Link>
-              <Link 
-                href="/about"
-                className="btn-secondary"
-              >
-                Learn More
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission Statement */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h2>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Community Hub
+          </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            We're building a world where everyone can feel safe and supported. Through education, 
-            community support, and direct action, we're creating lasting change in how we address 
-            and prevent harassment.
+            Connect, share, and grow with our supportive community.
           </p>
         </div>
       </section>
 
       {/* Features Section */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Discussion Forums */}
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Discussion Forums</h2>
+              <div className="space-y-6">
+                {[
+                  {
+                    title: "General Discussion",
+                    description: "Open forum for community members to connect and share experiences.",
+                    members: "2.5k members",
+                    posts: "15.2k posts"
+                  },
+                  {
+                    title: "Support & Advice",
+                    description: "A safe space to seek and offer support and guidance.",
+                    members: "1.8k members",
+                    posts: "8.7k posts"
+                  },
+                  {
+                    title: "Events & Meetups",
+                    description: "Organize and discuss community events and gatherings.",
+                    members: "950 members",
+                    posts: "3.2k posts"
+                  }
+                ].map((forum, index) => (
+                  <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-0 last:pb-0">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{forum.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">{forum.description}</p>
+                    <div className="flex gap-4 text-sm text-gray-500 dark:text-gray-400">
+                      <span>{forum.members}</span>
+                      <span>{forum.posts}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button className="mt-6 w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
+                View All Forums
+              </button>
+            </div>
+
+            {/* Community Events */}
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Upcoming Events</h2>
+              <div className="space-y-6">
+                {[
+                  {
+                    title: "Community Meetup: NYC",
+                    date: "June 15, 2024",
+                    time: "2:00 PM EST",
+                    location: "Virtual & In-Person"
+                  },
+                  {
+                    title: "Workshop: Digital Safety",
+                    date: "June 22, 2024",
+                    time: "1:00 PM EST",
+                    location: "Virtual"
+                  },
+                  {
+                    title: "Support Group Session",
+                    date: "June 29, 2024",
+                    time: "3:00 PM EST",
+                    location: "Virtual"
+                  }
+                ].map((event, index) => (
+                  <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-0 last:pb-0">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{event.title}</h3>
+                    <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                      <p>{event.date}</p>
+                      <p>{event.time}</p>
+                      <p>{event.location}</p>
+                    </div>
+                    <button className="mt-3 text-primary-600 dark:text-primary-400 hover:underline text-sm">
+                      Register Now
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button className="mt-6 w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
+                View All Events
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Stats */}
       <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">How We Help</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Community Impact</h2>
+          <div className="grid md:grid-cols-4 gap-8">
             {[
               {
-                title: "Report Incidents Safely",
-                description: "Secure, confidential reporting system for harassment incidents with immediate support access.",
-                icon: "🛡️"
+                number: "10K+",
+                label: "Community Members"
               },
               {
-                title: "Access Support Resources",
-                description: "Comprehensive guides, emergency tips, and legal resources to help you navigate difficult situations.",
-                icon: "📚"
+                number: "50+",
+                label: "Cities Worldwide"
               },
               {
-                title: "Join the Community",
-                description: "Connect with others, share experiences, and participate in creating safer spaces together.",
-                icon: "🤝"
+                number: "100+",
+                label: "Monthly Events"
+              },
+              {
+                number: "24/7",
+                label: "Support Available"
               }
-            ].map((feature, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2">{stat.number}</div>
+                <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Community Highlight */}
+      {/* Community Guidelines */}
       <section className="py-20 px-4 bg-white dark:bg-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Join Our Growing Community</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Thousands of people have already joined DESIST! to create safer spaces and support each other.
-              </p>
-              <div className="grid grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">10K+</div>
-                  <div className="text-gray-600 dark:text-gray-300">Members</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">50+</div>
-                  <div className="text-gray-600 dark:text-gray-300">Cities</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">24/7</div>
-                  <div className="text-gray-600 dark:text-gray-300">Support</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-8">
-                <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* App Download CTA */}
-      <section className="py-20 px-4 bg-primary-600 dark:bg-primary-700 text-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-6">Get the DESIST! App</h2>
-              <p className="text-xl mb-8 opacity-90">
-                Download our app to access support resources, report incidents, and connect with the community on the go.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                  App Store
-                </button>
-                <button className="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                  Google Play
-                </button>
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-white/10 rounded-xl p-8">
-                <div className="aspect-[9/16] bg-white/20 rounded-lg"></div>
-              </div>
-            </div>
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Community Guidelines</h2>
+          <div className="prose dark:prose-invert max-w-none">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+              Our community is built on respect, support, and mutual understanding. To ensure a safe and welcoming environment for all members, we ask that you follow these guidelines:
+            </p>
+            <ul className="space-y-4 text-gray-600 dark:text-gray-300">
+              <li>Treat all members with respect and kindness</li>
+              <li>Maintain confidentiality and privacy</li>
+              <li>Share experiences and support without judgment</li>
+              <li>Report any inappropriate behavior</li>
+              <li>Follow the platform's terms of service</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -215,4 +233,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+} 

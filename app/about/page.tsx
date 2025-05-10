@@ -1,15 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ThemeToggle } from "./components/ThemeToggle";
+import { ThemeToggle } from "../components/ThemeToggle";
 
-export default function Home() {
+export default function About() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-100 dark:border-gray-800">
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</span>
+            <Link href="/" className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</Link>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link href="/about" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">About</Link>
@@ -33,133 +32,123 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col items-center text-center gap-8">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white">
-              Stand Against <span className="text-primary-600 dark:text-primary-400">Harassment</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
-              Join the movement to create safer spaces for everyone. Report incidents, access support, and be part of the community.
-            </p>
-            <div className="flex gap-4">
-              <Link 
-                href="/join"
-                className="btn-primary"
-              >
-                Join the Movement
-              </Link>
-              <Link 
-                href="/about"
-                className="btn-secondary"
-              >
-                Learn More
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission Statement */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h2>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Our Story
+          </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            We're building a world where everyone can feel safe and supported. Through education, 
-            community support, and direct action, we're creating lasting change in how we address 
-            and prevent harassment.
+            Learn about our journey, mission, and the values that drive us forward.
           </p>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Story Section */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+        <div className="container mx-auto max-w-4xl">
+          <div className="prose dark:prose-invert max-w-none">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">The Story Behind DESIST!</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+              DESIST! was born from a simple yet powerful idea: everyone deserves to feel safe and supported. 
+              What started as a small community initiative has grown into a global movement, connecting people 
+              and organizations dedicated to creating safer spaces for all.
+            </p>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+              Our journey began when a group of activists, survivors, and allies came together to address 
+              the growing need for accessible support and resources in combating harassment. We recognized 
+              that while many organizations were doing important work, there was a gap in connecting 
+              individuals with the right resources at the right time.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline Section */}
       <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">How We Help</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Our Journey</h2>
+          <div className="space-y-12">
             {[
               {
-                title: "Report Incidents Safely",
-                description: "Secure, confidential reporting system for harassment incidents with immediate support access.",
-                icon: "🛡️"
+                year: "2020",
+                title: "The Beginning",
+                description: "DESIST! was founded with a mission to create safer spaces and provide support for those affected by harassment."
               },
               {
-                title: "Access Support Resources",
-                description: "Comprehensive guides, emergency tips, and legal resources to help you navigate difficult situations.",
-                icon: "📚"
+                year: "2021",
+                title: "Community Growth",
+                description: "Our community expanded to over 10,000 members across 50+ cities, creating a network of support and resources."
               },
               {
-                title: "Join the Community",
-                description: "Connect with others, share experiences, and participate in creating safer spaces together.",
-                icon: "🤝"
+                year: "2022",
+                title: "Mobile App Launch",
+                description: "We launched our mobile app, making it easier for people to access support and report incidents on the go."
+              },
+              {
+                year: "2023",
+                title: "Global Impact",
+                description: "DESIST! established partnerships with organizations worldwide, expanding our reach and impact."
               }
-            ].map((feature, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+            ].map((milestone, index) => (
+              <div key={index} className="flex gap-8">
+                <div className="w-24 flex-shrink-0">
+                  <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">{milestone.year}</div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{milestone.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{milestone.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Community Highlight */}
+      {/* Values Section */}
       <section className="py-20 px-4 bg-white dark:bg-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Join Our Growing Community</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Thousands of people have already joined DESIST! to create safer spaces and support each other.
-              </p>
-              <div className="grid grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">10K+</div>
-                  <div className="text-gray-600 dark:text-gray-300">Members</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">50+</div>
-                  <div className="text-gray-600 dark:text-gray-300">Cities</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">24/7</div>
-                  <div className="text-gray-600 dark:text-gray-300">Support</div>
-                </div>
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Our Values</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              {
+                title: "Empowerment",
+                description: "We believe in empowering individuals to take action and create change in their communities."
+              },
+              {
+                title: "Support",
+                description: "We provide comprehensive support to those affected by harassment, ensuring no one faces challenges alone."
+              },
+              {
+                title: "Education",
+                description: "We promote awareness and education to prevent harassment and create safer spaces."
+              },
+              {
+                title: "Community",
+                description: "We foster a strong, supportive community where everyone's voice is heard and valued."
+              }
+            ].map((value, index) => (
+              <div key={index} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{value.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{value.description}</p>
               </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-8">
-                <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* App Download CTA */}
+      {/* Vision Section */}
       <section className="py-20 px-4 bg-primary-600 dark:bg-primary-700 text-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-6">Get the DESIST! App</h2>
-              <p className="text-xl mb-8 opacity-90">
-                Download our app to access support resources, report incidents, and connect with the community on the go.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                  App Store
-                </button>
-                <button className="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                  Google Play
-                </button>
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-white/10 rounded-xl p-8">
-                <div className="aspect-[9/16] bg-white/20 rounded-lg"></div>
-              </div>
-            </div>
-          </div>
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
+          <p className="text-xl mb-8 opacity-90">
+            We envision a world where everyone can live, work, and thrive in safe, supportive environments. 
+            Through our collective efforts, we're building a future free from harassment and discrimination.
+          </p>
+          <Link 
+            href="/join"
+            className="inline-block px-8 py-4 bg-white text-primary-600 rounded-full font-medium hover:bg-gray-100 transition-colors"
+          >
+            Join Our Movement
+          </Link>
         </div>
       </section>
 
@@ -215,4 +204,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+} 

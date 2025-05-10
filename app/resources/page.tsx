@@ -1,15 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ThemeToggle } from "./components/ThemeToggle";
+import { ThemeToggle } from "../components/ThemeToggle";
 
-export default function Home() {
+export default function Resources() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-100 dark:border-gray-800">
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</span>
+            <Link href="/" className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</Link>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link href="/about" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">About</Link>
@@ -33,132 +32,135 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col items-center text-center gap-8">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white">
-              Stand Against <span className="text-primary-600 dark:text-primary-400">Harassment</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
-              Join the movement to create safer spaces for everyone. Report incidents, access support, and be part of the community.
-            </p>
-            <div className="flex gap-4">
-              <Link 
-                href="/join"
-                className="btn-primary"
-              >
-                Join the Movement
-              </Link>
-              <Link 
-                href="/about"
-                className="btn-secondary"
-              >
-                Learn More
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission Statement */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h2>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Resources
+          </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            We're building a world where everyone can feel safe and supported. Through education, 
-            community support, and direct action, we're creating lasting change in how we address 
-            and prevent harassment.
+            Educational materials, guides, and tools to help you navigate and prevent harassment.
           </p>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
+      {/* Resource Categories */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">How We Help</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "Report Incidents Safely",
-                description: "Secure, confidential reporting system for harassment incidents with immediate support access.",
-                icon: "🛡️"
+                title: "Educational Guides",
+                description: "Comprehensive guides on understanding, preventing, and responding to harassment.",
+                icon: (
+                  <svg className="w-12 h-12 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                )
               },
               {
-                title: "Access Support Resources",
-                description: "Comprehensive guides, emergency tips, and legal resources to help you navigate difficult situations.",
-                icon: "📚"
+                title: "Digital Safety",
+                description: "Tools and tips for maintaining your safety and privacy online.",
+                icon: (
+                  <svg className="w-12 h-12 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                )
               },
               {
-                title: "Join the Community",
-                description: "Connect with others, share experiences, and participate in creating safer spaces together.",
-                icon: "🤝"
+                title: "Legal Resources",
+                description: "Information about your rights and legal options when facing harassment.",
+                icon: (
+                  <svg className="w-12 h-12 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                  </svg>
+                )
               }
-            ].map((feature, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+            ].map((category, index) => (
+              <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
+                <div className="mb-6">{category.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{category.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">{category.description}</p>
+                <Link 
+                  href={`/resources/${category.title.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="text-primary-600 dark:text-primary-400 hover:underline"
+                >
+                  Explore Resources →
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Community Highlight */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+      {/* Featured Resources */}
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Join Our Growing Community</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Thousands of people have already joined DESIST! to create safer spaces and support each other.
-              </p>
-              <div className="grid grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">10K+</div>
-                  <div className="text-gray-600 dark:text-gray-300">Members</div>
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Featured Resources</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              {
+                title: "Understanding Harassment",
+                description: "A comprehensive guide to recognizing different forms of harassment and their impact.",
+                type: "Guide",
+                length: "15 min read"
+              },
+              {
+                title: "Digital Safety Checklist",
+                description: "Essential steps to protect your online presence and maintain digital privacy.",
+                type: "Tool",
+                length: "5 min read"
+              },
+              {
+                title: "Legal Rights Overview",
+                description: "Understanding your legal rights and available options when facing harassment.",
+                type: "Guide",
+                length: "20 min read"
+              },
+              {
+                title: "Support Network Building",
+                description: "How to build and maintain a strong support network for yourself and others.",
+                type: "Guide",
+                length: "10 min read"
+              }
+            ].map((resource, index) => (
+              <div key={index} className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm">
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-sm font-medium text-primary-600 dark:text-primary-400">{resource.type}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{resource.length}</span>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">50+</div>
-                  <div className="text-gray-600 dark:text-gray-300">Cities</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">24/7</div>
-                  <div className="text-gray-600 dark:text-gray-300">Support</div>
-                </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{resource.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">{resource.description}</p>
+                <Link 
+                  href="#"
+                  className="text-primary-600 dark:text-primary-400 hover:underline"
+                >
+                  Read More →
+                </Link>
               </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-8">
-                <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* App Download CTA */}
-      <section className="py-20 px-4 bg-primary-600 dark:bg-primary-700 text-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-6">Get the DESIST! App</h2>
-              <p className="text-xl mb-8 opacity-90">
-                Download our app to access support resources, report incidents, and connect with the community on the go.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                  App Store
-                </button>
-                <button className="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                  Google Play
-                </button>
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-white/10 rounded-xl p-8">
-                <div className="aspect-[9/16] bg-white/20 rounded-lg"></div>
-              </div>
-            </div>
+      {/* Download Section */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Download Our Resources</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+            Access our comprehensive resource library to help you stay informed and protected.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <button className="flex items-center justify-center gap-3 py-4 px-6 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download Resource Pack
+            </button>
+            <button className="flex items-center justify-center gap-3 py-4 px-6 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-medium rounded-lg transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              View Resource Library
+            </button>
           </div>
         </div>
       </section>
@@ -215,4 +217,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+} 
