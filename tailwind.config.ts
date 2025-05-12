@@ -35,7 +35,7 @@ const config: Config = {
         },
         "dark-primary": "#1a1a1a",
         "dark-secondary": "#2d2d2d",
-        "dark-accent": "#3d3d3d",
+        "dark-accent": "#ff6b6b",
         "dark-text-primary": "#ffffff",
         "dark-text-secondary": "#a0a0a0",
       },
@@ -46,6 +46,9 @@ const config: Config = {
         "bounce-slow": "bounce 3s infinite",
         "float": "float 6s ease-in-out infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        'slide-right': 'slide-right 8s linear infinite',
+        'slide-left': 'slide-left 6s linear infinite',
+        'slide-up': 'slide-up 7s linear infinite',
       },
       keyframes: {
         "slide-down": {
@@ -63,6 +66,18 @@ const config: Config = {
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-20px)" },
+        },
+        'slide-right': {
+          '0%': { transform: 'translateX(-100%) rotate(45deg)' },
+          '100%': { transform: 'translateX(100%) rotate(45deg)' }
+        },
+        'slide-left': {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' }
+        },
+        'slide-up': {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(-100%)' }
         },
       },
       perspective: {
