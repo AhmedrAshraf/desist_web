@@ -3,7 +3,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export const Header = () => {
   return (
-    <header className="fixed top-0 w-full bg-white/90 dark:bg-dark-primary/90 backdrop-blur-md z-50 border-b border-gray-100 dark:border-dark-secondary">
+    <header className="fixed top-0 w-full dark:bg-dark-primary/90 backdrop-blur-md z-50 border-b border-gray-100 dark:border-dark-secondary">
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold text-dark-accent">DESIST!</span>
