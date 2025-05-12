@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export const Features = () => {
   const features = [
@@ -7,7 +9,7 @@ export const Features = () => {
       description: "Confidential reporting system with immediate support access.",
       icon: (
         <svg
-          className="w-12 h-12 text-dark-accent"
+          className="w-12 h-12 text-blue-600 dark:text-blue-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -20,14 +22,14 @@ export const Features = () => {
           />
         </svg>
       ),
-      image: "/banner.jpg",
+      image: "https://images.unsplash.com/photo-1485230405346-71acb9518d9c?q=80&w=3894&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       title: "Support Resources",
       description: "Comprehensive guides and legal resources for difficult situations.",
       icon: (
         <svg
-          className="w-12 h-12 text-dark-accent"
+          className="w-12 h-12 text-blue-600 dark:text-blue-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -47,7 +49,7 @@ export const Features = () => {
       description: "Connect with others and create safer spaces together.",
       icon: (
         <svg
-          className="w-12 h-12 text-dark-accent"
+          className="w-12 h-12 text-blue-600 dark:text-blue-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -60,57 +62,87 @@ export const Features = () => {
           />
         </svg>
       ),
-      image: "/banner.jpg",
+      image: "https://plus.unsplash.com/premium_photo-1679429320974-ab1de58bcad9?q=80&w=3869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ];
 
   return (
-    <section
-      className="relative py-20 px-4"
-      style={{
-        backgroundImage: "url('/banner.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-white/80 dark:bg-dark-primary/80 backdrop-blur-sm"></div>
+    <section className="relative py-20 px-4 overflow-hidden">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
+      
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-dark-text-primary mb-12 animate-slide-down">
+          <motion.h2 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-16"
+          >
             How We Help
-          </h2>
+          </motion.h2>
+
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-white/90 dark:bg-dark-secondary/90 backdrop-blur-md p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-white/20 dark:border-dark-secondary/50 animate-fade-in"
-                style={{ animationDelay: `${index * 200}ms` }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="group"
               >
-                <div className="mb-6 animate-bounce-slow">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-dark-text-primary mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 dark:text-dark-text-secondary mb-4">
-                  {feature.description}
-                </p>
-                <div className="aspect-video rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    width={400}
-                    height={300}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2 h-full flex flex-col">
+                  <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 flex-grow">
+                    {feature.description}
+                  </p>
+                  <div className="aspect-video rounded-xl overflow-hidden transform group-hover:scale-105 transition-transform duration-300 shadow-lg">
+                    <Image
+                      src={feature.image}
+                      alt={feature.title}
+                      width={400}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Add global styles for animations */}
+      <style jsx global>{`
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </section>
   );
 };

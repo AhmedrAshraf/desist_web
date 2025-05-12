@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-orange-500 to-orange-800 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-white py-12 px-4">
+    <footer className="bg-gradient-to-br from-blue-800 to-blue-950 dark:from-blue-800 dark:via-purple-800 dark:to-blue-800 text-white py-12 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
