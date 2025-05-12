@@ -2,22 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "./components/ThemeToggle";
 
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-[#1B2D45]">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-100 dark:border-gray-800">
+      {/* <header className="fixed top-0 w-full bg-white dark:bg-[#1B2D45] backdrop-blur-md z-50 border-b border-gray-100 dark:border-gray-800"> */}
+      <header className="fixed top-0 w-full bg-transparent backdrop-blur-md z-50 ">
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">DESIST!</span>
+            <span className="text-2xl font-bold text-red-500 dark:text-red-500">DESIST!</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/about" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">About</Link>
-            <Link href="/join" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Join</Link>
-            <Link href="/community" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Community</Link>
-            <Link href="/resources" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Resources</Link>
-            <Link href="/support" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Support</Link>
-            <Link href="/contact" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Contact</Link>
+            <Link href="/about" className="text-gray-200 hover:text-primary-400 dark:text-[#1B2d45]">About</Link>
+            <Link href="/join" className="text-gray-200 hover:text-primary-400 dark:text-[#1B2d45]">Join</Link>
+            <Link href="/community" className="text-gray-200 hover:text-primary-400 dark:text-[#1B2d45]">Community</Link>
+            <Link href="/resources" className="text-gray-200 hover:text-primary-400 dark:text-[#1B2d45]">Resources</Link>
+            <Link href="/support" className="text-gray-200 hover:text-primary-400 dark:text-[#1B2d45]">Support</Link>
+            <Link href="/contact" className="text-gray-200 hover:text-primary-400 dark:text-[#1B2d45]">Contact</Link>
             <ThemeToggle />
           </div>
           <div className="flex items-center gap-4 md:hidden">
@@ -32,28 +34,56 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col items-center text-center gap-8">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white">
-              Stand Against <span className="text-primary-600 dark:text-primary-400">Harassment</span>
+      <section
+        className="relative pt-44 pb-20 px-4 bg-cover bg-center bg-fixed bg-no-repeat"
+        style={{
+          backgroundImage: `url('/banner.jpg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          backgroundBlendMode: "overlay",
+        }}
+      >
+        {/* <div className="absolute inset-0 bg-black/40 backdrop-blur-md"></div> */}
+        <div className="absolute inset-0 bg-black/60 dark:bg-white/50"></div>
+        <div className="relative container mx-auto max-w-6xl">
+          <div className="flex flex-col items-left text-left gap-2">
+            <h1 className="text-5xl md:text-6xl font-bold text-white dark:text-black z-10 uppercase">
+              Raise Your Voice.
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
-              Join the movement to create safer spaces for everyone. Report incidents, access support, and be part of the community.
+            <h1 className="text-5xl md:text-6xl font-bold text-white dark:text-black z-10 uppercase">
+              Stand For Justice.
+            </h1>
+            <p className="text-xl text-white dark:text-black max-w-2xl z-10 my-8">
+              Join the movement to create safer spaces for everyone. Report
+              incidents, access support, and be part of the community.
             </p>
-            <div className="flex gap-4">
-              <Link 
-                href="/join"
-                className="btn-primary"
+            
+            <div className="flex gap-4 z-10">
+              <a 
+                href="https://apps.apple.com/app/id1656112306" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:opacity-90"
               >
-                Join the Movement
-              </Link>
-              <Link 
-                href="/about"
-                className="btn-secondary"
+                <img 
+                  src="/Download_on_the_App_Store.webp" 
+                  alt="Download on the App Store" 
+                  className="h-12 md:h-16 object-contain"
+                />
+              </a>
+              <a 
+                href="https://play.google.com/store/apps/details?id=com.desist.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:opacity-90"
               >
-                Learn More
-              </Link>
+                <img 
+                  src="/Google_Play_Store.webp" 
+                  alt="Get it on Google Play" 
+                  className="h-12 md:h-16 object-contain"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -62,7 +92,7 @@ export default function Home() {
       {/* Mission Statement */}
       <section className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Mission Statement</h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
             We're building a world where everyone can feel safe and supported. Through education, 
             community support, and direct action, we're creating lasting change in how we address 
