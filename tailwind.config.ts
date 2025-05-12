@@ -21,6 +21,16 @@ module.exports = {
           800: '#075985',
           900: '#0c4a6e',
         },
+        dark: {
+          primary: '#1B2D45',    // Deep navy background
+          secondary: '#2D4059',  // Lighter navy for cards
+          accent: '#EA5455',     // Professional red accent
+          text: {
+            primary: '#FFFFFF',
+            secondary: '#B0B6BE',
+            muted: '#8D96A7'
+          }
+        }
       },
     },
   },
