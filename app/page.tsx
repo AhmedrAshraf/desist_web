@@ -364,12 +364,14 @@ export default function Home() {
       </section>
 
       {/* App Download CTA */}
-      <section className="py-20 px-4 bg-dark-accent text-white">
+      <section className="py-20 px-4 bg-dark-accent dark:bg-dark-accent text-gray-900 dark:text-white">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-6">Get the DESIST! App</h2>
-              <p className="text-xl mb-8 opacity-90">
+              <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
+                Get the DESIST! App
+              </h2>
+              <p className="text-xl mb-8 text-gray-700 dark:text-white/90">
                 Download our app to access support resources, report incidents,
                 and connect with the community on the go.
               </p>
@@ -401,20 +403,18 @@ export default function Home() {
               </div>
             </div>
             <div className="flex-1">
-              <div className="bg-white/10 rounded-lg p-8">
-                <img
-                  src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                  alt="App Preview"
-                  className="aspect-[9/16] w-full object-cover rounded-lg"
-                />
-              </div>
+              <img
+                src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="App Preview"
+                className="w-full object-cover rounded-lg"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 dark:bg-dark-primary text-white dark:text-dark-text-primary py-12 px-4">
+      <footer className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-white py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
