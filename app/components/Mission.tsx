@@ -1,10 +1,14 @@
+"use client";
+import Image from "next/image";
+import { motion } from "framer-motion";
+
 export const Mission = () => {
   const missionItems = [
     {
       title: "Education",
       icon: (
         <svg
-          className="w-12 h-12 text-dark-accent mx-auto"
+          className="w-12 h-12 text-blue-600 dark:text-blue-400 mx-auto"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -28,7 +32,7 @@ export const Mission = () => {
       title: "Support",
       icon: (
         <svg
-          className="w-12 h-12 text-dark-accent mx-auto"
+          className="w-12 h-12 text-blue-600 dark:text-blue-400 mx-auto"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -46,7 +50,7 @@ export const Mission = () => {
       title: "Action",
       icon: (
         <svg
-          className="w-12 h-12 text-dark-accent mx-auto"
+          className="w-12 h-12 text-blue-600 dark:text-blue-400 mx-auto"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -63,31 +67,92 @@ export const Mission = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-dark-secondary">
-      <div className="container mx-auto max-w-4xl text-center">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-dark-text-primary mb-6">
-          Mission Statement
-        </h2>
-
-        <div className="grid grid-cols-3 gap-8 my-12">
-          {missionItems.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center bg-white dark:bg-dark-primary p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 dark:border-dark-secondary"
-            >
-              {item.icon}
-              <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-dark-text-primary">
-                {item.title}
-              </h3>
-            </div>
-          ))}
-        </div>
-        <p className="text-xl text-gray-600 dark:text-dark-text-secondary mb-12">
-          We're building a world where everyone can feel safe and supported.
-          Through education, community support, and direct action, we're
-          creating lasting change in how we address and prevent harassment.
-        </p>
+    <section className="relative py-20 px-4 overflow-hidden">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
+      
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
       </div>
+
+      <div className="container mx-auto relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Left side - Image */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative w-[500px] h-[600px] transform transition-all duration-300 hover:scale-105"
+          >
+            <Image
+              src="/mobile2.png"
+              alt="Mission"
+              fill
+              className="object-contain drop-shadow-2xl"
+              priority
+            />
+          </motion.div>
+
+          {/* Right side - Content */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-xl text-center lg:text-left"
+          >
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-6">
+              Mission Statement
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
+              We're building a world where everyone can feel safe and supported.
+              Through education, community support, and direct action, we're
+              creating lasting change in how we address and prevent harassment.
+            </p>
+            <div className="grid grid-cols-3 gap-8">
+              {missionItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  className="group"
+                >
+                  <div className="flex flex-col items-center bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-2">
+                    <div className="transform group-hover:scale-110 transition-transform duration-300">
+                      {item.icon}
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">
+                      {item.title}
+                    </h3>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Add global styles for animations */}
+      <style jsx global>{`
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </section>
   );
-}; 
+};
