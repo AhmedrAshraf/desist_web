@@ -75,6 +75,10 @@ export default function ReportIncidentPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (currentStep !== 3) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
@@ -394,7 +398,7 @@ export default function ReportIncidentPage() {
                 ) : (
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !formData.location.lat || !formData.location.lng}
                     className="ml-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Submitting..." : "Submit Report"}
