@@ -2,212 +2,184 @@
 import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { HeroSection } from "../components/HeroSection";
+import { StatsDisplay } from "../components/StatsDisplay";
+import { FeatureGrid } from "../components/FeatureGrid";
+import { CallToAction } from "../components/CallToAction";
 
 export default function JoinPage() {
+  const impactStats = [
+    {
+      value: "10K+",
+      label: "Community Members",
+      icon: "👥",
+      color: "bg-blue-100 dark:bg-blue-900/30"
+    },
+    {
+      value: "50+",
+      label: "Partner Organizations",
+      icon: "🤝",
+      color: "bg-yellow-100 dark:bg-yellow-900/30"
+    },
+    {
+      value: "100K+",
+      label: "People Supported",
+      icon: "❤️",
+      color: "bg-red-100 dark:bg-red-900/30"
+    },
+    {
+      value: "24/7",
+      label: "Community Support",
+      icon: "🌟",
+      color: "bg-purple-100 dark:bg-purple-900/30"
+    }
+  ];
+
+  const volunteerFeatures = [
+    {
+      icon: "✋",
+      title: "Community Outreach",
+      description: "Connect with and support community members in need.",
+      link: {
+        label: "Learn More",
+        href: "#outreach"
+      }
+    },
+    {
+      icon: "📅",
+      title: "Event Support",
+      description: "Help organize and run community events and workshops.",
+      link: {
+        label: "View Events",
+        href: "#events"
+      }
+    },
+    {
+      icon: "📦",
+      title: "Resource Distribution",
+      description: "Assist in distributing resources to community members.",
+      link: {
+        label: "Get Started",
+        href: "#resources"
+      }
+    }
+  ];
+
+  const partnerFeatures = [
+    {
+      icon: "🤝",
+      title: "Organization Partnerships",
+      description: "Join forces with like-minded organizations to amplify impact.",
+      link: {
+        label: "Partner With Us",
+        href: "#partner"
+      }
+    },
+    {
+      icon: "🔄",
+      title: "Resource Sharing",
+      description: "Share resources and expertise to strengthen our community.",
+      link: {
+        label: "Share Resources",
+        href: "#share"
+      }
+    },
+    {
+      icon: "🎯",
+      title: "Joint Initiatives",
+      description: "Collaborate on projects that drive meaningful change.",
+      link: {
+        label: "Start Project",
+        href: "#initiatives"
+      }
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HeroSection
         title="Join Our Community"
         description="Be part of a movement that's making a real difference. Together, we can create stronger, safer communities for everyone."
-        imageSrc="/images/community/support/community-garden.jpg"
+        imageSrc="/images/community/community-hero.jpg"
         imageAlt="Community members working together in solidarity"
       >
-        <div className="flex gap-4">
-          <motion.a
-            href="#volunteer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Volunteer
-          </motion.a>
-          <motion.a
-            href="#donate"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
-          >
-            Support Us
-          </motion.a>
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-4">
+            <motion.a
+              href="#volunteer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
+            >
+              Volunteer
+            </motion.a>
+            <motion.a
+              href="#donate"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+            >
+              Support Us
+            </motion.a>
+          </div>
+
+          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
+            <h2 className="text-2xl font-bold text-white mb-4">Join the Movement</h2>
+            <div className="grid md:grid-cols-3 gap-4 text-white">
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="font-bold">Volunteers</div>
+                <div className="text-xl">1,000+</div>
+              </div>
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="font-bold">Communities</div>
+                <div className="text-xl">50+</div>
+              </div>
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="font-bold">Impact</div>
+                <div className="text-xl">100K+</div>
+              </div>
+            </div>
+          </div>
         </div>
       </HeroSection>
 
-      {/* Ways to Join */}
-      <section className="py-16 px-4 bg-white dark:bg-gray-800">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
-              Ways to Get Involved
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Volunteer */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-2xl">✋</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Volunteer
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Join our volunteer network and help make a difference in your community.
-                </p>
-                <ul className="space-y-4 mb-6">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Community outreach
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Event support
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Resource distribution
-                  </li>
-                </ul>
-                <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
-                  Volunteer Now
-                </button>
-              </div>
+      {/* Impact Stats */}
+      <StatsDisplay
+        title="Our Impact"
+        description="Together, we're making a real difference in our communities"
+        stats={impactStats}
+      />
 
-              {/* Partner */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-2xl">🤝</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Partner
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Partner with us to expand our reach and impact in communities.
-                </p>
-                <ul className="space-y-4 mb-6">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Organization partnerships
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Resource sharing
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Joint initiatives
-                  </li>
-                </ul>
-                <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
-                  Partner With Us
-                </button>
-              </div>
+      {/* Volunteer Opportunities */}
+      <FeatureGrid
+        title="Volunteer Opportunities"
+        description="Make a difference in your community through various volunteer roles"
+        features={volunteerFeatures}
+        columns={3}
+        variant="bordered"
+      />
 
-              {/* Donate */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-2xl">❤️</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Donate
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Support our mission with a donation to help fund our programs.
-                </p>
-                <ul className="space-y-4 mb-6">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Program funding
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Resource development
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
-                    Community support
-                  </li>
-                </ul>
-                <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
-                  Donate Now
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Impact */}
-      <section className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
-              Our Impact
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 text-center">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
-                <div className="text-4xl font-bold text-yellow-600 dark:text-yellow-400 mb-4">
-                  10K+
-                </div>
-                <div className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Community Members
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Active participants in our movement
-                </p>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
-                <div className="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-4">
-                  50+
-                </div>
-                <div className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Partner Organizations
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Working together for change
-                </p>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
-                <div className="text-4xl font-bold text-red-600 dark:text-red-400 mb-4">
-                  100K+
-                </div>
-                <div className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  People Supported
-                </div>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Through our programs and resources
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Partnership Opportunities */}
+      <FeatureGrid
+        title="Partnership Opportunities"
+        description="Join forces with us to create lasting change"
+        features={partnerFeatures}
+        columns={3}
+        variant="minimal"
+      />
 
       {/* Mobile App Section */}
-      <section className="py-16 px-4 bg-gray-100 dark:bg-gray-800">
-        <div className="container mx-auto max-w-6xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-              Join the Movement on Mobile
-            </h2>
-            <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Download our app to stay connected with the community and access resources on the go.
-            </p>
-            <AppDownloadCTA />
-          </motion.div>
-        </div>
-      </section>
+      <CallToAction
+        title="Join the Movement on Mobile"
+        description="Download our app to stay connected with the community and access resources on the go."
+        primaryAction={{
+          label: "Download App",
+          href: "#download"
+        }}
+        secondaryAction={{
+          label: "Learn More",
+          href: "/about"
+        }}
+      />
     </div>
   );
 } 

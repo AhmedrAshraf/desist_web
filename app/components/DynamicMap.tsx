@@ -20,24 +20,25 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-interface Location {
+interface MapLocation {
   id: number;
   title: string;
   description: string;
   latitude: number;
   longitude: number;
   type: string;
-  status?: string;
-  date?: string;
+  date: string;
   address: string;
+  status?: string;
 }
 
 interface DynamicMapProps {
-  locations: Location[];
-  type: 'incidents' | 'events';
-  centerLat?: number;
-  centerLng?: number;
-  initialZoom?: number;
+  locations: MapLocation[];
+  center?: {
+    lat: number;
+    lng: number;
+  };
+  zoom?: number;
 }
 
 function ChangeView({ center, zoom }: { center: [number, number]; zoom: number }) {
@@ -48,18 +49,18 @@ function ChangeView({ center, zoom }: { center: [number, number]; zoom: number }
   return null;
 }
 
-function getUserLocation(): Promise<[number, number]> {
+function getUserLocation(): Promise<{ lat: number; lng: number }> {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
       reject(new Error('Geolocation is not supported by your browser'));
     } else {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          resolve([position.coords.latitude, position.coords.longitude]);
+          resolve({ lat: position.coords.latitude, lng: position.coords.longitude });
         },
         () => {
           // Default to San Francisco if geolocation fails
-          resolve([37.7749, -122.4194]);
+          resolve({ lat: 37.7749, lng: -122.4194 });
         },
         {
           enableHighAccuracy: true,
@@ -71,44 +72,33 @@ function getUserLocation(): Promise<[number, number]> {
   });
 }
 
-export default function DynamicMap({ 
-  locations, 
-  type, 
-  centerLat, 
-  centerLng, 
-  initialZoom = 25
-}: DynamicMapProps) {
+export default function DynamicMap({ locations, center: initialCenter, zoom: initialZoom = 12 }: DynamicMapProps) {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-  const [center, setCenter] = useState<[number, number] | null>(null);
-  const [zoom, setZoom] = useState(initialZoom);
+  const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
+  const [mapZoom, setMapZoom] = useState(initialZoom);
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
 
   useEffect(() => {
-    async function initializeMap() {
-      try {
-        // Get user location
-        const [lat, lng] = await getUserLocation();
-        setUserLocation([lat, lng]);
+    const initializeMap = async () => {
+      // Get user location or use default
+      const { lat, lng } = await getUserLocation();
 
-        // Set center based on priority:
-        // 1. Provided coordinates
-        // 2. User location
-        // 3. Default location (handled in getUserLocation)
-        if (centerLat && centerLng) {
-          setCenter([centerLat, centerLng]);
-        } else {
-          setCenter([lat, lng]);
-        }
-      } catch (error) {
-        console.error('Error initializing map:', error);
+      // Set center based on priority:
+      // 1. Provided center
+      // 2. User location
+      // 3. Default location (handled in getUserLocation)
+      if (initialCenter) {
+        setMapCenter([initialCenter.lat, initialCenter.lng]);
+      } else {
+        setMapCenter([lat, lng]);
       }
-    }
+    };
 
     initializeMap();
-  }, [centerLat, centerLng]);
+  }, [initialCenter]);
 
-  const getMarkerColor = (item: Location) => {
-    if (type === 'incidents') {
+  const getMarkerColor = (item: MapLocation) => {
+    if (item.type.toLowerCase() === 'incidents') {
       switch (item.status?.toLowerCase()) {
         case 'active':
           return 'red';
@@ -119,20 +109,8 @@ export default function DynamicMap({
         default:
           return 'gray';
       }
-    } else {
-      switch (item.type.toLowerCase()) {
-        case 'community meeting':
-          return 'blue';
-        case 'workshop':
-          return 'purple';
-        case 'protest':
-          return 'red';
-        case 'fundraiser':
-          return 'green';
-        default:
-          return 'gray';
-      }
     }
+    return 'blue';
   };
 
   const createCustomIcon = (color: string) => {
@@ -162,7 +140,7 @@ export default function DynamicMap({
     }
   };
 
-  if (!center) {
+  if (!mapCenter) {
     return (
       <div className="w-full h-[600px] flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -173,13 +151,13 @@ export default function DynamicMap({
   return (
     <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
       <MapContainer
-        center={center}
-        zoom={zoom}
+        center={mapCenter}
+        zoom={mapZoom}
         className="w-full h-full"
         style={{ background: '#f0f0f0' }}
         ref={setMapInstance}
       >
-        <ChangeView center={center} zoom={zoom} />
+        <ChangeView center={mapCenter} zoom={mapZoom} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -237,7 +215,7 @@ export default function DynamicMap({
 
       <div className="absolute bottom-4 right-4 z-[1000] flex gap-2">
         <button
-          onClick={() => userLocation && mapInstance?.setView(userLocation, zoom)}
+          onClick={() => userLocation && mapInstance?.setView(userLocation, mapZoom)}
           className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-colors text-sm font-medium"
         >
           Center on Me

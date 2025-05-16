@@ -17,7 +17,7 @@ export default function ContactPage() {
             href="#contact-form"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
             Contact Us
           </motion.a>
@@ -42,8 +42,8 @@ export default function ContactPage() {
           >
             <div className="grid md:grid-cols-2 gap-8">
               {/* Contact Form */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                <h2 className="text-2xl font-bold mb-6 text-blue-900 dark:text-blue-100">
                   Send us a Message
                 </h2>
                 <form className="space-y-6">
@@ -55,7 +55,7 @@ export default function ContactPage() {
                       type="text"
                       id="name"
                       name="name"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
@@ -67,7 +67,7 @@ export default function ContactPage() {
                       type="email"
                       id="email"
                       name="email"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
@@ -78,7 +78,7 @@ export default function ContactPage() {
                     <select
                       id="subject"
                       name="subject"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       required
                     >
                       <option value="">Select a topic</option>
@@ -96,13 +96,13 @@ export default function ContactPage() {
                       id="message"
                       name="message"
                       rows={4}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       required
                     ></textarea>
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+                    className="w-full py-3 px-4 bg-blue-900 hover:bg-blue-800 text-white font-medium rounded-lg transition-colors"
                   >
                     Send Message
                   </button>
@@ -111,22 +111,22 @@ export default function ContactPage() {
 
               {/* Contact Info */}
               <div className="space-y-8">
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                  <h2 className="text-2xl font-bold mb-6 text-blue-900 dark:text-blue-100">
                     Other Ways to Reach Us
                   </h2>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Email</h3>
-                      <p className="text-gray-600 dark:text-gray-400">support@desist.org</p>
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Email</h3>
+                      <p className="text-gray-700 dark:text-gray-300">support@desist.org</p>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Phone</h3>
-                      <p className="text-gray-600 dark:text-gray-400">1-800-555-0000</p>
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Phone</h3>
+                      <p className="text-gray-700 dark:text-gray-300">1-800-555-0000</p>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Office</h3>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Office</h3>
+                      <p className="text-gray-700 dark:text-gray-300">
                         123 Movement Street<br />
                         San Francisco, CA 94105
                       </p>
@@ -134,28 +134,28 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                  <h2 className="text-2xl font-bold mb-6 text-blue-900 dark:text-blue-100">
                     Connect with Us
                   </h2>
                   <div className="space-y-4">
                     <a
                       href="#"
-                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                      className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
                     >
                       <span className="text-2xl">🐦</span>
                       Twitter
                     </a>
                     <a
                       href="#"
-                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                      className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
                     >
                       <span className="text-2xl">📸</span>
                       Instagram
                     </a>
                     <a
                       href="#"
-                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
+                      className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
                     >
                       <span className="text-2xl">👥</span>
                       Facebook

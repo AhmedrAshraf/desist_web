@@ -4,6 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import supabase from "../../utils/supabase";
 import DynamicMap from "../components/DynamicMap";
+import { StatsDisplay } from "../components/StatsDisplay";
+import { FeatureGrid } from "../components/FeatureGrid";
+import { CallToAction } from "../components/CallToAction";
+import { PageHero } from "../components/PageHero";
+import { HeroSection } from "../components/HeroSection";
 
 interface Incident {
   id: number;
@@ -80,86 +85,105 @@ export default function IncidentsPage() {
     incident => filter === "all" || incident.status === filter
   );
 
+  const incidentStats = [
+    {
+      value: incidents.length.toString(),
+      label: "Total Reports",
+      icon: "📊",
+      color: "bg-blue-100 dark:bg-blue-900/30"
+    },
+    {
+      value: incidents.filter(i => i.status === "active").length.toString(),
+      label: "Active Cases",
+      icon: "🔴",
+      color: "bg-red-100 dark:bg-red-900/30"
+    },
+    {
+      value: incidents.filter(i => i.status === "investigating").length.toString(),
+      label: "Under Investigation",
+      icon: "🔍",
+      color: "bg-yellow-100 dark:bg-yellow-900/30"
+    },
+    {
+      value: incidents.filter(i => i.status === "resolved").length.toString(),
+      label: "Resolved Cases",
+      icon: "✅",
+      color: "bg-green-100 dark:bg-green-900/30"
+    }
+  ];
+
+  const reportingFeatures = [
+    {
+      icon: "🔒",
+      title: "Anonymous Reporting",
+      description: "Submit reports without revealing your identity. Your privacy is our priority."
+    },
+    {
+      icon: "📱",
+      title: "Mobile Reporting",
+      description: "Report incidents on the go using our mobile app."
+    },
+    {
+      icon: "📍",
+      title: "Location Tracking",
+      description: "Optional location services to help identify incident patterns."
+    },
+    {
+      icon: "🔔",
+      title: "Real-time Alerts",
+      description: "Get notified about incidents in your area."
+    },
+    {
+      icon: "📸",
+      title: "Media Upload",
+      description: "Securely upload photos and videos as evidence."
+    },
+    {
+      icon: "👥",
+      title: "Community Updates",
+      description: "Stay informed about incident resolutions and outcomes."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="relative pt-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-purple-600 opacity-90" />
-        <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-10" />
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+      <HeroSection
+        title="Incident Reports"
+        description="Together we can make our community safer. Report incidents and stay informed about what's happening in your area."
+        imageSrc="/images/incidents/command-center.jpg"
+        imageAlt="Community incident reporting and tracking"
+      >
+        <div className="flex gap-4">
+          <motion.a
+            href="/incidents/report"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Incident Reports
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Together we can make our community safer. Report incidents and stay informed about what's happening in your area.
-            </p>
-
-            <Link
-              href="/incidents/report"
-              className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-full font-semibold text-lg shadow-lg hover:bg-gray-50 transition-colors group"
-            >
-              <span className="mr-2">Report an Incident</span>
-              <svg
-                className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </Link>
-          </motion.div>
-
-          {/* Quick Stats */}
-          {/* <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-6"
-            >
-              <div className="text-3xl font-bold text-white mb-1">
-                {incidents.length}
-              </div>
-              <div className="text-white/80">Total Reports</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-6"
-            >
-              <div className="text-3xl font-bold text-white mb-1">
-                {incidents.filter(i => i.status === "active").length}
-              </div>
-              <div className="text-white/80">Active Cases</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-6"
-            >
-              <div className="text-3xl font-bold text-white mb-1">
-                {incidents.filter(i => i.status === "resolved").length}
-              </div>
-              <div className="text-white/80">Resolved</div>
-            </motion.div>
-          </div> */}
+            Report Incident
+          </motion.a>
+          <motion.a
+            href="#view-map"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+          >
+            View Map
+          </motion.a>
         </div>
-      </section>
+      </HeroSection>
+
+      {/* Stats Section */}
+      <StatsDisplay stats={incidentStats} />
+
+      {/* Reporting Features */}
+      <FeatureGrid
+        title="Reporting Features"
+        description="Powerful tools to help you report and track incidents"
+        features={reportingFeatures}
+        columns={3}
+        variant="bordered"
+      />
 
       {/* Incidents Content */}
       <section className="py-16 px-4">
@@ -260,6 +284,20 @@ export default function IncidentsPage() {
           </div>
         </div>
       </section>
+
+      {/* Call to Action */}
+      <CallToAction
+        title="Download Our Mobile App"
+        description="Report incidents, receive alerts, and stay connected with your community on the go."
+        primaryAction={{
+          label: "Get the App",
+          href: "#download"
+        }}
+        secondaryAction={{
+          label: "Learn More",
+          href: "/about"
+        }}
+      />
     </div>
   );
 } 

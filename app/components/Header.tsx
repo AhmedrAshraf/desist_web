@@ -46,7 +46,7 @@ export const Header = () => {
             {/* Enhanced Logo Section */}
             <Link href="/" className="flex items-center gap-4 group relative">
               <div className="relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-300" />
+                <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-300" />
                 <div className="relative">
                   <Image 
                     src="/desist-logo.png" 
@@ -56,13 +56,12 @@ export const Header = () => {
                     className="rounded-full transition-all duration-300 group-hover:scale-105 shadow-lg" 
                     priority
                   />
-                  {/* <div className="absolute inset-0 rounded-full ring-2 ring-purple-500/20 dark:ring-purple-400/20" /> */}
                   <motion.div 
                     className="absolute -inset-2 rounded-full border-2 border-transparent"
                     initial={false}
                     animate={{ 
                       scale: [1, 1.1, 1],
-                      borderColor: ['rgba(147, 51, 234, 0)', 'rgba(147, 51, 234, 0.3)', 'rgba(147, 51, 234, 0)']
+                      borderColor: ['rgba(30, 58, 138, 0)', 'rgba(30, 58, 138, 0.3)', 'rgba(30, 58, 138, 0)']
                     }}
                     transition={{ 
                       duration: 2,
@@ -74,10 +73,10 @@ export const Header = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-2xl bg-[#2D4059] dark:bg-[#fff] bg-clip-text text-transparent hidden sm:block">
+                <span className="font-bold text-2xl text-blue-900 dark:text-blue-100">
                   DESIST!
                 </span>
-                <span className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
+                <span className="text-xs text-gray-700 dark:text-gray-300">
                   Community Protection
                 </span>
               </div>
@@ -93,15 +92,15 @@ export const Header = () => {
                     href={item.href}
                     className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
                       isActive
-                        ? "text-purple-600 dark:text-purple-400"
-                        : "text-gray-600 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400"
+                        ? "text-blue-900 dark:text-blue-100"
+                        : "text-gray-700 hover:text-blue-900 dark:text-gray-300 dark:hover:text-blue-100"
                     }`}
                   >
                     {item.name}
                     {isActive && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 bg-purple-100 dark:bg-purple-900/40 rounded-full -z-10"
+                        className="absolute inset-0 bg-blue-100 dark:bg-blue-900/40 rounded-full -z-10"
                         transition={{ type: "spring", duration: 0.5 }}
                       />
                     )}
@@ -118,7 +117,7 @@ export const Header = () => {
               <ThemeToggle />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-all duration-200"
+                className="p-2 rounded-full text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-all duration-200"
                 aria-expanded={isMobileMenuOpen}
               >
                 <span className="sr-only">Toggle menu</span>
@@ -161,7 +160,7 @@ export const Header = () => {
             >
               <div className="flex flex-col h-full overflow-y-auto">
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
-                  <span className="font-semibold text-lg">Menu</span>
+                  <span className="font-semibold text-lg text-blue-900 dark:text-blue-100">Menu</span>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -181,8 +180,8 @@ export const Header = () => {
                           href={item.href}
                           className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 ${
                             isActive
-                              ? "bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
-                              : "text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                              ? "bg-blue-50 text-blue-900 dark:bg-blue-900/30 dark:text-blue-100"
+                              : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
                           }`}
                           onClick={() => setIsMobileMenuOpen(false)}
                         >

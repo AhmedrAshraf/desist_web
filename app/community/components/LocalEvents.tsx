@@ -1,8 +1,22 @@
 "use client";
 import { motion } from "framer-motion";
-import { AppDownloadCTA } from "../../components/AppDownloadCTA";
 
-export const LocalEvents = () => {
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  address: string;
+  organizer: string;
+}
+
+interface LocalEventsProps {
+  events: Event[];
+  loading: boolean;
+  formatDate: (dateString: string) => string;
+}
+
+export function LocalEvents({ events, loading, formatDate }: LocalEventsProps) {
   return (
     <section className="py-16 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -81,7 +95,6 @@ export const LocalEvents = () => {
           </div>
         </motion.div>
       </div>
-      <AppDownloadCTA />
     </section>
   );
-}; 
+} 

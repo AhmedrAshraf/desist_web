@@ -48,7 +48,7 @@ export const MessageBoard = () => {
           </div>
         </motion.div>
       </div>
-      <AppDownloadCTA />
+      {/* <AppDownloadCTA /> */}
     </section>
   );
 }; 

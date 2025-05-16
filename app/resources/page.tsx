@@ -17,7 +17,7 @@ export default function ResourcesPage() {
             href="#guides"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
             View Guides
           </motion.a>
@@ -42,82 +42,82 @@ export default function ResourcesPage() {
           >
             <div className="grid md:grid-cols-3 gap-8">
               {/* Educational Resources */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border-t-4 border-blue-900">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl">📚</span>
                 </div>
-                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100">
                   Educational Resources
                 </h2>
                 <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Understanding harassment
                   </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Recognizing warning signs
                   </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Prevention strategies
                   </li>
                 </ul>
-                <button className="mt-6 w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                <button className="mt-6 w-full py-3 px-4 bg-blue-900 hover:bg-blue-800 text-white font-medium rounded-lg transition-colors">
                   Learn More
                 </button>
               </div>
 
               {/* Legal Resources */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border-t-4 border-blue-900">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl">⚖️</span>
                 </div>
-                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100">
                   Legal Resources
                 </h2>
                 <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Know your rights
                   </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Legal assistance
                   </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-purple-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Documentation guides
                   </li>
                 </ul>
-                <button className="mt-6 w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                <button className="mt-6 w-full py-3 px-4 bg-blue-900 hover:bg-blue-800 text-white font-medium rounded-lg transition-colors">
                   Access Resources
                 </button>
               </div>
 
               {/* Support Network */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mb-4">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border-t-4 border-blue-900">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl">🤝</span>
                 </div>
-                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-blue-100">
                   Support Network
                 </h2>
                 <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Support groups
                   </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Counseling services
                   </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
+                  <li className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-yellow-700">✓</span>
                     Community events
                   </li>
                 </ul>
-                <button className="mt-6 w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                <button className="mt-6 w-full py-3 px-4 bg-blue-900 hover:bg-blue-800 text-white font-medium rounded-lg transition-colors">
                   Find Support
                 </button>
               </div>

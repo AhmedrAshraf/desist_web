@@ -6,6 +6,11 @@ import LocationPicker from "../components/LocationPicker";
 import supabase from "../../utils/supabase";
 import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
+import { StatsDisplay } from "../components/StatsDisplay";
+import { CallToAction } from "../components/CallToAction";
+import { FeatureGrid } from "../components/FeatureGrid";
+import { PageHero } from "../components/PageHero";
+import { HeroSection } from "../components/HeroSection";
 
 const INCIDENT_TYPES = [
   'ICE Activity',
@@ -202,178 +207,186 @@ export default function SupportPage() {
     }));
   };
 
+  const supportStats = [
+    {
+      value: "24/7",
+      label: "Support Available",
+      icon: "🕒",
+      color: "bg-blue-100 dark:bg-blue-900/30"
+    },
+    {
+      value: "15min",
+      label: "Avg. Response Time",
+      icon: "⚡",
+      color: "bg-yellow-100 dark:bg-yellow-900/30"
+    },
+    {
+      value: "50+",
+      label: "Support Agents",
+      icon: "👥",
+      color: "bg-green-100 dark:bg-green-900/30"
+    },
+    {
+      value: "100%",
+      label: "Confidential",
+      icon: "🔒",
+      color: "bg-purple-100 dark:bg-purple-900/30"
+    }
+  ];
+
+  const supportFeatures = [
+    {
+      icon: "💬",
+      title: "Chat Support",
+      description: "Connect with a trained support specialist instantly through our secure chat.",
+      link: {
+        label: "Start Chat",
+        href: "#chat"
+      }
+    },
+    {
+      icon: "📞",
+      title: "Phone Support",
+      description: "Speak directly with our support team for immediate assistance.",
+      link: {
+        label: "Call Now",
+        href: "tel:1-800-555-0000"
+      }
+    },
+    {
+      icon: "👩‍⚖️",
+      title: "Legal Support",
+      description: "Get legal advice and representation from our trusted partners.",
+      link: {
+        label: "See Lawyers List",
+        href: "/legal-help"
+      }
+    },
+    {
+      icon: "🏥",
+      title: "Crisis Support",
+      description: "Immediate assistance for crisis situations and emergencies.",
+      link: {
+        label: "Get Help",
+        href: "#crisis"
+      }
+    },
+    {
+      icon: "📚",
+      title: "Resources",
+      description: "Access our library of resources and educational materials.",
+      link: {
+        label: "Browse Resources",
+        href: "/resources"
+      }
+    },
+    {
+      icon: "👥",
+      title: "Community Support",
+      description: "Connect with others and share experiences in a safe space.",
+      link: {
+        label: "Join Community",
+        href: "/community"
+      }
+    }
+  ];
+
+  const immediateServices = [
+    {
+      icon: "🚨",
+      title: "Emergency Response",
+      description: "24/7 emergency response team ready to assist in critical situations."
+    },
+    {
+      icon: "🤝",
+      title: "Advocacy Support",
+      description: "Professional advocates to help navigate complex situations."
+    },
+    {
+      icon: "🏠",
+      title: "Safe Housing",
+      description: "Emergency housing and shelter assistance when needed."
+    }
+  ];
+
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-purple-600 opacity-90" />
-        <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-10" />
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              24/7 Support & Resources
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              You're not alone. Get immediate support and access to resources whenever you need them.
-            </p>
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 max-w-2xl mx-auto">
-              <h2 className="text-2xl font-bold text-white mb-4">Emergency Contacts</h2>
-              <div className="grid md:grid-cols-2 gap-4 text-white">
-                <div className="bg-white/10 rounded-lg p-4">
-                  <div className="font-bold">Emergency Services</div>
-                  <div className="text-xl">911</div>
-                </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <div className="font-bold">Crisis Hotline</div>
-                  <div className="text-xl">1-800-555-0000</div>
-                </div>
+      <HeroSection
+        title="24/7 Support & Resources"
+        description="You're not alone. Get immediate support and access to resources whenever you need them."
+        imageSrc="/images/support/support-center.jpg"
+        imageAlt="Support team ready to help"
+      >
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-4">
+            <motion.a
+              href="#chat"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
+            >
+              Chat Now
+            </motion.a>
+            <motion.a
+              href="#call"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+            >
+              Call Support
+            </motion.a>
+          </div>
+
+          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-white mb-4">Emergency Contacts</h2>
+            <div className="grid md:grid-cols-2 gap-4 text-white">
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="font-bold">Emergency Services</div>
+                <div className="text-xl">911</div>
+              </div>
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="font-bold">Crisis Hotline</div>
+                <div className="text-xl">1-800-555-0000</div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </HeroSection>
 
-      {/* Support Options */}
-      <section className="py-16 px-4 bg-white dark:bg-gray-800">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
-              Get Support Now
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-2xl">💬</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Chat Support
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Connect with a trained support specialist instantly through our secure chat.
-                </p>
-                <button className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                  Start Chat
-                </button>
-              </div>
-
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-2xl">📞</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Phone Support
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Speak directly with our support team for immediate assistance.
-                </p>
-                <button className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
-                  Call Now
-                </button>
-              </div>
-
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-2xl">👩‍⚖️</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Legal Support
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Get legal advice and representation from our trusted partners.
-                </p>
-                <button className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                  See Laywers List
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Stats Section */}
+      <StatsDisplay stats={supportStats} />
 
       {/* Support Services */}
-      <section className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
-              Our Support Services
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Immediate Assistance
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
-                    24/7 crisis support
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
-                    Emergency response coordination
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
-                    Real-time incident reporting
-                  </li>
-                </ul>
-              </div>
+      <FeatureGrid
+        title="Support Services"
+        description="Comprehensive support options tailored to your needs"
+        features={supportFeatures}
+        columns={3}
+        variant="bordered"
+      />
 
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  Ongoing Support
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
-                    Counseling referrals
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
-                    Support group connections
-                  </li>
-                  <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-green-600">✓</span>
-                    Long-term recovery resources
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Immediate Services */}
+      <FeatureGrid
+        title="Immediate Assistance"
+        description="Get help right away with our emergency services"
+        features={immediateServices}
+        columns={3}
+        variant="minimal"
+      />
 
       {/* Mobile Support */}
-      <section className="py-16 px-4 bg-gradient-to-br from-red-100 to-purple-100 dark:from-gray-800 dark:to-gray-700">
-        <div className="container mx-auto max-w-6xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-              Support in Your Pocket
-            </h2>
-            <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Download our app to access all support services and get help whenever you need it.
-            </p>
-            <AppDownloadCTA />
-          </motion.div>
-        </div>
-      </section>
+      <CallToAction
+        title="Support in Your Pocket"
+        description="Download our app to access all support services and get help whenever you need it."
+        primaryAction={{
+          label: "Download App",
+          href: "#download"
+        }}
+        secondaryAction={{
+          label: "Learn More",
+          href: "/about"
+        }}
+      />
     </main>
   );
 } 

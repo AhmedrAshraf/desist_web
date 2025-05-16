@@ -2,27 +2,27 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-blue-800 to-blue-950 dark:from-blue-800 dark:via-purple-800 dark:to-blue-800 text-white py-12 px-4">
+    <footer className="bg-blue-900 text-white py-12 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4 text-white dark:text-dark-accent">
+            <h3 className="text-xl font-bold mb-4 text-white">
               DESIST!
             </h3>
-            <p className="text-white/90 dark:text-dark-text-secondary">
+            <p className="text-gray-200">
               Creating safer spaces for everyone through community action and
               support.
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4 text-white dark:text-dark-text-primary">
+            <h4 className="font-semibold mb-4 text-white">
               Quick Links
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/about"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   About
                 </Link>
@@ -30,7 +30,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="/resources"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   Resources
                 </Link>
@@ -38,7 +38,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="/support"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   Support
                 </Link>
@@ -46,7 +46,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="/contact"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   Contact
                 </Link>
@@ -54,14 +54,14 @@ export const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4 text-white dark:text-dark-text-primary">
+            <h4 className="font-semibold mb-4 text-white">
               Legal
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/privacy"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -69,7 +69,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="/terms"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   Terms of Service
                 </Link>
@@ -77,7 +77,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="/cookies"
-                  className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                  className="text-gray-200 hover:text-white transition-colors"
                 >
                   Cookie Policy
                 </Link>
@@ -85,13 +85,13 @@ export const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4 text-white dark:text-dark-text-primary">
+            <h4 className="font-semibold mb-4 text-white">
               Connect
             </h4>
             <div className="flex gap-4">
               <a
                 href="#"
-                className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                className="text-gray-200 hover:text-white transition-colors"
               >
                 <span className="sr-only">Twitter</span>
                 <svg
@@ -104,7 +104,7 @@ export const Footer = () => {
               </a>
               <a
                 href="#"
-                className="text-white/90 hover:text-white dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+                className="text-gray-200 hover:text-white transition-colors"
               >
                 <span className="sr-only">Instagram</span>
                 <svg
@@ -122,7 +122,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/20 dark:border-dark-secondary text-center text-white/90 dark:text-dark-text-secondary">
+        <div className="mt-12 pt-8 border-t border-white/20 text-center text-gray-200">
           <p>
             &copy; {new Date().getFullYear()} DESIST! All rights reserved.
           </p>

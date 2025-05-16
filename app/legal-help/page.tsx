@@ -2,6 +2,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { StatsDisplay } from "../components/StatsDisplay";
+import { CallToAction } from "../components/CallToAction";
+import { FeatureGrid } from "../components/FeatureGrid";
+import { PageHero } from "../components/PageHero";
+import { HeroSection } from "../components/HeroSection";
 
 interface Attorney {
   id: number;
@@ -74,29 +79,105 @@ const attorneys: Attorney[] = [
 ];
 
 export default function LegalHelpPage() {
+  const legalStats = [
+    {
+      value: "500+",
+      label: "Cases Handled",
+      icon: "⚖️",
+      color: "bg-blue-100 dark:bg-blue-900/30"
+    },
+    {
+      value: "98%",
+      label: "Success Rate",
+      icon: "📈",
+      color: "bg-green-100 dark:bg-green-900/30"
+    },
+    {
+      value: "24/7",
+      label: "Support Available",
+      icon: "🕒",
+      color: "bg-yellow-100 dark:bg-yellow-900/30"
+    },
+    {
+      value: "50+",
+      label: "Partner Organizations",
+      icon: "🤝",
+      color: "bg-purple-100 dark:bg-purple-900/30"
+    }
+  ];
+
+  const legalServices = [
+    {
+      icon: "📝",
+      title: "Document Review",
+      description: "Expert review of legal documents and contracts to ensure your rights are protected."
+    },
+    {
+      icon: "💼",
+      title: "Case Consultation",
+      description: "Free initial consultation to understand your case and provide guidance."
+    },
+    {
+      icon: "👥",
+      title: "Representation",
+      description: "Professional legal representation in court and administrative proceedings."
+    },
+    {
+      icon: "🌍",
+      title: "Immigration Services",
+      description: "Specialized assistance with immigration cases and documentation."
+    },
+    {
+      icon: "📚",
+      title: "Legal Education",
+      description: "Workshops and resources to help you understand your rights and legal options."
+    },
+    {
+      icon: "🤲",
+      title: "Pro Bono Services",
+      description: "Free legal services for qualifying individuals and cases."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 opacity-90" />
-        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10" />
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+      <HeroSection
+        title="Legal Help Directory"
+        description="Connect with experienced attorneys dedicated to protecting your rights and providing expert legal assistance."
+        imageSrc="/images/legal/legal-team.jpg"
+        imageAlt="Legal professionals working together to provide justice"
+      >
+        <div className="flex gap-4">
+          <motion.a
+            href="#find-lawyer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Legal Help Directory
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Connect with experienced attorneys dedicated to protecting your rights and providing expert legal assistance.
-            </p>
-          </motion.div>
+            Find a Lawyer
+          </motion.a>
+          <motion.a
+            href="#resources"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+          >
+            Legal Resources
+          </motion.a>
         </div>
-      </section>
+      </HeroSection>
+
+      {/* Stats Section */}
+      <StatsDisplay stats={legalStats} />
+
+      {/* Legal Services */}
+      <FeatureGrid
+        title="Our Legal Services"
+        description="Comprehensive legal support tailored to your needs"
+        features={legalServices}
+        columns={3}
+        variant="bordered"
+      />
 
       {/* Featured Attorneys */}
       <section className="py-16 px-4">
@@ -115,8 +196,9 @@ export default function LegalHelpPage() {
               <motion.div
                 key={attorney.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
               >
                 <div className="p-6">
                   <div className="flex items-center gap-4 mb-4">
@@ -217,30 +299,18 @@ export default function LegalHelpPage() {
       </section>
 
       {/* Call to Action for Attorneys */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl p-8 md:p-12 text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Are You an Attorney?
-            </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Join our network and become a featured attorney. Help make a difference in your community while growing your practice.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="mailto:admin@desist.org"
-                className="inline-flex items-center justify-center px-8 py-3 bg-white text-purple-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold"
-              >
-                Contact Admin
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <CallToAction
+        title="Are You an Attorney?"
+        description="Join our network and become a featured attorney. Help make a difference in your community while growing your practice."
+        primaryAction={{
+          label: "Join Our Network",
+          href: "mailto:admin@desist.org"
+        }}
+        secondaryAction={{
+          label: "Learn More",
+          href: "/legal-help/join"
+        }}
+      />
     </div>
   );
 } 

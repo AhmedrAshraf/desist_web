@@ -4,9 +4,10 @@ import 'leaflet/dist/leaflet.css';
 
 interface LocationPickerProps {
   onLocationSelect: (location: { lat: number; lng: number; address: string }) => void;
+  className?: string;
 }
 
-export default function LocationPicker({ onLocationSelect }: LocationPickerProps) {
+export default function LocationPicker({ onLocationSelect, className = "w-full h-[400px]" }: LocationPickerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
@@ -191,7 +192,7 @@ export default function LocationPicker({ onLocationSelect }: LocationPickerProps
   }, []);
 
   return (
-    <div className="w-full space-y-4">
+    <div className={className}>
       <div 
         ref={mapRef} 
         className="w-full h-[400px] rounded-lg shadow-md"
