@@ -67,18 +67,110 @@ export default function Support() {
       lng: 0,
       address: ""
     },
+    status: "active",
     attachment: null as File | null,
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    // TODO: insert form data in to supabase table named "incidents"
-    const { data, error } = await supabase.from("incidents").insert(formData);
-    if (error) {
-      console.error(error);
-    } else {
-      console.log(data);
+    
+    try {
+      // Parse coordinates to ensure they are numbers
+      const lat = parseFloat(formData.location.lat.toString()) || 0;
+      const lng = parseFloat(formData.location.lng.toString()) || 0;
+
+      // Validate coordinates
+      if (isNaN(lat) || isNaN(lng)) {
+        alert("Invalid coordinates. Please select a valid location.");
+        return;
+      }
+
+      // Format description as a string with key-value pairs
+      const formattedDescription = Object.entries(formData.description)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n');
+
+      // Prepare data for insertion with coordinates in multiple formats
+      const dataToInsert = {
+        type: formData.type,
+        description: formattedDescription, // Now it's a formatted string
+        latitude: lat,  // separate latitude column
+        longitude: lng, // separate longitude column
+        location_json: {  // JSON format
+          lat: lat,
+          lng: lng,
+          address: formData.location.address || "No address provided"
+        },
+        location_text: `POINT(${lng} ${lat})`, // WKT format for geometry
+        address: formData.location.address || "No address provided",
+        created_at: new Date().toISOString(),
+        status: 'active'
+      };
+
+      // Try inserting with the new data structure
+      let insertResult = await supabase
+        .from("incidents")
+        .insert([dataToInsert])
+        .select();
+
+      if (insertResult.error) {
+        console.error("Error inserting data:", insertResult.error);
+        
+        // Fallback: Try with simplified data structure if first attempt fails
+        const simplifiedData = {
+          type: formData.type,
+          description: formattedDescription,
+          latitude: lat,
+          longitude: lng,
+          address: formData.location.address || "No address provided",
+          created_at: new Date().toISOString(),
+          status: 'active'
+        };
+
+        insertResult = await supabase
+          .from("incidents")
+          .insert([simplifiedData])
+          .select();
+
+        if (insertResult.error) {
+          console.error("Fallback error:", insertResult.error);
+          alert("Failed to submit report. Please try again.");
+          return;
+        }
+      }
+
+      // Handle file upload if attachment exists and we have an incident ID
+      if (formData.attachment && insertResult.data?.[0]?.id) {
+        const fileExt = formData.attachment.name.split('.').pop();
+        const fileName = `${insertResult.data[0].id}-${Date.now()}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('incident-attachments')
+          .upload(fileName, formData.attachment);
+
+        if (uploadError) {
+          console.error("Error uploading file:", uploadError);
+          // Continue since the main data was inserted successfully
+        }
+      }
+
+      // Clear form and show success message
+      setFormData({
+        type: "",
+        description: {},
+        location: {
+          lat: 0,
+          lng: 0,
+          address: ""
+        },
+        status: "active",
+        attachment: null
+      });
+
+      alert("Report submitted successfully!");
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -251,21 +343,6 @@ export default function Support() {
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent dark:bg-gray-800 dark:text-white"
                 />
               </div>
-
-              {/* Accuracy Confirmation */}
-              {/* <div>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="rounded border-gray-300 dark:border-gray-700 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-400"
-                    required
-                    onChange={(e) => setFormData(prev => ({ ...prev, isAccurate: e.target.checked }))}
-                  />
-                  <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                    I confirm that this report is accurate and truthful
-                  </span>
-                </label>
-              </div> */}
 
               {/* Submit Button */}
               <button
