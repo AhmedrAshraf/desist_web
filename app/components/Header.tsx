@@ -28,6 +28,18 @@ export const Header = () => {
             Community
           </Link>
           <Link
+            href="/incidents"
+            className="text-gray-600 hover:text-dark-accent dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+          >
+            Incidents
+          </Link>
+          <Link
+            href="/legal-help"
+            className="text-gray-600 hover:text-dark-accent dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
+          >
+            Legal Help
+          </Link>
+          <Link
             href="/resources"
             className="text-gray-600 hover:text-dark-accent dark:text-dark-text-secondary dark:hover:text-dark-text-primary transition-colors"
           >

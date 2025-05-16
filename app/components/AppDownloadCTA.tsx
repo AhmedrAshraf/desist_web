@@ -1,98 +1,205 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
-export const AppDownloadCTA = () => {
+export function AppDownloadCTA() {
+  const [hoveredStore, setHoveredStore] = useState<"apple" | "google" | null>(null);
+
+  const storeButtonVariants = {
+    initial: { scale: 1 },
+    hover: { scale: 1.05 },
+    tap: { scale: 0.95 }
+  };
+
+  const fadeInUpVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 }
+  };
+
+  const phoneVariants = {
+    initial: { opacity: 0, y: 20, rotate: -5 },
+    animate: { opacity: 1, y: 0, rotate: 0 }
+  };
+
   return (
-    <section className="relative py-20 px-4 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-xl">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-5" />
+      
+      {/* Content Container */}
+      <div className="relative z-10">
+        <div className="grid md:grid-cols-2 gap-8 items-left">
+          {/* Left Content */}
+          <div>
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={fadeInUpVariants}
+              transition={{ duration: 0.6 }}
+              className="mb-8"
+            >
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Take Action Anywhere
+              </h3>
+              <p className="text-gray-300 text-lg">
+                Download the DESIST app to access resources, report incidents, and stay connected with your community.
+              </p>
+            </motion.div>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
-      </div>
-
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="flex flex-col md:flex-row items-center gap-12 ">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex-1"
-          >
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-              Get the DESIST! App
-            </h2>
-            <p className="text-xl mb-8 leading-relaxed bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-              Download our app to access support resources, report incidents,
-              and connect with the community on the go.
-            </p>
-            <div className="flex gap-4">
-              <motion.a
-                href="https://apps.apple.com/app/id1656112306"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="relative">
-                  <Image
-                    src="/Download_on_the_App_Store.webp"
-                    alt="Download on the App Store"
-                    width={160}
-                    height={48}
-                    className="h-12 md:h-16 w-auto object-contain drop-shadow-lg"
-                  />
-                  <div className="absolute inset-0 bg-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* App Features */}
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={fadeInUpVariants}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-4 mb-8"
+            >
+              <div className="bg-gray-800/50 rounded-xl p-4 flex items-center gap-4">
+                <span className="text-3xl">🛡️</span>
+                <div>
+                  <h4 className="text-white font-semibold">Instant Support</h4>
+                  <p className="text-gray-400 text-sm">24/7 access to emergency resources and support</p>
                 </div>
-              </motion.a>
-              <motion.a
-                href="https://play.google.com/store/apps/details?id=com.desist.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="relative">
-                  <Image
-                    src="/Google_Play_Store.webp"
-                    alt="Get it on Google Play"
-                    width={160}
-                    height={48}
-                    className="h-12 md:h-16 w-auto object-contain drop-shadow-lg"
-                  />
-                  <div className="absolute inset-0 bg-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="bg-gray-800/50 rounded-xl p-4 flex items-center gap-4">
+                <span className="text-3xl">📱</span>
+                <div>
+                  <h4 className="text-white font-semibold">Quick Reporting</h4>
+                  <p className="text-gray-400 text-sm">Report incidents and share updates in real-time</p>
                 </div>
-              </motion.a>
-            </div>
-          </motion.div>
+              </div>
+              <div className="bg-gray-800/50 rounded-xl p-4 flex items-center gap-4">
+                <span className="text-3xl">🤝</span>
+                <div>
+                  <h4 className="text-white font-semibold">Community Network</h4>
+                  <p className="text-gray-400 text-sm">Connect with allies and support networks nearby</p>
+                </div>
+              </div>
+            </motion.div>
 
+            {/* Download Buttons */}
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={fadeInUpVariants}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row items-center gap-4"
+            >
+              <motion.a
+                href="#"
+                variants={storeButtonVariants}
+                initial="initial"
+                whileHover="hover"
+                whileTap="tap"
+                onHoverStart={() => setHoveredStore("apple")}
+                onHoverEnd={() => setHoveredStore(null)}
+                className="relative group w-full sm:w-auto"
+              >
+                <div className="bg-white rounded-xl px-6 py-3 flex items-center justify-center gap-3 transition-transform">
+                  <Image
+                    src="/app-store-logo.png"
+                    alt="App Store"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6"
+                  />
+                  <div className="text-left">
+                    <div className="text-xs text-gray-600">Download on the</div>
+                    <div className="text-sm font-semibold text-gray-900">App Store</div>
+                  </div>
+                </div>
+                {hoveredStore === "apple" && (
+                  <motion.div
+                    layoutId="highlight"
+                    className="absolute inset-0 bg-blue-500/10 rounded-xl"
+                    initial={false}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </motion.a>
+
+              <motion.a
+                href="#"
+                variants={storeButtonVariants}
+                initial="initial"
+                whileHover="hover"
+                whileTap="tap"
+                onHoverStart={() => setHoveredStore("google")}
+                onHoverEnd={() => setHoveredStore(null)}
+                className="relative group w-full sm:w-auto"
+              >
+                <div className="bg-white rounded-xl px-6 py-3 flex items-center justify-center gap-3 transition-transform">
+                  <Image
+                    src="/play-store-logo.png"
+                    alt="Play Store"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6"
+                  />
+                  <div className="text-left">
+                    <div className="text-xs text-gray-600">Get it on</div>
+                    <div className="text-sm font-semibold text-gray-900">Google Play</div>
+                  </div>
+                </div>
+                {hoveredStore === "google" && (
+                  <motion.div
+                    layoutId="highlight"
+                    className="absolute inset-0 bg-green-500/10 rounded-xl"
+                    initial={false}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </motion.a>
+            </motion.div>
+
+            {/* App Stats */}
+            <motion.div
+              initial="initial"
+              animate="animate"
+              variants={fadeInUpVariants}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="mt-8 flex justify-start gap-8 text-center text-gray-400 text-sm"
+            >
+              <div>
+                <div className="font-semibold text-white">100K+</div>
+                <div>Downloads</div>
+              </div>
+              <div>
+                <div className="font-semibold text-white">4.8★</div>
+                <div>Rating</div>
+              </div>
+              <div>
+                <div className="font-semibold text-white">50+</div>
+                <div>Cities</div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Content - Phone Mockup */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial="initial"
+            animate="animate"
+            variants={phoneVariants}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex-1 relative"
+            className="relative hidden md:block"
           >
-            {/* Phone Frame */}
             <div className="relative w-[280px] h-[580px] mx-auto">
-              {/* iPhone Frame */}
+              {/* Phone Frame */}
               <div className="absolute inset-0 bg-gray-900 rounded-[40px] shadow-2xl border-8 border-gray-800 overflow-hidden">
+                {/* Notch */}
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-2xl" />
                 <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-900 rounded-full" />
 
                 {/* Screen Content */}
                 <div className="absolute inset-0 overflow-hidden">
                   <Image
-                    src="/mobile2.png"
+                    src="/mobile-app-preview.png"
                     alt="App Preview"
                     fill
                     className="object-cover"
                   />
-                  {/* Swipe Gesture Animation */}
+                  {/* Shine Effect */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     animate={{
@@ -107,76 +214,34 @@ export const AppDownloadCTA = () => {
                 </div>
               </div>
 
-              {/* Android Frame */}
+              {/* Floating Elements */}
               <motion.div
-                className="absolute -right-40 top-0 w-[280px] h-[580px]"
+                className="absolute -right-16 top-20 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl backdrop-blur-xl"
                 animate={{
                   y: [0, -10, 0],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 4,
                   repeat: Infinity,
                   repeatType: "reverse",
                 }}
-              >
-                <div className="absolute inset-0 bg-gray-900 rounded-[20px] shadow-2xl border-4 border-gray-800 overflow-hidden">
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-800 rounded-b-xl" />
-
-                  {/* Screen Content */}
-                  <div className="absolute inset-0 overflow-hidden">
-                    <Image
-                      src="/mobile2.png"
-                      alt="App Preview"
-                      fill
-                      className="object-cover"
-                    />
-                    {/* Swipe Gesture Animation */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                      animate={{
-                        x: ["-100%", "100%"],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        repeatType: "loop",
-                        delay: 1,
-                      }}
-                    />
-                  </div>
-                </div>
-              </motion.div>
+              />
+              <motion.div
+                className="absolute -left-16 bottom-20 w-32 h-32 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl backdrop-blur-xl"
+                animate={{
+                  y: [0, 10, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  delay: 1,
+                }}
+              />
             </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Add global styles for animations */}
-      <style jsx global>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
-    </section>
+    </div>
   );
-};
+}

@@ -1,7 +1,202 @@
+"use client";
+import { motion } from "framer-motion";
+import { MessageBoard } from "./components/MessageBoard";
+import { IncidentTracker } from "./components/IncidentTracker";
+import { LocalEvents } from "./components/LocalEvents";
+import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import Link from "next/link";
+import Image from "next/image";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { useState } from "react";
+import LocationPicker from "../components/LocationPicker";
+import supabase from "../../utils/supabase";
 
-export default function Community() {
+const INCIDENT_TYPES = [
+  'ICE Activity',
+  'Border Patrol Activity',
+  'Checkpoint',
+  'Raid in Progress',
+  'Suspicious Vehicle',
+  'Other Activity'
+];
+
+const INCIDENT_DESCRIPTIONS = {
+  'ICE Activity': [
+    { label: 'Number of officers', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Badge numbers (if visible)', type: 'text' },
+    { label: 'Actions being taken', type: 'text' },
+    { label: 'Witnesses present', type: 'text' }
+  ],
+  'Border Patrol Activity': [
+    { label: 'Number of agents', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Actions being taken', type: 'text' },
+    { label: 'Checkpoint or mobile unit', type: 'text' }
+  ],
+  'Checkpoint': [
+    { label: 'Checkpoint location', type: 'text' },
+    { label: 'Type of checkpoint', type: 'text' },
+    { label: 'Number of officers', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Specific activities observed', type: 'text' }
+  ],
+  'Raid in Progress': [
+    { label: 'Location of raid', type: 'text' },
+    { label: 'Number of officers', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Type of location (business/residence)', type: 'text' },
+    { label: 'Actions being taken', type: 'text' }
+  ],
+  'Suspicious Vehicle': [
+    { label: 'Vehicle description', type: 'text' },
+    { label: 'License plate (if visible)', type: 'text' },
+    { label: 'Number of occupants', type: 'text' },
+    { label: 'Observed behavior', type: 'text' },
+    { label: 'Direction of travel', type: 'text' }
+  ],
+  'Other Activity': [
+    { label: 'Please describe the activity in detail', type: 'text' },
+    { label: 'Location', type: 'text' },
+    { label: 'Personnel involved', type: 'text' },
+    { label: 'Vehicles present', type: 'text' },
+    { label: 'Actions observed', type: 'text' }
+  ]
+} as const;
+
+export default function CommunityPage() {
+  const [formData, setFormData] = useState({
+    type: "",
+    description: {} as Record<string, string>,
+    location: {
+      lat: 0,
+      lng: 0,
+      address: ""
+    },
+    status: "active",
+    attachment: null as File | null,
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    try {
+      const lat = parseFloat(formData.location.lat.toString()) || 0;
+      const lng = parseFloat(formData.location.lng.toString()) || 0;
+
+      if (isNaN(lat) || isNaN(lng)) {
+        alert("Invalid coordinates. Please select a valid location.");
+        return;
+      }
+
+      const formattedDescription = Object.entries(formData.description)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n');
+
+      const dataToInsert = {
+        type: formData.type,
+        description: formattedDescription,
+        latitude: lat,
+        longitude: lng,
+        location_json: {
+          lat: lat,
+          lng: lng,
+          address: formData.location.address || "No address provided"
+        },
+        location_text: `POINT(${lng} ${lat})`,
+        address: formData.location.address || "No address provided",
+        created_at: new Date().toISOString(),
+        status: 'active'
+      };
+
+      let insertResult = await supabase
+        .from("incidents")
+        .insert([dataToInsert])
+        .select();
+
+      if (insertResult.error) {
+        console.error("Error inserting data:", insertResult.error);
+        
+        const simplifiedData = {
+          type: formData.type,
+          description: formattedDescription,
+          latitude: lat,
+          longitude: lng,
+          address: formData.location.address || "No address provided",
+          created_at: new Date().toISOString(),
+          status: 'active'
+        };
+
+        insertResult = await supabase
+          .from("incidents")
+          .insert([simplifiedData])
+          .select();
+
+        if (insertResult.error) {
+          console.error("Fallback error:", insertResult.error);
+          alert("Failed to submit report. Please try again.");
+          return;
+        }
+      }
+
+      if (formData.attachment && insertResult.data?.[0]?.id) {
+        const fileExt = formData.attachment.name.split('.').pop();
+        const fileName = `${insertResult.data[0].id}-${Date.now()}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('incident-attachments')
+          .upload(fileName, formData.attachment);
+
+        if (uploadError) {
+          console.error("Error uploading file:", uploadError);
+        }
+      }
+
+      setFormData({
+        type: "",
+        description: {},
+        location: {
+          lat: 0,
+          lng: 0,
+          address: ""
+        },
+        status: "active",
+        attachment: null
+      });
+
+      alert("Report submitted successfully!");
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
+
+  const handleDetailChange = (label: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      description: {
+        ...prev.description,
+        [label]: value
+      }
+    }));
+  };
+
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        attachment: e.target.files![0]
+      }));
+    }
+  };
+
+  const handleLocationSelect = (location: { lat: number; lng: number; address: string }) => {
+    setFormData(prev => ({
+      ...prev,
+      location
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
@@ -30,154 +225,183 @@ export default function Community() {
         </nav>
       </header>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Community Hub
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Connect, share, and grow with our supportive community.
-          </p>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Discussion Forums */}
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Discussion Forums</h2>
-              <div className="space-y-6">
-                {[
-                  {
-                    title: "General Discussion",
-                    description: "Open forum for community members to connect and share experiences.",
-                    members: "2.5k members",
-                    posts: "15.2k posts"
-                  },
-                  {
-                    title: "Support & Advice",
-                    description: "A safe space to seek and offer support and guidance.",
-                    members: "1.8k members",
-                    posts: "8.7k posts"
-                  },
-                  {
-                    title: "Events & Meetups",
-                    description: "Organize and discuss community events and gatherings.",
-                    members: "950 members",
-                    posts: "3.2k posts"
-                  }
-                ].map((forum, index) => (
-                  <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-0 last:pb-0">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{forum.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-3">{forum.description}</p>
-                    <div className="flex gap-4 text-sm text-gray-500 dark:text-gray-400">
-                      <span>{forum.members}</span>
-                      <span>{forum.posts}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button className="mt-6 w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
-                View All Forums
-              </button>
-            </div>
-
-            {/* Community Events */}
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Upcoming Events</h2>
-              <div className="space-y-6">
-                {[
-                  {
-                    title: "Community Meetup: NYC",
-                    date: "June 15, 2024",
-                    time: "2:00 PM EST",
-                    location: "Virtual & In-Person"
-                  },
-                  {
-                    title: "Workshop: Digital Safety",
-                    date: "June 22, 2024",
-                    time: "1:00 PM EST",
-                    location: "Virtual"
-                  },
-                  {
-                    title: "Support Group Session",
-                    date: "June 29, 2024",
-                    time: "3:00 PM EST",
-                    location: "Virtual"
-                  }
-                ].map((event, index) => (
-                  <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-0 last:pb-0">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{event.title}</h3>
-                    <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
-                      <p>{event.date}</p>
-                      <p>{event.time}</p>
-                      <p>{event.location}</p>
-                    </div>
-                    <button className="mt-3 text-primary-600 dark:text-primary-400 hover:underline text-sm">
-                      Register Now
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <button className="mt-6 w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
-                View All Events
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Stats */}
-      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Community Impact</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                number: "10K+",
-                label: "Community Members"
-              },
-              {
-                number: "50+",
-                label: "Cities Worldwide"
-              },
-              {
-                number: "100+",
-                label: "Monthly Events"
-              },
-              {
-                number: "24/7",
-                label: "Support Available"
-              }
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2">{stat.number}</div>
-                <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Community Guidelines */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Community Guidelines</h2>
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-              Our community is built on respect, support, and mutual understanding. To ensure a safe and welcoming environment for all members, we ask that you follow these guidelines:
+      {/* Hero Section with Stats */}
+      <section className="relative py-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 opacity-90" />
+        <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-10" />
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Join Our Community
+            </h1>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Together, we're building a stronger, safer community. Connect with others, share resources, and make a difference.
             </p>
-            <ul className="space-y-4 text-gray-600 dark:text-gray-300">
-              <li>Treat all members with respect and kindness</li>
-              <li>Maintain confidentiality and privacy</li>
-              <li>Share experiences and support without judgment</li>
-              <li>Report any inappropriate behavior</li>
-              <li>Follow the platform's terms of service</li>
-            </ul>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold text-white mb-1">10K+</div>
+                <div className="text-white/80 text-sm">Active Members</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold text-white mb-1">500+</div>
+                <div className="text-white/80 text-sm">Events Organized</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                <div className="text-3xl font-bold text-white mb-1">50+</div>
+                <div className="text-white/80 text-sm">Partner Organizations</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Main Content Grid */}
+      <section className="py-12 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Left Column */}
+            <div className="space-y-8">
+              {/* Message Board Preview */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+              >
+                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                  Community Discussion
+                </h2>
+                <div className="space-y-4 mb-6">
+                  <div className="p-4 bg-purple-50 dark:bg-gray-700 rounded-lg">
+                    <h3 className="font-semibold text-purple-700 dark:text-purple-300">Support Groups</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Connect with others in your area</p>
+                  </div>
+                  <div className="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg">
+                    <h3 className="font-semibold text-blue-700 dark:text-blue-300">Resource Sharing</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Share and discover helpful resources</p>
+                  </div>
+                </div>
+                <Link
+                  href="/community/messages"
+                  className="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  Join Discussion
+                </Link>
+              </motion.div>
+
+              {/* Incident Reporting */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+              >
+                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                  Safety Network
+                </h2>
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center text-gray-700 dark:text-gray-300">
+                    <span className="mr-2">✓</span>
+                    Anonymous Reporting
+                  </div>
+                  <div className="flex items-center text-gray-700 dark:text-gray-300">
+                    <span className="mr-2">✓</span>
+                    Real-time Alerts
+                  </div>
+                  <div className="flex items-center text-gray-700 dark:text-gray-300">
+                    <span className="mr-2">✓</span>
+                    Location-based Support
+                  </div>
+                </div>
+                <Link
+                  href="/incidents"
+                  className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  View & Report Incidents
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-8">
+              {/* Local Events */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+              >
+                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                  Upcoming Events
+                </h2>
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-green-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-green-700 dark:text-green-300">Community Actions</h4>
+                    <p className="text-gray-600 dark:text-gray-400">Join local initiatives</p>
+                  </div>
+                  <div className="bg-yellow-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-yellow-700 dark:text-yellow-300">Workshops</h4>
+                    <p className="text-gray-600 dark:text-gray-400">Learn and grow together</p>
+                  </div>
+                </div>
+                <Link
+                  href="/community/events"
+                  className="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  View Events
+                </Link>
+              </motion.div>
+
+              {/* Resources Preview */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+              >
+                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                  Resources
+                </h2>
+                <div className="space-y-4 mb-6">
+                  <div className="p-4 bg-orange-50 dark:bg-gray-700 rounded-lg">
+                    <h3 className="font-semibold text-orange-700 dark:text-orange-300">Support Services</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Access help and guidance</p>
+                  </div>
+                  <div className="p-4 bg-teal-50 dark:bg-gray-700 rounded-lg">
+                    <h3 className="font-semibold text-teal-700 dark:text-teal-300">Educational Materials</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Learn about your rights</p>
+                  </div>
+                </div>
+                <Link
+                  href="/resources"
+                  className="inline-block bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+                >
+                  Access Resources
+                </Link>
+              </motion.div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Stay Connected Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-gray-900 to-gray-800">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <AppDownloadCTA />
+          </motion.div>
         </div>
       </section>
 
