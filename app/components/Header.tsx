@@ -22,7 +22,7 @@ const navigation = [
 const Logo = memo(() => (
   <Link href="/" className="flex items-center gap-4 group relative" prefetch={false}>
     <div className="relative">
-      <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 will-change-[opacity] transition-opacity duration-300" />
+      {/* <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 will-change-[opacity] transition-opacity duration-300" /> */}
       <div className="relative">
         <Image 
           src="/desist-logo.png" 
