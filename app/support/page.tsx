@@ -1,7 +1,113 @@
+"use client";
 import Link from "next/link";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { useState } from "react";
+import LocationPicker from "../components/LocationPicker";
+import supabase from "../../utils/supabase";
+
+const INCIDENT_TYPES = [
+  'ICE Activity',
+  'Border Patrol Activity',
+  'Checkpoint',
+  'Raid in Progress',
+  'Suspicious Vehicle',
+  'Other Activity'
+];
+
+const INCIDENT_DESCRIPTIONS = {
+  'ICE Activity': [
+    { label: 'Number of officers', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Badge numbers (if visible)', type: 'text' },
+    { label: 'Actions being taken', type: 'text' },
+    { label: 'Witnesses present', type: 'text' }
+  ],
+  'Border Patrol Activity': [
+    { label: 'Number of agents', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Actions being taken', type: 'text' },
+    { label: 'Checkpoint or mobile unit', type: 'text' }
+  ],
+  'Checkpoint': [
+    { label: 'Checkpoint location', type: 'text' },
+    { label: 'Type of checkpoint', type: 'text' },
+    { label: 'Number of officers', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Specific activities observed', type: 'text' }
+  ],
+  'Raid in Progress': [
+    { label: 'Location of raid', type: 'text' },
+    { label: 'Number of officers', type: 'text' },
+    { label: 'Vehicle descriptions', type: 'text' },
+    { label: 'Type of location (business/residence)', type: 'text' },
+    { label: 'Actions being taken', type: 'text' }
+  ],
+  'Suspicious Vehicle': [
+    { label: 'Vehicle description', type: 'text' },
+    { label: 'License plate (if visible)', type: 'text' },
+    { label: 'Number of occupants', type: 'text' },
+    { label: 'Observed behavior', type: 'text' },
+    { label: 'Direction of travel', type: 'text' }
+  ],
+  'Other Activity': [
+    { label: 'Please describe the activity in detail', type: 'text' },
+    { label: 'Location', type: 'text' },
+    { label: 'Personnel involved', type: 'text' },
+    { label: 'Vehicles present', type: 'text' },
+    { label: 'Actions observed', type: 'text' }
+  ]
+} as const;
 
 export default function Support() {
+  const [formData, setFormData] = useState({
+    type: "",
+    description: {} as Record<string, string>,
+    location: {
+      lat: 0,
+      lng: 0,
+      address: ""
+    },
+    attachment: null as File | null,
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formData);
+    // TODO: insert form data in to supabase table named "incidents"
+    const { data, error } = await supabase.from("incidents").insert(formData);
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+    }
+  };
+
+  const handleDetailChange = (label: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      description: {
+        ...prev.description,
+        [label]: value
+      }
+    }));
+  };
+
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        attachment: e.target.files![0]
+      }));
+    }
+  };
+
+  const handleLocationSelect = (location: { lat: number; lng: number; address: string }) => {
+    setFormData(prev => ({
+      ...prev,
+      location
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
@@ -75,7 +181,8 @@ export default function Support() {
         <div className="container mx-auto max-w-4xl">
           <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Report an Incident</h2>
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {/* Incident Type Selection */}
               <div>
                 <label htmlFor="incident-type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Type of Incident
@@ -83,66 +190,84 @@ export default function Support() {
                 <select
                   id="incident-type"
                   name="incident-type"
+                  value={formData.type}
+                  onChange={(e) => {
+                    setFormData(prev => ({
+                      ...prev,
+                      type: e.target.value,
+                      description: {}
+                    }));
+                  }}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent dark:bg-gray-800 dark:text-white"
                   required
                 >
                   <option value="">Select an option</option>
-                  <option value="online">Online Harassment</option>
-                  <option value="workplace">Workplace Harassment</option>
-                  <option value="public">Public Harassment</option>
-                  <option value="other">Other</option>
+                  {INCIDENT_TYPES.map((type) => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
                 </select>
               </div>
+
+              {/* Location Picker - Always visible */}
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Description
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Select Location
                 </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent dark:bg-gray-800 dark:text-white"
-                  placeholder="Please provide details about the incident..."
-                  required
-                />
+                <LocationPicker onLocationSelect={handleLocationSelect} />
               </div>
+
+              {/* Dynamic Fields based on Incident Type */}
+              {formData.type && (
+                <div className="space-y-6">
+                  {INCIDENT_DESCRIPTIONS[formData.type as keyof typeof INCIDENT_DESCRIPTIONS].map((field) => (
+                    <div key={field.label}>
+                      <label htmlFor={field.label} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        {field.label}
+                      </label>
+                      <input
+                        type={field.type}
+                        id={field.label}
+                        name={field.label}
+                        onChange={(e) => handleDetailChange(field.label, e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Video Upload */}
               <div>
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Location
+                <label htmlFor="video" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Attach Video Evidence (optional)
                 </label>
                 <input
-                  type="text"
-                  id="location"
-                  name="location"
+                  type="file"
+                  id="video"
+                  name="video"
+                  accept="video/*"
+                  onChange={handleVideoChange}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent dark:bg-gray-800 dark:text-white"
-                  placeholder="Where did the incident occur?"
-                  required
                 />
               </div>
-              <div>
-                <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Date and Time
-                </label>
-                <input
-                  type="datetime-local"
-                  id="date"
-                  name="date"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent dark:bg-gray-800 dark:text-white"
-                  required
-                />
-              </div>
-              <div>
+
+              {/* Accuracy Confirmation */}
+              {/* <div>
                 <label className="flex items-center">
                   <input
                     type="checkbox"
                     className="rounded border-gray-300 dark:border-gray-700 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-400"
                     required
+                    onChange={(e) => setFormData(prev => ({ ...prev, isAccurate: e.target.checked }))}
                   />
                   <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                     I confirm that this report is accurate and truthful
                   </span>
                 </label>
-              </div>
+              </div> */}
+
+              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors"
