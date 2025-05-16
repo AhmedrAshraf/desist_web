@@ -5,62 +5,67 @@ import Link from "next/link";
 import supabase from "../../utils/supabase";
 import DynamicMap from "../components/DynamicMap";
 
-interface Incident {
+interface Event {
   id: number;
-  type: string;
+  title: string;
   description: string;
   latitude: number;
   longitude: number;
   address: string;
-  created_at: string;
+  date: string;
+  type: string;
+  organizer: string;
   status: string;
 }
 
-const transformIncidentToLocation = (incident: Incident) => ({
-  id: incident.id,
-  title: incident.type || 'Unknown Incident Type',
-  description: incident.description,
-  latitude: incident.latitude,
-  longitude: incident.longitude,
-  type: 'incident',
-  status: incident.status,
-  address: incident.address
+// Helper function to transform Event to Location type
+const transformEventToLocation = (event: Event) => ({
+  id: event.id,
+  title: event.title,
+  description: event.description,
+  latitude: event.latitude,
+  longitude: event.longitude,
+  type: event.type,
+  date: event.date,
+  address: event.address
 });
 
-export default function IncidentsPage() {
-  const [incidents, setIncidents] = useState<Incident[]>([]);
+export default function EventsPage() {
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
-  const [viewMode, setViewMode] = useState<'list' | 'map'>('map');
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
   useEffect(() => {
-    fetchIncidents();
+    fetchEvents();
   }, []);
 
-  const fetchIncidents = async () => {
+  const fetchEvents = async () => {
     try {
       const { data, error } = await supabase
-        .from("incidents")
+        .from("events")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("date", { ascending: true });
 
       if (error) throw error;
-      setIncidents(data || []);
+      setEvents(data || []);
     } catch (error) {
-      console.error("Error fetching incidents:", error);
+      console.error("Error fetching events:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "active":
+  const getEventTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case "community meeting":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+      case "workshop":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+      case "protest":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-      case "resolved":
+      case "fundraiser":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-      case "investigating":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200";
     }
@@ -76,15 +81,15 @@ export default function IncidentsPage() {
     });
   };
 
-  const filteredIncidents = incidents.filter(
-    incident => filter === "all" || incident.status === filter
+  const filteredEvents = events.filter(
+    event => filter === "all" || event.type.toLowerCase() === filter
   );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="relative pt-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-purple-600 opacity-90" />
+      <section className="relative py-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 opacity-90" />
         <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-10" />
         
         <div className="container mx-auto max-w-6xl relative z-10">
@@ -95,17 +100,17 @@ export default function IncidentsPage() {
             className="text-center mb-12"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Incident Reports
+              Community Events
             </h1>
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Together we can make our community safer. Report incidents and stay informed about what's happening in your area.
+              Join local events, connect with your community, and make a difference together.
             </p>
 
             <Link
-              href="/incidents/report"
-              className="inline-flex items-center px-8 py-4 bg-white text-red-600 rounded-full font-semibold text-lg shadow-lg hover:bg-gray-50 transition-colors group"
+              href="/events/create"
+              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg shadow-lg hover:bg-gray-50 transition-colors group"
             >
-              <span className="mr-2">Report an Incident</span>
+              <span className="mr-2">Create Event</span>
               <svg
                 className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
                 fill="none"
@@ -123,7 +128,7 @@ export default function IncidentsPage() {
           </motion.div>
 
           {/* Quick Stats */}
-          {/* <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -131,9 +136,9 @@ export default function IncidentsPage() {
               className="bg-white/10 backdrop-blur-sm rounded-xl p-6"
             >
               <div className="text-3xl font-bold text-white mb-1">
-                {incidents.length}
+                {events.length}
               </div>
-              <div className="text-white/80">Total Reports</div>
+              <div className="text-white/80">Total Events</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -142,9 +147,9 @@ export default function IncidentsPage() {
               className="bg-white/10 backdrop-blur-sm rounded-xl p-6"
             >
               <div className="text-3xl font-bold text-white mb-1">
-                {incidents.filter(i => i.status === "active").length}
+                {events.filter(e => new Date(e.date) > new Date()).length}
               </div>
-              <div className="text-white/80">Active Cases</div>
+              <div className="text-white/80">Upcoming Events</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -153,15 +158,15 @@ export default function IncidentsPage() {
               className="bg-white/10 backdrop-blur-sm rounded-xl p-6"
             >
               <div className="text-3xl font-bold text-white mb-1">
-                {incidents.filter(i => i.status === "resolved").length}
+                {new Set(events.map(e => e.organizer)).size}
               </div>
-              <div className="text-white/80">Resolved</div>
+              <div className="text-white/80">Organizers</div>
             </motion.div>
-          </div> */}
+          </div>
         </div>
       </section>
 
-      {/* Incidents Content */}
+      {/* Events Content */}
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
@@ -169,7 +174,7 @@ export default function IncidentsPage() {
             <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Recent Incidents
+                  Upcoming Events
                 </h2>
                 <div className="flex items-center gap-4">
                   <select
@@ -177,10 +182,11 @@ export default function IncidentsPage() {
                     onChange={(e) => setFilter(e.target.value)}
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   >
-                    <option value="all">All Incidents</option>
-                    <option value="active">Active</option>
-                    <option value="resolved">Resolved</option>
-                    <option value="investigating">Under Investigation</option>
+                    <option value="all">All Events</option>
+                    <option value="community meeting">Community Meetings</option>
+                    <option value="workshop">Workshops</option>
+                    <option value="protest">Protests</option>
+                    <option value="fundraiser">Fundraisers</option>
                   </select>
                   <div className="flex rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden">
                     <button
@@ -212,18 +218,18 @@ export default function IncidentsPage() {
             <div className="p-6">
               {loading ? (
                 <div className="text-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
-                  <p className="mt-4 text-gray-600 dark:text-gray-400">Loading incidents...</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                  <p className="mt-4 text-gray-600 dark:text-gray-400">Loading events...</p>
                 </div>
-              ) : incidents.length === 0 ? (
+              ) : events.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-600 dark:text-gray-400">No incidents reported yet.</p>
+                  <p className="text-gray-600 dark:text-gray-400">No events scheduled yet.</p>
                 </div>
               ) : viewMode === 'list' ? (
                 <div className="grid gap-6">
-                  {filteredIncidents.map((incident) => (
+                  {filteredEvents.map((event) => (
                     <motion.div
-                      key={incident.id}
+                      key={event.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6"
@@ -231,29 +237,30 @@ export default function IncidentsPage() {
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                            {incident.type}
+                            {event.title}
                           </h3>
                           <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {formatDate(incident.created_at)}
+                            {formatDate(event.date)}
                           </p>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(incident.status)}`}>
-                          {incident.status}
+                        <span className={`px-3 py-1 rounded-full text-sm ${getEventTypeColor(event.type)}`}>
+                          {event.type}
                         </span>
                       </div>
                       <p className="text-gray-700 dark:text-gray-300 mb-4">
-                        {incident.description}
+                        {event.description}
                       </p>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        📍 {incident.address}
+                      <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+                        <div>📍 {event.address}</div>
+                        <div>👤 {event.organizer}</div>
                       </div>
                     </motion.div>
                   ))}
                 </div>
               ) : (
                 <DynamicMap
-                  locations={filteredIncidents.map(transformIncidentToLocation)}
-                  type="incidents"
+                  locations={filteredEvents.map(transformEventToLocation)}
+                  type="events"
                 />
               )}
             </div>

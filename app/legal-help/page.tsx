@@ -237,9 +237,6 @@ export default function LegalHelpPage() {
               >
                 Contact Admin
               </Link>
-              <button className="inline-flex items-center justify-center px-8 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors font-semibold">
-                Learn More
-              </button>
             </div>
           </motion.div>
         </div>

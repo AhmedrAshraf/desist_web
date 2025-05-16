@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider>
           <Header />
-          <main className="pt-16">
+          <main className="pt-16 md:pt-20">
             {children}
           </main>
           <Footer />
