@@ -1,31 +1,36 @@
 "use client";
 import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
+import { HeroSection } from "../components/HeroSection";
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-600 opacity-90" />
-        <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-10" />
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      <HeroSection
+        title="Get in Touch"
+        description="Have questions or want to get involved? We're here to help. Reach out to our team and become part of our community."
+        imageSrc="/images/community/stories/community-speaker.jpg"
+        imageAlt="Community members engaged in conversation"
+      >
+        <div className="flex gap-4">
+          <motion.a
+            href="#contact-form"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Get in Touch
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Have questions or want to get involved? We're here to help.
-            </p>
-          </motion.div>
+            Contact Us
+          </motion.a>
+          <motion.a
+            href="#locations"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+          >
+            Find Local Office
+          </motion.a>
         </div>
-      </section>
+      </HeroSection>
 
       {/* Contact Options */}
       <section className="py-16 px-4 bg-white dark:bg-gray-800">
@@ -97,7 +102,7 @@ export default function ContactPage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors"
+                    className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
                   >
                     Send Message
                   </button>
@@ -136,21 +141,21 @@ export default function ContactPage() {
                   <div className="space-y-4">
                     <a
                       href="#"
-                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
+                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
                     >
                       <span className="text-2xl">🐦</span>
                       Twitter
                     </a>
                     <a
                       href="#"
-                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
+                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
                     >
                       <span className="text-2xl">📸</span>
                       Instagram
                     </a>
                     <a
                       href="#"
-                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
+                      className="flex items-center gap-3 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400"
                     >
                       <span className="text-2xl">👥</span>
                       Facebook
@@ -164,7 +169,7 @@ export default function ContactPage() {
       </section>
 
       {/* Mobile App Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-gray-800 dark:to-gray-700">
+      <section className="py-16 px-4 bg-gray-100 dark:bg-gray-800">
         <div className="container mx-auto max-w-6xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -181,6 +186,6 @@ export default function ContactPage() {
           </motion.div>
         </div>
       </section>
-    </main>
+    </div>
   );
 } 

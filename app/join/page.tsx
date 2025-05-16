@@ -1,31 +1,36 @@
 "use client";
 import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
+import { HeroSection } from "../components/HeroSection";
 
 export default function JoinPage() {
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-600 to-orange-600 opacity-90" />
-        <div className="absolute inset-0 bg-[url('/community-pattern.svg')] opacity-10" />
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      <HeroSection
+        title="Join Our Community"
+        description="Be part of a movement that's making a real difference. Together, we can create stronger, safer communities for everyone."
+        imageSrc="/images/community/support/community-garden.jpg"
+        imageAlt="Community members working together in solidarity"
+      >
+        <div className="flex gap-4">
+          <motion.a
+            href="#volunteer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Join the Movement
-            </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Be part of the change. Together, we can create safer communities and empower others.
-            </p>
-          </motion.div>
+            Volunteer
+          </motion.a>
+          <motion.a
+            href="#donate"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+          >
+            Support Us
+          </motion.a>
         </div>
-      </section>
+      </HeroSection>
 
       {/* Ways to Join */}
       <section className="py-16 px-4 bg-white dark:bg-gray-800">
@@ -41,7 +46,7 @@ export default function JoinPage() {
             <div className="grid md:grid-cols-3 gap-8">
               {/* Volunteer */}
               <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl">✋</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
@@ -52,26 +57,26 @@ export default function JoinPage() {
                 </p>
                 <ul className="space-y-4 mb-6">
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-yellow-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Community outreach
                   </li>
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-yellow-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Event support
                   </li>
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-yellow-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Resource distribution
                   </li>
                 </ul>
-                <button className="w-full py-3 px-4 bg-yellow-600 hover:bg-yellow-700 text-white font-medium rounded-lg transition-colors">
+                <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
                   Volunteer Now
                 </button>
               </div>
 
               {/* Partner */}
               <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl">🤝</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
@@ -82,26 +87,26 @@ export default function JoinPage() {
                 </p>
                 <ul className="space-y-4 mb-6">
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-orange-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Organization partnerships
                   </li>
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-orange-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Resource sharing
                   </li>
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-orange-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Joint initiatives
                   </li>
                 </ul>
-                <button className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors">
+                <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
                   Partner With Us
                 </button>
               </div>
 
               {/* Donate */}
               <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8">
-                <div className="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4">
                   <span className="text-2xl">❤️</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
@@ -112,19 +117,19 @@ export default function JoinPage() {
                 </p>
                 <ul className="space-y-4 mb-6">
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-red-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Program funding
                   </li>
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-red-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Resource development
                   </li>
                   <li className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <span className="text-red-600">✓</span>
+                    <span className="text-purple-600">✓</span>
                     Community support
                   </li>
                 </ul>
-                <button className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors">
+                <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
                   Donate Now
                 </button>
               </div>
@@ -186,7 +191,7 @@ export default function JoinPage() {
       </section>
 
       {/* Mobile App Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-gray-800 dark:to-gray-700">
+      <section className="py-16 px-4 bg-gray-100 dark:bg-gray-800">
         <div className="container mx-auto max-w-6xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -203,6 +208,6 @@ export default function JoinPage() {
           </motion.div>
         </div>
       </section>
-    </main>
+    </div>
   );
 } 
