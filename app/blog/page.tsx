@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { HeroSection } from "../components/HeroSection";
 import Image from "next/image";
 import { getNews } from "../services/newsService";
+import supabase from "../../utils/supabase";
 
 interface NewsItem {
   id: string;
@@ -23,6 +24,13 @@ export default function BlogPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   useEffect(() => {
     const fetchNewsData = async () => {
@@ -63,6 +71,49 @@ export default function BlogPage() {
       setError("Failed to load more news. Please try again later.");
     } finally {
       setLoadingMore(false);
+    }
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email) {
+      setSubscriptionStatus({
+        type: 'error',
+        message: 'Please enter your email address'
+      });
+      return;
+    }
+
+    try {
+      setIsSubscribing(true);
+      setSubscriptionStatus({ type: null, message: '' });
+
+      const { error } = await supabase
+        .from('newsletter_subscriptions')
+        .insert([
+          { 
+            email,
+            subscribed_at: new Date().toISOString(),
+            status: 'active'
+          }
+        ]);
+
+      if (error) throw error;
+
+      setSubscriptionStatus({
+        type: 'success',
+        message: 'Thank you for subscribing to our newsletter!'
+      });
+      setEmail('');
+    } catch (err) {
+      console.error('Error subscribing to newsletter:', err);
+      setSubscriptionStatus({
+        type: 'error',
+        message: 'Failed to subscribe. Please try again later.'
+      });
+    } finally {
+      setIsSubscribing(false);
     }
   };
 
@@ -213,19 +264,41 @@ export default function BlogPage() {
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               Subscribe to our newsletter for the latest news and updates affecting our community.
             </p>
-            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={isSubscribing}
               />
               <button
                 type="submit"
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={isSubscribing}
+                className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
+                  isSubscribing ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
-                Subscribe
+                {isSubscribing ? (
+                  <div className="flex items-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Subscribing...
+                  </div>
+                ) : (
+                  'Subscribe'
+                )}
               </button>
             </form>
+            {subscriptionStatus.type && (
+              <div className={`mt-4 text-sm ${
+                subscriptionStatus.type === 'success' 
+                  ? 'text-green-600 dark:text-green-400' 
+                  : 'text-red-600 dark:text-red-400'
+              }`}>
+                {subscriptionStatus.message}
+              </div>
+            )}
           </div>
         </div>
       </div>
