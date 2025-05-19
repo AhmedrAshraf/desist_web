@@ -1,11 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
 import { StatsDisplay } from "../components/StatsDisplay";
 import { CallToAction } from "../components/CallToAction";
 import { FeatureGrid } from "../components/FeatureGrid";
-import { PageHero } from "../components/PageHero";
 import { HeroSection } from "../components/HeroSection";
 
 interface Attorney {

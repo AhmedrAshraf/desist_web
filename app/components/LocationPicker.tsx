@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -27,7 +27,7 @@ export default function LocationPicker({ onLocationSelect, className = "w-full h
   };
 
   // Function to update location
-  const updateLocation = async (lat: number, lng: number) => {
+  const updateLocation = useCallback(async (lat: number, lng: number) => {
     if (mapInstanceRef.current && markerRef.current) {
       mapInstanceRef.current.setView([lat, lng], 16);
       markerRef.current.setLatLng([lat, lng]);
@@ -35,10 +35,10 @@ export default function LocationPicker({ onLocationSelect, className = "w-full h
       setAddress(newAddress);
       onLocationSelect({ lat, lng, address: newAddress });
     }
-  };
+  }, [onLocationSelect]);
 
   // Function to get user's location
-  const getUserLocation = () => {
+  const getUserLocation = useCallback(() => {
     setIsLocating(true);
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -61,11 +61,11 @@ export default function LocationPicker({ onLocationSelect, className = "w-full h
       // Fall back to default location
       updateLocation(37.7749, -122.4194);
     }
-  };
+  }, [updateLocation]);
 
   useEffect(() => {
     // Fix Leaflet default icon path issues
-    delete (L.Icon.Default.prototype as any)._getIconUrl;
+    delete (L.Icon.Default.prototype as { _getIconUrl?: () => string })._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
       iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -177,7 +177,7 @@ export default function LocationPicker({ onLocationSelect, className = "w-full h
         markerRef.current = null;
       }
     };
-  }, []);
+  }, [getUserLocation, updateLocation]);
 
   // Handle resize events
   useEffect(() => {

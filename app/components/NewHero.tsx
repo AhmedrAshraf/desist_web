@@ -2,10 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
 
 export function NewHero() {
-  const [hoveredStore, setHoveredStore] = useState<"apple" | "google" | null>(null);
 
   return (
     <div className="relative min-h-screen flex items-center">

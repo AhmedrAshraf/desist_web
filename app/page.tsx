@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import { AppDownloadCTA } from "./components/AppDownloadCTA";
 import { HeroSection } from "./components/HeroSection";
 import { StatsDisplay } from "./components/StatsDisplay";
 import { FeatureGrid } from "./components/FeatureGrid";

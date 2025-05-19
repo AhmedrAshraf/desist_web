@@ -1,9 +1,18 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import dynamic from 'next/dynamic';
 import Link from "next/link";
 import supabase from "../../../utils/supabase";
-import LocationPicker from "../../components/LocationPicker";
+
+const LocationPicker = dynamic(() => import("../../components/LocationPicker"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[400px] flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  ),
+});
 
 const EVENT_TYPES = [
   'Community Meeting',

@@ -107,8 +107,8 @@ export const Mission = () => {
               Mission Statement
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
-              We're building a world where everyone can feel safe and supported.
-              Through education, community support, and direct action, we're
+              We&apos;re building a world where everyone can feel safe and supported.
+              Through education, community support, and direct action, we&apos;re
               creating lasting change in how we address and prevent harassment.
             </p>
             <div className="grid grid-cols-3 gap-8">

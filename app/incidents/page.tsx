@@ -1,14 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import supabase from "../../utils/supabase";
-import DynamicMap from "../components/DynamicMap";
+import dynamic from 'next/dynamic';
 import { StatsDisplay } from "../components/StatsDisplay";
 import { FeatureGrid } from "../components/FeatureGrid";
 import { CallToAction } from "../components/CallToAction";
-import { PageHero } from "../components/PageHero";
 import { HeroSection } from "../components/HeroSection";
+
+const DynamicMap = dynamic(() => import("../components/DynamicMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[600px] flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  ),
+});
 
 interface Incident {
   id: number;
@@ -29,7 +36,8 @@ const transformIncidentToLocation = (incident: Incident) => ({
   longitude: incident.longitude,
   type: 'incident',
   status: incident.status,
-  address: incident.address
+  address: incident.address,
+  date: incident.created_at
 });
 
 export default function IncidentsPage() {
@@ -277,7 +285,6 @@ export default function IncidentsPage() {
               ) : (
                 <DynamicMap
                   locations={filteredIncidents.map(transformIncidentToLocation)}
-                  type="incidents"
                 />
               )}
             </div>

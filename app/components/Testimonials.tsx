@@ -81,7 +81,7 @@ export function Testimonials() {
                     </div>
                     <div className="flex-1 text-center md:text-left">
                       <blockquote className="text-xl md:text-2xl text-gray-900 dark:text-white mb-6">
-                        "{testimonial.quote}"
+                        &quot;{testimonial.quote}&quot;
                       </blockquote>
                       <div>
                         <cite className="not-italic font-semibold text-blue-600 dark:text-blue-400">

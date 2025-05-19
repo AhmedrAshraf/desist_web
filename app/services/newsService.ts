@@ -10,6 +10,17 @@ interface NewsItem {
   date: string;
 }
 
+interface NewsApiArticle {
+  url: string;
+  title: string;
+  description: string | null;
+  urlToImage: string | null;
+  source: {
+    name: string;
+  };
+  publishedAt: string;
+}
+
 // Default images for different types of news
 const DEFAULT_IMAGES = {
   incident: '/images/blog/default-incident.jpg',
@@ -82,7 +93,7 @@ async function fetchFromNewsAPI(): Promise<NewsItem[]> {
     }
 
     return processNewsApiArticles(response.data.articles);
-  } catch (error) {
+  } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 400) {
         console.error('Invalid request to News API:', error.response.data);
@@ -113,7 +124,7 @@ export async function fetchNews(): Promise<NewsItem[]> {
     // If no results from API, return fallback data
     console.warn('No results from news API, using fallback data');
     return fallbackNews;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error in fetchNews:', error);
     return fallbackNews;
   }
@@ -130,7 +141,7 @@ function getDefaultImage(text: string): string {
   return DEFAULT_IMAGES.default;
 }
 
-function processNewsApiArticles(articles: any[]): NewsItem[] {
+function processNewsApiArticles(articles: NewsApiArticle[]): NewsItem[] {
   return articles.map(article => ({
     id: article.url,
     title: article.title,

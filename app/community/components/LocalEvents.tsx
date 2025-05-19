@@ -16,7 +16,7 @@ interface LocalEventsProps {
   formatDate: (dateString: string) => string;
 }
 
-export function LocalEvents({ events, loading, formatDate }: LocalEventsProps) {
+export function LocalEvents({ }: LocalEventsProps) {
   return (
     <section className="py-16 px-4">
       <div className="container mx-auto max-w-6xl">

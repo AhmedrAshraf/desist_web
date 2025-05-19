@@ -1,9 +1,18 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
 import Link from "next/link";
 import supabase from "../../utils/supabase";
-import DynamicMap from "../components/DynamicMap";
+
+const DynamicMap = dynamic(() => import("../components/DynamicMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[600px] flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  ),
+});
 
 interface Event {
   id: number;
@@ -260,7 +269,6 @@ export default function EventsPage() {
               ) : (
                 <DynamicMap
                   locations={filteredEvents.map(transformEventToLocation)}
-                  type="events"
                 />
               )}
             </div>

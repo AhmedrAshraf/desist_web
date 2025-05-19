@@ -48,7 +48,7 @@ const config: Config = {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         'slide-right': 'slide-right 8s linear infinite',
         'slide-left': 'slide-left 6s linear infinite',
-        'slide-up': 'slide-up 7s linear infinite',
+        'slide-up-infinite': 'slide-up-infinite 7s linear infinite',
       },
       keyframes: {
         "slide-down": {
@@ -75,7 +75,7 @@ const config: Config = {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(-100%)' }
         },
-        'slide-up': {
+        'slide-up-infinite': {
           '0%': { transform: 'translateY(100%)' },
           '100%': { transform: 'translateY(-100%)' }
         },
