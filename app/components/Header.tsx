@@ -9,12 +9,12 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const navigation = [
   { name: "About", href: "/about" },
-  { name: "Join", href: "/join" },
   { name: "Community", href: "/community" },
   { name: "Incidents", href: "/incidents" },
   { name: "Legal Help", href: "/legal-help" },
   { name: "Resources", href: "/resources" },
   { name: "Support", href: "/support" },
+  { name: "Download", href: "/download" },
   { name: "Contact", href: "/contact" },
 ] as const;
 
@@ -25,7 +25,7 @@ export const Logo = memo(() => (
       {/* <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 will-change-[opacity] transition-opacity duration-300" /> */}
       <div className="relative">
         <Image 
-          src="/desist-logo.png" 
+          src="/desist.png" 
           alt="Logo" 
           width={48} 
           height={48} 
