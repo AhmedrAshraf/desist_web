@@ -375,7 +375,7 @@ export default function CommunityPage() {
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          {/* <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"> */}
             {viewMode === 'map' ? (
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold mb-4">Community Map</h2>
@@ -390,13 +390,15 @@ export default function CommunityPage() {
                 />
               </div>
             ) : (
-              <div className="space-y-8">
+              <div className="space-y-0">
                 <LocalEvents events={events} loading={loading} formatDate={formatDate} />
                 <MessageBoard />
-                <IncidentTracker />
+                {/* <IncidentTracker /> */}
+              <AppDownloadCTA />
+
               </div>
             )}
-          </div>
+          {/* </div> */}
         </div>
 
         {/* Community Features */}
