@@ -19,7 +19,7 @@ const navigation = [
 ] as const;
 
 // Memoized Logo component with preloaded image
-const Logo = memo(() => (
+export const Logo = memo(() => (
   <Link href="/" className="flex items-center gap-4 group relative" prefetch={false}>
     <div className="relative">
       {/* <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 will-change-[opacity] transition-opacity duration-300" /> */}
@@ -29,7 +29,7 @@ const Logo = memo(() => (
           alt="Logo" 
           width={48} 
           height={48} 
-          className="rounded-full will-change-transform transition-transform duration-300 group-hover:scale-105 shadow-lg" 
+          className="rounded-full will-change-transform transition-transform duration-300 group-hover:scale-105" 
           priority
         />
       </div>
@@ -156,7 +156,7 @@ export const Header = () => {
         className={`fixed top-0 w-full z-50 will-change-[background,box-shadow] transition-[background,box-shadow] duration-200 ${
           scrolled 
             ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm" 
-            : "bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm"
+            : "bg-white/50 dark:bg-gray-900/50 "
         }`}
       >
         <div className="container mx-auto px-4">
