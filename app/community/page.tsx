@@ -3,19 +3,13 @@ import { motion } from "framer-motion";
 import { HeroSection } from "../components/HeroSection";
 import { StatsDisplay } from "../components/StatsDisplay";
 import { FeatureGrid } from "../components/FeatureGrid";
-import { CallToAction } from "../components/CallToAction";
 import { MessageBoard } from "./components/MessageBoard";
-import { IncidentTracker } from "./components/IncidentTracker";
 import { LocalEvents } from "./components/LocalEvents";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
-import Link from "next/link";
-import Image from "next/image";
-import { ThemeToggle } from "../components/ThemeToggle";
 import { useState, useEffect } from "react";
 import LocationPicker from "../components/LocationPicker";
 import supabase from "../../utils/supabase";
 import DynamicMap from "../components/DynamicMap";
-import { Header } from "../components/Header";
 
 const INCIDENT_TYPES = [
   'ICE Activity',

@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import { AppDownloadCTA } from "../../components/AppDownloadCTA";
 
 export const MessageBoard = () => {
   return (
@@ -48,7 +47,6 @@ export const MessageBoard = () => {
           </div>
         </motion.div>
       </div>
-      {/* <AppDownloadCTA /> */}
     </section>
   );
 }; 

@@ -189,9 +189,11 @@ export const Hero = () => {
               rel="noopener noreferrer"
               className="hover:opacity-90 transition-all duration-300 transform hover:scale-105"
             >
-              <img
+              <Image
                 src="/Download_on_the_App_Store.webp"
                 alt="Download on the App Store"
+                width={150}
+                height={50}
                 className="h-8 md:h-12 object-contain drop-shadow-lg hover:drop-shadow-xl transition-all"
               />
             </a>
@@ -201,9 +203,11 @@ export const Hero = () => {
               rel="noopener noreferrer"
               className="hover:opacity-90 transition-all duration-300 transform hover:scale-105"
             >
-              <img
+              <Image
                 src="/Google_Play_Store.webp"
                 alt="Get it on Google Play"
+                width={150}
+                height={50}
                 className="h-8 md:h-12 object-contain drop-shadow-lg hover:drop-shadow-xl transition-all"
               />
             </a>

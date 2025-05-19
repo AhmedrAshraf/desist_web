@@ -73,9 +73,9 @@ function getUserLocation(): Promise<{ lat: number; lng: number }> {
 }
 
 export default function DynamicMap({ locations, center: initialCenter, zoom: initialZoom = 12 }: DynamicMapProps) {
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const userLocation = null;
   const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
-  const [mapZoom, setMapZoom] = useState(initialZoom);
+  const mapZoom = initialZoom
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
 
   useEffect(() => {

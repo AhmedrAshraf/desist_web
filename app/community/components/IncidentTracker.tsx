@@ -31,7 +31,7 @@ export const IncidentTracker = () => {
                 </div>
                 <div className="p-4 border border-blue-100 dark:border-gray-700 rounded-lg">
                   <h4 className="font-semibold mb-2 text-blue-600 dark:text-blue-400">Resource Allocation</h4>
-                  <p className="text-gray-600 dark:text-gray-400">Help direct support where it's needed most</p>
+                  <p className="text-gray-600 dark:text-gray-400">Help direct support where it&apos;s needed most</p>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@ export const IncidentTracker = () => {
                 🚨 Emergency Resources
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
-                If you're in immediate danger, always call emergency services first:
+                If you&apos;re in immediate danger, always call emergency services first:
               </p>
               <div className="font-bold text-red-600 dark:text-red-400">
                 Emergency: 911
