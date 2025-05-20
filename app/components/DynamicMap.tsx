@@ -117,17 +117,39 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
     return L.divIcon({
       html: `
         <div style="
-          background-color: ${color};
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          border: 2px solid white;
-          box-shadow: 0 0 4px rgba(0,0,0,0.4);
-        "></div>
+          position: relative;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        ">
+          <svg viewBox="0 0 24 24" width="36" height="36">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" 
+              fill="#ef4444"
+              stroke="#ffffff"
+              stroke-width="1.5"
+            />
+          </svg>
+          <div style="
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(0,0,0,0.4);
+          "></div>
+        </div>
       `,
       className: '',
-      iconSize: [24, 24],
-      iconAnchor: [12, 12],
+      iconSize: [36, 36],
+      iconAnchor: [18, 36],
+      popupAnchor: [0, -36]
     });
   };
 
@@ -216,13 +238,13 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
       <div className="absolute bottom-4 right-4 z-[1000] flex gap-2">
         <button
           onClick={() => userLocation && mapInstance?.setView(userLocation, mapZoom)}
-          className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+          className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
         >
           Center on Me
         </button>
         <button
           onClick={handleViewAllClick}
-          className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+          className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
         >
           View All
         </button>

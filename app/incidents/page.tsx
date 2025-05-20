@@ -304,6 +304,7 @@ export default function IncidentsPage() {
           label: "Learn More",
           href: "/about"
         }}
+        pageType="incidents"
       />
     </div>
   );

@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { HeroSection } from "../components/HeroSection";
+import { CallToAction } from "../components/CallToAction";
 
 export default function ContactPage() {
   return (
@@ -186,6 +187,21 @@ export default function ContactPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Call to Action */}
+      <CallToAction
+        title="Get in Touch"
+        description="Have questions or need support? Our team is here to help you 24/7."
+        primaryAction={{
+          label: "Contact Us",
+          href: "#contact-form"
+        }}
+        secondaryAction={{
+          label: "Find Local Office",
+          href: "#locations"
+        }}
+        pageType="contact"
+      />
     </div>
   );
 } 

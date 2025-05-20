@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { HeroSection } from "../components/HeroSection";
+import { CallToAction } from "../components/CallToAction";
 
 export default function AboutPage() {
   return (
@@ -111,6 +112,21 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Call to Action */}
+      <CallToAction
+        title="Join Our Community"
+        description="Be part of our mission to protect and empower immigrant communities through unity and support."
+        primaryAction={{
+          label: "Join Us",
+          href: "/join"
+        }}
+        secondaryAction={{
+          label: "Learn More",
+          href: "/about"
+        }}
+        pageType="about"
+      />
     </div>
   );
 } 

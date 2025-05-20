@@ -178,6 +178,7 @@ export default function JoinPage() {
           label: "Learn More",
           href: "/about"
         }}
+        pageType="default"
       />
     </div>
   );

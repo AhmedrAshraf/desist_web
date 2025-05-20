@@ -185,6 +185,7 @@ export default function SupportPage() {
           label: "Learn More",
           href: "/about"
         }}
+        pageType="default"
       />
     </main>
   );
