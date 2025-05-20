@@ -5,7 +5,7 @@ import { Logo } from "./Header";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-white/50 dark:bg-gray-900/50 text-gray-900 dark:text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -13,7 +13,7 @@ export function Footer() {
             <Link href="/" className="inline-block mb-4">
             <Logo />
             </Link>
-            <p className="text-gray-200 mb-4 max-w-md">
+            <p className="text-gray-900 dark:text-white mb-4 max-w-md">
               Empowering communities through technology to create safer spaces for
               everyone. Join us in building a more secure future.
             </p>
@@ -22,7 +22,7 @@ export function Footer() {
                 href="https://twitter.com/desistapp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-200 hover:text-white transition-colors duration-300"
+                className="text-gray-900 dark:text-white transition-colors duration-300"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -39,7 +39,7 @@ export function Footer() {
                 href="https://instagram.com/desistapp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-200 hover:text-white transition-colors duration-300"
+                className="text-gray-900 dark:text-white transition-colors duration-300"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -60,7 +60,7 @@ export function Footer() {
                 href="https://linkedin.com/company/desistapp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-200 hover:text-white transition-colors duration-300"
+                className="text-gray-900 dark:text-white transition-colors duration-300"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -87,7 +87,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-gray-200 hover:text-white transition-colors duration-300"
+                  className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
                   About Us
                 </Link>
@@ -95,7 +95,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/resources"
-                  className="text-gray-200 hover:text-white transition-colors duration-300"
+                  className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
                   Resources
                 </Link>
@@ -103,7 +103,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-gray-200 hover:text-white transition-colors duration-300"
+                  className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
                   Contact
                 </Link>
@@ -111,7 +111,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/privacy"
-                  className="text-gray-200 hover:text-white transition-colors duration-300"
+                  className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
                   Privacy Policy
                 </Link>
@@ -121,11 +121,11 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white font-semibold mb-4 text-lg">Contact Us</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">Contact Us</h3>
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
                 <svg
-                  className="w-5 h-5 text-white"
+                  className="w-5 h-5 text-gray-900 dark:text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -139,14 +139,14 @@ export function Footer() {
                 </svg>
                 <a
                   href="mailto:contact@desist.app"
-                  className="text-gray-200 hover:text-white transition-colors duration-300"
+                  className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
                   contact@desist.app
                 </a>
               </li>
               <li className="flex items-center space-x-2">
                 <svg
-                  className="w-5 h-5 text-white"
+                  className="w-5 h-5 text-gray-900 dark:text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -160,7 +160,7 @@ export function Footer() {
                 </svg>
                 <a
                   href="tel:+1234567890"
-                  className="text-gray-200 hover:text-white transition-colors duration-300"
+                  className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
                   +1 (234) 567-890
                 </a>
@@ -172,25 +172,25 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/20">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-200 text-sm">
+            <p className="text-gray-900 dark:text-white text-sm">
               © {new Date().getFullYear()} DESIST!. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link
                 href="/terms"
-                className="text-gray-200 hover:text-white text-sm transition-colors duration-300"
+                className="text-gray-900 dark:text-white text-sm transition-colors duration-300"
               >
                 Terms of Service
               </Link>
               <Link
                 href="/privacy"
-                className="text-gray-200 hover:text-white text-sm transition-colors duration-300"
+                className="text-gray-900 dark:text-white text-sm transition-colors duration-300"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/cookies"
-                className="text-gray-200 hover:text-white text-sm transition-colors duration-300"
+                className="text-gray-900 dark:text-white text-sm transition-colors duration-300"
               >
                 Cookie Policy
               </Link>
