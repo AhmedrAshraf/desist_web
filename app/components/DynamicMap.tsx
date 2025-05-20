@@ -110,7 +110,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
           return 'gray';
       }
     }
-    return 'blue';
+    return 'red';
   };
 
   const createCustomIcon = (color: string) => {
@@ -127,7 +127,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
         ">
           <svg viewBox="0 0 24 24" width="36" height="36">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" 
-              fill="#ef4444"
+              fill="${color}"
               stroke="#ffffff"
               stroke-width="1.5"
             />
@@ -139,7 +139,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
             transform: translateX(-50%);
             width: 8px;
             height: 8px;
-            background-color: #ef4444;
+            background-color: ${color};
             border: 2px solid #ffffff;
             border-radius: 50%;
             box-shadow: 0 0 4px rgba(0,0,0,0.4);
@@ -188,7 +188,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
         {userLocation && (
           <Marker
             position={userLocation}
-            icon={createCustomIcon('blue')}
+            icon={createCustomIcon('red')}
           >
             <Popup>
               <div className="text-sm">

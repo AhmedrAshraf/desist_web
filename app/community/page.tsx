@@ -27,10 +27,21 @@ interface Event {
   organizer: string;
 }
 
+interface Posts {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+  username: string;
+  full_name: string;
+  email: string;
+  category: string;
+}
+
 export default function CommunityPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [recentPosts, setRecentPosts] = useState<any[]>([]);
+  const [recentPosts, setRecentPosts] = useState<Posts[]>([]);
 
   useEffect(() => {
     fetchEvents();
@@ -210,7 +221,7 @@ export default function CommunityPage() {
                   ) : (
                     recentPosts.map((post) => {
                       const category = CATEGORIES.find(c => c.id === post.category);
-                      const displayName = post.users?.username || post.users?.full_name || post.users?.email;
+                      const displayName = post.username || post.full_name || post.email;
                       return (
                         <div
                           key={post.id}
@@ -229,9 +240,9 @@ export default function CommunityPage() {
                               <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                                 {displayName}
                               </span>
-                              {post.users?.username && (
+                              {post.username && (
                                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                                  @{post.users.username}
+                                  @{post.username}
                                 </span>
                               )}
                             </div>

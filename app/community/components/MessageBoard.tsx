@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import supabase from "../../../utils/supabase";
-import { useRouter } from "next/navigation";
+import { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface Post {
   id: number;
@@ -222,7 +222,7 @@ const AuthModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   );
 };
 
-const UserMenu = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
+const UserMenu = ({ user, onLogout }: { user: SupabaseUser | null; onLogout: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -249,10 +249,10 @@ const UserMenu = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
       >
         <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium">
-          {user.email?.[0].toUpperCase()}
+          {user?.email?.[0].toUpperCase()}
         </div>
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          {user.email}
+          {user?.email}
         </span>
         <svg
           className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -274,7 +274,7 @@ const UserMenu = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
           >
             <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
               <p className="text-sm font-medium text-gray-900 dark:text-white">Signed in as</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
             </div>
             <button
               onClick={handleLogout}
@@ -294,10 +294,9 @@ export const MessageBoard = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showNewPostForm, setShowNewPostForm] = useState(false);
   const [newPost, setNewPost] = useState({ title: '', content: '', category: '' });
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     // Check for existing session
@@ -360,7 +359,7 @@ export const MessageBoard = () => {
     }
   };
 
-  const ensureUserExists = async (user: any) => {
+  const ensureUserExists = async (user: SupabaseUser) => {
     try {
       // First check if user exists
       const { data: existingUser } = await supabase
@@ -475,15 +474,21 @@ export const MessageBoard = () => {
     });
   };
 
-  const getCategoryColor = (category: string) => {
-    const found = CATEGORIES.find(c => c.id === category);
-    return found ? found.color : 'gray';
-  };
 
   const filteredPosts = selectedCategory === 'all' 
     ? posts 
     : posts.filter(post => post.category === selectedCategory);
 
+
+    if (loading) {
+      return (
+        <section>
+          <div className="flex justify-center items-center h-screen">
+            <div className="w-16 h-16 border-t-4 border-b-4 border-gray-900 dark:border-white rounded-full animate-spin"></div>
+          </div>
+        </section>
+      );
+    }
   return (
     <section>
       <motion.div

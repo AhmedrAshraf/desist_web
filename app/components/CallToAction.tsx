@@ -12,7 +12,6 @@ interface CallToActionProps {
     label: string;
     href: string;
   };
-  pattern?: boolean;
   pageType?: 'incidents' | 'about' | 'contact' | 'default';
 }
 
@@ -21,7 +20,6 @@ export const CallToAction = ({
   description,
   primaryAction,
   secondaryAction,
-  pattern = true,
   pageType = 'default',
 }: CallToActionProps) => {
   const renderVisualElement = () => {
