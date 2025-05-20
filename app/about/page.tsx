@@ -35,7 +35,7 @@ export default function AboutPage() {
 
       {/* Rest of the about page content */}
       <div className="container mx-auto px-4 py-16">
-        <div className="max-w-3xl mx-auto">
+        {/* <div className="max-w-3xl mx-auto"> */}
           <section id="learn-more" className="mb-16">
             <h2 className="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-6">
               Our Story
@@ -91,12 +91,12 @@ export default function AboutPage() {
               </div>
             </div>
           </section>
-        </div>
+        {/* </div> */}
       </div>
 
       {/* Mobile App Section */}
       <section className="py-16 px-4 bg-gray-100 dark:bg-gray-800">
-        <div className="container mx-auto max-w-6xl text-center">
+        <div className="container mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
