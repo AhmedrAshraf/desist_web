@@ -1,94 +1,92 @@
 "use client";
-import { motion } from "framer-motion";
-import { StatsDisplay } from "../components/StatsDisplay";
 import { CallToAction } from "../components/CallToAction";
 import { FeatureGrid } from "../components/FeatureGrid";
 import { HeroSection } from "../components/HeroSection";
 
 export default function SupportPage() {
-  const supportStats = [
-    {
-      value: "24/7",
-      label: "Support Available",
-      icon: "🕒",
-      color: "bg-blue-100 dark:bg-blue-900/30"
-    },
-    {
-      value: "15min",
-      label: "Avg. Response Time",
-      icon: "⚡",
-      color: "bg-yellow-100 dark:bg-yellow-900/30"
-    },
-    {
-      value: "50+",
-      label: "Support Agents",
-      icon: "👥",
-      color: "bg-green-100 dark:bg-green-900/30"
-    },
-    {
-      value: "100%",
-      label: "Confidential",
-      icon: "🔒",
-      color: "bg-purple-100 dark:bg-purple-900/30"
-    }
-  ];
+  // const supportStats = [
+  //   {
+  //     value: "24/7",
+  //     label: "Support Available",
+  //     icon: "🕒",
+  //     color: "bg-blue-100 dark:bg-blue-900/30"
+  //   },
+  //   {
+  //     value: "15min",
+  //     label: "Avg. Response Time",
+  //     icon: "⚡",
+  //     color: "bg-yellow-100 dark:bg-yellow-900/30"
+  //   },
+  //   {
+  //     value: "50+",
+  //     label: "Support Agents",
+  //     icon: "👥",
+  //     color: "bg-green-100 dark:bg-green-900/30"
+  //   },
+  //   {
+  //     value: "100%",
+  //     label: "Confidential",
+  //     icon: "🔒",
+  //     color: "bg-purple-100 dark:bg-purple-900/30"
+  //   }
+  // ];
 
-  const supportFeatures = [
-    {
-      icon: "💬",
-      title: "Chat Support",
-      description: "Connect with a trained support specialist instantly through our secure chat.",
-      link: {
-        label: "Start Chat",
-        href: "#chat"
-      }
-    },
-    {
-      icon: "📞",
-      title: "Phone Support",
-      description: "Speak directly with our support team for immediate assistance.",
-      link: {
-        label: "Call Now",
-        href: "tel:1-800-555-0000"
-      }
-    },
-    {
-      icon: "👩‍⚖️",
-      title: "Legal Support",
-      description: "Get legal advice and representation from our trusted partners.",
-      link: {
-        label: "See Lawyers List",
-        href: "/legal-help"
-      }
-    },
-    {
-      icon: "🏥",
-      title: "Crisis Support",
-      description: "Immediate assistance for crisis situations and emergencies.",
-      link: {
-        label: "Get Help",
-        href: "#crisis"
-      }
-    },
-    {
-      icon: "📚",
-      title: "Resources",
-      description: "Access our library of resources and educational materials.",
-      link: {
-        label: "Browse Resources",
-        href: "/resources"
-      }
-    },
-    {
-      icon: "👥",
-      title: "Community Support",
-      description: "Connect with others and share experiences in a safe space.",
-      link: {
-        label: "Join Community",
-        href: "/community"
-      }
-    }
-  ];
+  // const supportFeatures = [
+  //   {
+  //     icon: "💬",
+  //     title: "Chat Support",
+  //     description: "Connect with a trained support specialist instantly through our secure chat.",
+  //     link: {
+  //       label: "Start Chat",
+  //       href: "#chat"
+  //     }
+  //   },
+  //   {
+  //     icon: "📞",
+  //     title: "Phone Support",
+  //     description: "Speak directly with our support team for immediate assistance.",
+  //     link: {
+  //       label: "Call Now",
+  //       href: "tel:1-800-555-0000"
+  //     }
+  //   },
+  //   {
+  //     icon: "👩‍⚖️",
+  //     title: "Legal Support",
+  //     description: "Get legal advice and representation from our trusted partners.",
+  //     link: {
+  //       label: "See Lawyers List",
+  //       href: "/legal-help"
+  //     }
+  //   },
+  //   {
+  //     icon: "🏥",
+  //     title: "Crisis Support",
+  //     description: "Immediate assistance for crisis situations and emergencies.",
+  //     link: {
+  //       label: "Get Help",
+  //       href: "#crisis"
+  //     }
+  //   },
+  //   {
+  //     icon: "📚",
+  //     title: "Resources",
+  //     description: "Access our library of resources and educational materials.",
+  //     link: {
+  //       label: "Browse Resources",
+  //       href: "/resources"
+  //     }
+  //   },
+  //   {
+  //     icon: "👥",
+  //     title: "Community Support",
+  //     description: "Connect with others and share experiences in a safe space.",
+  //     link: {
+  //       label: "Join Community",
+  //       href: "/community"
+  //     }
+  //   }
+  // ];
 
   const immediateServices = [
     {

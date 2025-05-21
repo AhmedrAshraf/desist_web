@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { HeroSection } from "../components/HeroSection";
 import { CallToAction } from "../components/CallToAction";
-import Link from "next/link";
 
 export default function AboutPage() {
   return (

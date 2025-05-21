@@ -1,7 +1,6 @@
 "use client";
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { HeroSection } from "../components/HeroSection";
 import Link from 'next/link';
 
 const PURPOSE_OPTIONS = [

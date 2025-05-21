@@ -58,7 +58,7 @@ if (!fs.existsSync(IMAGES_DIR)) {
 }
 
 // Check if article is relevant to our topics
-function isRelevantArticle(item: any): boolean {
+function isRelevantArticle(item: { title?: string; contentSnippet?: string; content?: string }): boolean {
   const searchText = `${item.title} ${item.contentSnippet || ''} ${item.content || ''}`.toLowerCase();
   return RELEVANT_KEYWORDS.some(keyword => searchText.includes(keyword.toLowerCase()));
 }
@@ -132,17 +132,7 @@ export async function GET() {
         console.log(`Found ${relevantItems.length} relevant articles in ${feed.name}`);
 
         const articlePromises = relevantItems.map(async item => {
-          // Try multiple methods to get the image URL
-          const imageUrl = extractImageFromContent(item);
-          console.log(`\nProcessing article: ${item.title}`);
-          console.log('Raw item data:', {
-            content: item.content?.substring(0, 200) + '...',
-            description: item.description?.substring(0, 200) + '...',
-            enclosure: item.enclosure,
-            mediaContent: item['media:content'],
-            itunesImage: item['itunes:image'],
-            image: item.image
-          });
+          const imageUrl = item.enclosure?.url;
           
           const localImagePath = imageUrl ? await downloadAndSaveImage(imageUrl) : null;
           
@@ -189,66 +179,3 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 });
   }
 }
-
-function extractImageFromContent(item: any): string | null {
-  console.log('\nExtracting image for item:', item.title);
-  
-  // Try to get image from media:content
-  if (item['media:content']?.['$']?.url) {
-    console.log('Found image in media:content:', item['media:content']['$'].url);
-    return item['media:content']['$'].url;
-  }
-
-  // Try to get image from enclosure
-  if (item.enclosure?.url && item.enclosure.type?.startsWith('image/')) {
-    console.log('Found image in enclosure:', item.enclosure.url);
-    return item.enclosure.url;
-  }
-
-  // Try to get image from content
-  if (item.content) {
-    const imgMatches = item.content.match(/<img[^>]+src="([^">]+)"/g);
-    if (imgMatches) {
-      const urls = imgMatches.map((match: string) => {
-        const url = match.match(/src="([^"]+)"/)?.[1];
-        return url;
-      }).filter(Boolean);
-      
-      if (urls.length > 0) {
-        console.log('Found images in content:', urls);
-        return urls[0]; // Return the first image
-      }
-    }
-  }
-
-  // Try to get image from description
-  if (item.description) {
-    const imgMatches = item.description.match(/<img[^>]+src="([^">]+)"/g);
-    if (imgMatches) {
-      const urls = imgMatches.map((match: string) => {
-        const url = match.match(/src="([^"]+)"/)?.[1];
-        return url;
-      }).filter(Boolean);
-      
-      if (urls.length > 0) {
-        console.log('Found images in description:', urls);
-        return urls[0]; // Return the first image
-      }
-    }
-  }
-
-  // Try to get image from itunes:image
-  if (item['itunes:image']?.['$']?.href) {
-    console.log('Found image in itunes:image:', item['itunes:image']['$'].href);
-    return item['itunes:image']['$'].href;
-  }
-
-  // Try to get image from image tag
-  if (item.image?.url) {
-    console.log('Found image in image tag:', item.image.url);
-    return item.image.url;
-  }
-
-  console.log('No image found for item:', item.title);
-  return null;
-} 
