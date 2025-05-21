@@ -33,7 +33,6 @@ const RELEVANT_KEYWORDS = [
   'incident',
   'safety',
   'crime',
-  'police',
   'law enforcement',
   'neighborhood',
   'security',
