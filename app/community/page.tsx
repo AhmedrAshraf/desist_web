@@ -7,6 +7,7 @@ import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { useState, useEffect } from "react";
 import supabase from "../../utils/supabase";
 import Link from "next/link";
+import FeaturedNews from '../components/FeaturedNews';
 
 const CATEGORIES = [
   { id: 'support', name: 'Support Groups', color: 'blue', bgClass: 'bg-blue-100 dark:bg-blue-900/30', textClass: 'text-blue-800 dark:text-blue-300' },
@@ -143,7 +144,7 @@ export default function CommunityPage() {
               </motion.button>
             </div>
 
-            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
+            <div className="container bg-black/30 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
               <h2 className="text-2xl font-bold text-white mb-4">Community Impact</h2>
               <div className="grid md:grid-cols-3 gap-4 text-white">
                 <div className="bg-white/10 rounded-lg p-4">
@@ -174,8 +175,8 @@ export default function CommunityPage() {
             />
 
             {/* Community Forum Preview */}
-            <section className="py-16 px-4">
-            <div className="container mx-auto max-w-6xl">
+            <section className="container py-16">
+              <div>
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-2xl font-bold text-white mb-2">
@@ -195,7 +196,7 @@ export default function CommunityPage() {
               </div>
 
               {/* Posts Preview */}
-              <div className="p-8">
+              <div className="py-8">
                 <div className="space-y-6">
                   {recentPosts.length === 0 ? (
                     <div className="text-center py-12">
@@ -260,7 +261,8 @@ export default function CommunityPage() {
                 </div>
               </div>
             </section>
-
+            
+            <FeaturedNews />
             {/* Local Events */}
             <LocalEvents events={events} loading={loading} formatDate={formatDate} />
 

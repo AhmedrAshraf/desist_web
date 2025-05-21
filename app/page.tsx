@@ -4,6 +4,7 @@ import { HeroSection } from "./components/HeroSection";
 import { StatsDisplay } from "./components/StatsDisplay";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { CallToAction } from "./components/CallToAction";
+import FeaturedNews from './components/FeaturedNews';
 
 export default function JoinPage() {
   const impactStats = [
@@ -165,6 +166,11 @@ export default function JoinPage() {
         columns={3}
         variant="minimal"
       />
+
+      {/* Add FeaturedNews after the hero section */}
+      <div className="container mx-auto px-4 py-12">
+        <FeaturedNews />
+      </div>
 
       {/* Mobile App Section */}
       <CallToAction
