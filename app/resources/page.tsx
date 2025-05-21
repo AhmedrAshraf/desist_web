@@ -12,7 +12,7 @@ export default function ResourcesPage() {
         imageSrc="/images/community/events/workshop.jpg"
         imageAlt="Community education and resource sharing workshop"
       >
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <motion.a
             href="#guides"
             whileHover={{ scale: 1.05 }}
@@ -29,7 +29,7 @@ export default function ResourcesPage() {
           >
             Get Help
           </motion.a>
-        </div>
+        </div> */}
       </HeroSection>
 
       {/* Resource Categories */}

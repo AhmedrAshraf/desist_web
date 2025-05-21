@@ -138,9 +138,10 @@ export default function CommunityPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+                onClick={() => {window.location.href = "/request"}}
+                className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
               >
-                View Events
+                Join Us
               </motion.button>
             </div>
 

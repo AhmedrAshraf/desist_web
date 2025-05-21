@@ -45,6 +45,7 @@ export default function IncidentsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [viewMode, setViewMode] = useState<'list' | 'map'>('map');
+  const [listLayout, setListLayout] = useState<'list' | 'grid'>('list');
 
   useEffect(() => {
     fetchIncidents();
@@ -170,14 +171,6 @@ export default function IncidentsPage() {
           >
             Report Incident
           </motion.a>
-          <motion.a
-            href="#view-map"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
-          >
-            View Map
-          </motion.a>
         </div>
       </HeroSection>
 
@@ -236,6 +229,34 @@ export default function IncidentsPage() {
                       Map
                     </button>
                   </div>
+                  {viewMode === 'list' && (
+                    <div className="flex rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden">
+                      <button
+                        onClick={() => setListLayout('list')}
+                        className={`px-4 py-2 ${
+                          listLayout === 'list'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => setListLayout('grid')}
+                        className={`px-4 py-2 ${
+                          listLayout === 'grid'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -252,13 +273,15 @@ export default function IncidentsPage() {
                   <p className="text-gray-600 dark:text-gray-400">No incidents reported yet.</p>
                 </div>
               ) : viewMode === 'list' ? (
-                <div className="grid gap-6">
+                <div className={listLayout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'grid gap-6'}>
                   {filteredIncidents.map((incident) => (
                     <motion.div
                       key={incident.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6"
+                      className={`bg-gray-50 dark:bg-gray-700 rounded-lg p-6 ${
+                        listLayout === 'grid' ? 'h-full flex flex-col' : ''
+                      }`}
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div>
@@ -273,7 +296,7 @@ export default function IncidentsPage() {
                           {incident.status}
                         </span>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 mb-4">
+                      <p className={`text-gray-700 dark:text-gray-300 mb-4 ${listLayout === 'grid' ? 'flex-grow' : ''}`}>
                         {incident.description}
                       </p>
                       <div className="text-sm text-gray-600 dark:text-gray-400">

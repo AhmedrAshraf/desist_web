@@ -117,7 +117,7 @@ export default function SupportPage() {
         imageAlt="Support team ready to help"
       >
         <div className="flex flex-col gap-6">
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <motion.a
               href="#chat"
               whileHover={{ scale: 1.05 }}
@@ -134,7 +134,7 @@ export default function SupportPage() {
             >
               Call Support
             </motion.a>
-          </div>
+          </div> */}
 
           <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6">
             <h2 className="text-2xl font-bold text-white mb-4">Emergency Contacts</h2>
@@ -153,16 +153,16 @@ export default function SupportPage() {
       </HeroSection>
 
       {/* Stats Section */}
-      <StatsDisplay stats={supportStats} />
+      {/* <StatsDisplay stats={supportStats} /> */}
 
       {/* Support Services */}
-      <FeatureGrid
+      {/* <FeatureGrid
         title="Support Services"
         description="Comprehensive support options tailored to your needs"
         features={supportFeatures}
         columns={3}
         variant="bordered"
-      />
+      /> */}
 
       {/* Immediate Services */}
       <FeatureGrid
