@@ -2,23 +2,21 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { HeroSection } from "../components/HeroSection";
-import Image from "next/image";
 import { getNews } from "../services/newsService";
 import supabase from "../../utils/supabase";
+import Head from 'next/head';
 
 interface NewsItem {
   id: string;
   title: string;
   description: string;
   url: string;
-  imageUrl: string;
   source: string;
   date: string;
 }
 
 export default function BlogPage() {
   const [news, setNews] = useState<NewsItem[]>([]);
-  const [imageLoadingStates, setImageLoadingStates] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,9 +34,17 @@ export default function BlogPage() {
     const fetchNewsData = async () => {
       try {
         setLoading(true);
+        console.log('Fetching news data...');
         const newsData = await getNews(1);
+        console.log('News data fetched successfully:', {
+          totalItems: newsData.length,
+          items: newsData.map(item => ({
+            title: item.title,
+            source: item.source
+          }))
+        });
         setNews(newsData);
-        setHasMore(newsData.length === 5); // If we get 5 items, there might be more
+        setHasMore(newsData.length === 5);
         setError(null);
       } catch (err) {
         console.error("Error fetching news:", err);
@@ -57,12 +63,21 @@ export default function BlogPage() {
     try {
       setLoadingMore(true);
       const nextPage = currentPage + 1;
+      console.log(`Loading more news, page ${nextPage}...`);
       const moreNews = await getNews(nextPage);
+      console.log('Additional news loaded:', {
+        page: nextPage,
+        itemsCount: moreNews.length,
+        items: moreNews.map(item => ({
+          title: item.title,
+          source: item.source
+        }))
+      });
       
       if (moreNews.length > 0) {
         setNews(prev => [...prev, ...moreNews]);
         setCurrentPage(nextPage);
-        setHasMore(moreNews.length === 5); // If we get 5 items, there might be more
+        setHasMore(moreNews.length === 5);
       } else {
         setHasMore(false);
       }
@@ -117,92 +132,119 @@ export default function BlogPage() {
     }
   };
 
+  // Generate structured data for SEO
+  const generateStructuredData = () => {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Community News & Updates",
+      "description": "Stay informed about important developments affecting our community, from policy changes to local initiatives.",
+      "url": typeof window !== 'undefined' ? window.location.href : '',
+      "publisher": {
+        "@type": "Organization",
+        "name": "Community Protection",
+        "url": typeof window !== 'undefined' ? window.location.origin : ''
+      },
+      "blogPost": news.map(item => ({
+        "@type": "BlogPosting",
+        "headline": item.title,
+        "description": item.description,
+        "datePublished": item.date,
+        "author": {
+          "@type": "Organization",
+          "name": item.source
+        },
+        "url": item.url
+      }))
+    };
+    return JSON.stringify(structuredData);
+  };
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      <HeroSection
-        title="Community News & Updates"
-        description="Stay informed about important developments affecting our community, from policy changes to local initiatives."
-        imageSrc="/images/blog/hero-news.jpg"
-        imageAlt="Community members reading news"
-      />
+    <>
+      <Head>
+        <title>Community News & Updates | Community Protection</title>
+        <meta name="description" content="Stay informed about important developments affecting our community, from policy changes to local initiatives." />
+        <meta name="keywords" content="community news, community protection, harassment, incidents, safety, local news" />
+        <meta property="og:title" content="Community News & Updates" />
+        <meta property="og:description" content="Stay informed about important developments affecting our community." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Community News & Updates" />
+        <meta name="twitter:description" content="Stay informed about important developments affecting our community." />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: generateStructuredData() }}
+        />
+      </Head>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Error Message */}
-        {error && (
-          <div className="text-center py-8">
-            <p className="text-red-500 dark:text-red-400">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Try Again
-            </button>
-          </div>
-        )}
+      <div className="min-h-screen bg-white dark:bg-gray-900">
+        <HeroSection
+          title="Community News & Updates"
+          description="Stay informed about important developments affecting our community, from policy changes to local initiatives."
+          imageSrc="/images/blog/hero-news.jpg"
+          imageAlt="Community members reading news"
+        />
 
-        {/* News Grid */}
-        {loading ? (
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          </div>
-        ) : news.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-600 dark:text-gray-400">No news articles found.</p>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {news.map((item, index) => (
-                <motion.article
-                  key={`${item.id}-${index}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <div className="relative h-48">
-                    {imageLoadingStates[item.id] && (
-                      <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse" />
-                    )}
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      loading="lazy"
-                      onLoadingComplete={() => {
-                        setImageLoadingStates(prev => ({
-                          ...prev,
-                          [item.id]: false
-                        }));
-                      }}
-                      onLoad={() => {
-                        setImageLoadingStates(prev => ({
-                          ...prev,
-                          [item.id]: true
-                        }));
-                      }}
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/images/placeholder-image.jpg';
-                        setImageLoadingStates(prev => ({
-                          ...prev,
-                          [item.id]: false
-                        }));
-                      }}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-6">
+        <main className="container mx-auto px-4 py-8">
+          {/* Error Message */}
+          {error && (
+            <div className="text-center py-8" role="alert">
+              <p className="text-red-500 dark:text-red-400">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {/* News Grid */}
+          {loading ? (
+            <div className="flex justify-center items-center min-h-[400px]" role="status" aria-label="Loading news">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+          ) : news.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-600 dark:text-gray-400">No news articles found.</p>
+            </div>
+          ) : (
+            <>
+              <section aria-label="News articles" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {news.map((item, index) => (
+                  <motion.article
+                    key={`${item.id}-${index}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-6"
+                    itemScope
+                    itemType="https://schema.org/BlogPosting"
+                  >
+                    <meta itemProp="datePublished" content={item.date} />
+                    <meta itemProp="author" content={item.source} />
+                    
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
-                      <span>{item.source}</span>
+                      <span itemProp="publisher" itemScope itemType="https://schema.org/Organization">
+                        <span itemProp="name">{item.source}</span>
+                      </span>
                       <span>•</span>
-                      <span>{new Date(item.date).toLocaleDateString()}</span>
+                      <time dateTime={item.date}>{new Date(item.date).toLocaleDateString()}</time>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      <a 
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        itemProp="headline"
+                        className="hover:text-blue-600 dark:hover:text-blue-400"
+                      >
+                        {item.title}
+                      </a>
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4" itemProp="description">
                       {item.description}
                     </p>
                     <a
@@ -210,6 +252,7 @@ export default function BlogPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+                      itemProp="url"
                     >
                       Read More
                       <svg
@@ -217,6 +260,7 @@ export default function BlogPage() {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path
                           strokeLinecap="round"
@@ -226,82 +270,89 @@ export default function BlogPage() {
                         />
                       </svg>
                     </a>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
+                  </motion.article>
+                ))}
+              </section>
 
-            {/* Load More Button */}
-            {hasMore && (
-              <div className="flex justify-center mt-8">
+              {/* Load More Button */}
+              {hasMore && (
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                    className={`px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
+                      loadingMore ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    aria-label={loadingMore ? "Loading more articles" : "Load more articles"}
+                  >
+                    {loadingMore ? (
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                        Loading...
+                      </div>
+                    ) : (
+                      'Load More'
+                    )}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Newsletter Signup */}
+          <section aria-label="Newsletter subscription" className="mt-16 bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
+            <div className="max-w-2xl mx-auto text-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Stay Updated
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                Subscribe to our newsletter for the latest news and updates affecting our community.
+              </p>
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  disabled={isSubscribing}
+                  aria-label="Email address"
+                  required
+                />
                 <button
-                  onClick={loadMore}
-                  disabled={loadingMore}
-                  className={`px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
-                    loadingMore ? 'opacity-50 cursor-not-allowed' : ''
+                  type="submit"
+                  disabled={isSubscribing}
+                  className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
+                    isSubscribing ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
+                  aria-label={isSubscribing ? "Subscribing to newsletter" : "Subscribe to newsletter"}
                 >
-                  {loadingMore ? (
+                  {isSubscribing ? (
                     <div className="flex items-center">
                       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Loading...
+                      Subscribing...
                     </div>
                   ) : (
-                    'Load More'
+                    'Subscribe'
                   )}
                 </button>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Newsletter Signup */}
-        <div className="mt-16 bg-gray-50 dark:bg-gray-800 rounded-2xl p-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Stay Updated
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Subscribe to our newsletter for the latest news and updates affecting our community.
-            </p>
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled={isSubscribing}
-              />
-              <button
-                type="submit"
-                disabled={isSubscribing}
-                className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
-                  isSubscribing ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                {isSubscribing ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Subscribing...
-                  </div>
-                ) : (
-                  'Subscribe'
-                )}
-              </button>
-            </form>
-            {subscriptionStatus.type && (
-              <div className={`mt-4 text-sm ${
-                subscriptionStatus.type === 'success' 
-                  ? 'text-green-600 dark:text-green-400' 
-                  : 'text-red-600 dark:text-red-400'
-              }`}>
-                {subscriptionStatus.message}
-              </div>
-            )}
-          </div>
-        </div>
+              </form>
+              {subscriptionStatus.type && (
+                <div 
+                  className={`mt-4 text-sm ${
+                    subscriptionStatus.type === 'success' 
+                      ? 'text-green-600 dark:text-green-400' 
+                      : 'text-red-600 dark:text-red-400'
+                  }`}
+                  role="alert"
+                >
+                  {subscriptionStatus.message}
+                </div>
+              )}
+            </div>
+          </section>
+        </main>
       </div>
-    </div>
+    </>
   );
 } 
