@@ -7,137 +7,124 @@ import { FeatureGrid } from "../components/FeatureGrid";
 import { HeroSection } from "../components/HeroSection";
 
 interface Attorney {
-  id: number;
+  id: string;
   name: string;
   specialization: string;
   location: string;
+  detailedLocation: string;
   rating: number;
   cases: number;
   image: string;
   languages: string[];
   featured: boolean;
+  phone?: string;
+  website?: string;
+  address?: string;
+  email?: string;
+  barNumber?: string;
+  education?: string[];
+  experience?: string;
+  lat?: number;
+  lng?: number;
 }
 
+// Sample data for demonstration
+const practiceAreas = [
+  "Immigration Law",
+  "Family Law",
+  "Criminal Law",
+  "Corporate Law",
+  "Real Estate Law",
+  "Personal Injury",
+  "Estate Planning",
+  "Bankruptcy Law",
+  "Employment Law",
+  "Intellectual Property"
+];
+
+// Sample attorneys data
 const attorneys: Attorney[] = [
   {
-    id: 1,
-    name: "Sarah Martinez",
-    specialization: "Immigration Law",
-    location: "Los Angeles, CA",
-    rating: 4.9,
-    cases: 250,
-    image: "/placeholder-lawyer-1.jpg",
-    languages: ["English", "Spanish"],
-    featured: true
-  },
-  {
-    id: 2,
-    name: "David Chen",
-    specialization: "Civil Rights",
-    location: "San Francisco, CA",
-    rating: 4.8,
-    cases: 180,
-    image: "/placeholder-lawyer-2.jpg",
-    languages: ["English", "Mandarin", "Cantonese"],
-    featured: true
-  },
-  {
-    id: 3,
-    name: "Maria Rodriguez",
-    specialization: "Immigration & Civil Rights",
-    location: "New York, NY",
-    rating: 4.7,
-    cases: 200,
-    image: "/placeholder-lawyer-3.jpg",
-    languages: ["English", "Spanish", "Portuguese"],
-    featured: false
-  },
-  {
-    id: 4,
-    name: "James Wilson",
-    specialization: "Human Rights Law",
-    location: "Chicago, IL",
-    rating: 4.6,
-    cases: 150,
-    image: "/placeholder-lawyer-4.jpg",
-    languages: ["English"],
-    featured: false
-  },
-  {
-    id: 5,
-    name: "Aisha Patel",
-    specialization: "Immigration & Family Law",
-    location: "Houston, TX",
+    id: "1",
+    name: "Advocate Ahmed Khan",
+    specialization: "Criminal Law",
+    location: "Karachi",
+    detailedLocation: "Office #302, 3rd Floor, Al-Habib Plaza, Block 6, PECHS, Karachi",
     rating: 4.8,
     cases: 220,
-    image: "/placeholder-lawyer-5.jpg",
-    languages: ["English", "Hindi", "Urdu"],
-    featured: false
+    image: "/images/attorneys/attorney1.jpg",
+    languages: ["English", "Urdu", "Sindhi"],
+    featured: true,
+    phone: "+92 300 1234567",
+    email: "ahmed.khan@example.com",
+    barNumber: "BAR123456",
+    education: ["Karachi University", "LLB"],
+    experience: "18 years of experience in criminal law",
+    lat: 24.8607,
+    lng: 67.0011
+  },
+  {
+    id: "2",
+    name: "Barrister Sarah Malik",
+    specialization: "Corporate Law",
+    location: "Karachi",
+    detailedLocation: "Suite 405, 4th Floor, Business Center, Clifton Block 5, Karachi",
+    rating: 4.7,
+    cases: 150,
+    image: "/images/attorneys/attorney2.jpg",
+    languages: ["English", "Urdu"],
+    featured: true,
+    phone: "+92 300 2345678",
+    email: "sarah.malik@example.com",
+    barNumber: "BAR234567",
+    education: ["Lincoln's Inn", "Barrister-at-Law"],
+    experience: "12 years of experience in corporate law",
+    lat: 24.8138,
+    lng: 67.0472
+  },
+  {
+    id: "3",
+    name: "Advocate Usman Ali",
+    specialization: "Family Law",
+    location: "Karachi",
+    detailedLocation: "Office #201, 2nd Floor, Gulshan-e-Iqbal Block 7, Karachi",
+    rating: 4.9,
+    cases: 180,
+    image: "/images/attorneys/attorney3.jpg",
+    languages: ["English", "Urdu", "Punjabi"],
+    featured: true,
+    phone: "+92 300 3456789",
+    email: "usman.ali@example.com",
+    barNumber: "BAR345678",
+    education: ["Punjab University", "LLB"],
+    experience: "15 years of experience in family law",
+    lat: 24.9277,
+    lng: 67.0997
   }
 ];
 
 export default function LegalHelpPage() {
-  const legalStats = [
-    {
-      value: "500+",
-      label: "Cases Handled",
-      icon: "⚖️",
-      color: "bg-blue-100 dark:bg-blue-900/30"
-    },
-    {
-      value: "98%",
-      label: "Success Rate",
-      icon: "📈",
-      color: "bg-green-100 dark:bg-green-900/30"
-    },
-    {
-      value: "24/7",
-      label: "Support Available",
-      icon: "🕒",
-      color: "bg-yellow-100 dark:bg-yellow-900/30"
-    },
-    {
-      value: "50+",
-      label: "Partner Organizations",
-      icon: "🤝",
-      color: "bg-purple-100 dark:bg-purple-900/30"
-    }
-  ];
-
-  const legalServices = [
-    {
-      icon: "📝",
-      title: "Document Review",
-      description: "Expert review of legal documents and contracts to ensure your rights are protected."
-    },
-    {
-      icon: "💼",
-      title: "Case Consultation",
-      description: "Free initial consultation to understand your case and provide guidance."
-    },
-    {
-      icon: "👥",
-      title: "Representation",
-      description: "Professional legal representation in court and administrative proceedings."
-    },
-    {
-      icon: "🌍",
-      title: "Immigration Services",
-      description: "Specialized assistance with immigration cases and documentation."
-    },
-    {
-      icon: "📚",
-      title: "Legal Education",
-      description: "Workshops and resources to help you understand your rights and legal options."
-    },
-    {
-      icon: "🤲",
-      title: "Pro Bono Services",
-      description: "Free legal services for qualifying individuals and cases."
-    }
-  ];
-
   const [viewMode, setViewMode] = useState('grid');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
+
+  const filteredAttorneys = attorneys.filter(attorney => {
+    const matchesSearch = attorney.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         attorney.specialization.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSpecialization = !selectedSpecialization || attorney.specialization === selectedSpecialization;
+    const matchesLocation = !selectedLocation || attorney.location === selectedLocation;
+    
+    return matchesSearch && matchesSpecialization && matchesLocation;
+  }).sort((a, b) => {
+    // First sort by featured status
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    // Then sort by rating
+    return b.rating - a.rating;
+  });
+
+  const locations = Array.from(new Set(attorneys.map(a => a.location)));
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -146,35 +133,16 @@ export default function LegalHelpPage() {
         description="Connect with experienced attorneys dedicated to protecting your rights and providing expert legal assistance."
         imageSrc="/images/legal/legal-team.jpg"
         imageAlt="Legal professionals working together to provide justice"
-      >
-        {/* <div className="flex gap-4">
-          <motion.a
-            href="#find-lawyer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
-          >
-            Find a Lawyer
-          </motion.a>
-          <motion.a
-            href="#resources"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
-          >
-            Legal Resources
-          </motion.a>
-        </div> */}
-      </HeroSection>
+      />
 
       {/* Stats Section */}
-      <StatsDisplay stats={legalStats} />
+      <StatsDisplay stats={[]} />
 
       {/* Legal Services */}
       <FeatureGrid
         title="Our Legal Services"
         description="Comprehensive legal support tailored to your needs"
-        features={legalServices}
+        features={[]}
         columns={3}
         variant="bordered"
       />
@@ -233,19 +201,63 @@ export default function LegalHelpPage() {
             </div>
           </div>
 
-          {/* Attorneys Grid/List View */}
-          {viewMode === 'grid' ? (
+          {/* Filters */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search by name or specialization..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </div>
+              <div>
+                <select
+                  value={selectedSpecialization}
+                  onChange={(e) => setSelectedSpecialization(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  <option value="">All Specializations</option>
+                  {practiceAreas.map(spec => (
+                    <option key={spec} value={spec}>{spec}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <select
+                  value={selectedLocation}
+                  onChange={(e) => setSelectedLocation(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  <option value="">All Locations</option>
+                  {locations.map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Attorneys Grid/List */}
+          {filteredAttorneys.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 dark:text-gray-400">No attorneys found matching your criteria.</p>
+            </div>
+          ) : viewMode === 'grid' ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {attorneys.map((attorney) => (
+              {filteredAttorneys.map((attorney) => (
                 <motion.div
                   key={attorney.id}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className={`relative rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 ${
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`relative ${
                     attorney.featured 
-                      ? 'bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-900/30 dark:to-blue-900/80 ring-2 ring-blue-500 dark:ring-blue-400' 
+                      ? 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30' 
                       : 'bg-white dark:bg-gray-800'
+                  } rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 ${
+                    attorney.featured ? 'ring-2 ring-blue-500 dark:ring-blue-400' : ''
                   }`}
                 >
                   {attorney.featured && (
@@ -257,7 +269,7 @@ export default function LegalHelpPage() {
                     <div className="flex items-center gap-4 mb-4">
                       <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
                         attorney.featured 
-                          ? 'bg-gradient-to-br from-blue-500 to-blue-500 text-white' 
+                          ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white' 
                           : 'bg-gray-200 dark:bg-gray-700'
                       }`}>
                         <span className="text-2xl">👨‍⚖️</span>
@@ -296,7 +308,7 @@ export default function LegalHelpPage() {
                             ? 'text-blue-900 dark:text-blue-100' 
                             : 'text-gray-700 dark:text-gray-300'
                         }`}>
-                          📍 {attorney.location}
+                          📍 {attorney.detailedLocation}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -325,7 +337,7 @@ export default function LegalHelpPage() {
                     </div>
                     <button className={`w-full py-2 rounded-lg transition-colors ${
                       attorney.featured
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                     }`}>
                       Contact Attorney
@@ -336,15 +348,17 @@ export default function LegalHelpPage() {
             </div>
           ) : (
             <div className="grid gap-6">
-              {attorneys.map((attorney) => (
+              {filteredAttorneys.map((attorney) => (
                 <motion.div
                   key={attorney.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`relative rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 ${
+                  className={`relative ${
                     attorney.featured 
-                      ? 'bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-900/30 dark:to-blue-900/30 ring-2 ring-blue-500 dark:ring-blue-400' 
+                      ? 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30' 
                       : 'bg-white dark:bg-gray-700'
+                  } rounded-xl shadow-lg p-6 ${
+                    attorney.featured ? 'ring-2 ring-blue-500 dark:ring-blue-400' : ''
                   }`}
                 >
                   {attorney.featured && (
@@ -356,7 +370,7 @@ export default function LegalHelpPage() {
                     <div className="flex items-center gap-4">
                       <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
                         attorney.featured 
-                          ? 'bg-gradient-to-br from-blue-500 to-blue-500 text-white' 
+                          ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white' 
                           : 'bg-gray-200 dark:bg-gray-600'
                       }`}>
                         <span className="text-2xl">👨‍⚖️</span>
@@ -399,14 +413,14 @@ export default function LegalHelpPage() {
                               ? 'text-blue-900 dark:text-blue-100' 
                               : 'text-gray-700 dark:text-gray-300'
                           }`}>
-                            📍 {attorney.location}
+                            📍 {attorney.detailedLocation}
                           </span>
                         </div>
                       </div>
                     </div>
                     <button className={`px-6 py-2 rounded-lg transition-colors ${
                       attorney.featured
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                     }`}>
                       Contact
