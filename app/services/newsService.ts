@@ -110,7 +110,7 @@ export async function fetchNews(page: number = 1): Promise<NewsResponse> {
 }
 
 // Cache news results for 1 hour
-let cachedPages: Map<number, NewsResponse> = new Map();
+const cachedPages: Map<number, NewsResponse> = new Map();
 let lastFetchTime = 0;
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 

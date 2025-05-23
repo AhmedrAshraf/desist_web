@@ -21,7 +21,7 @@ export default function FeaturedNews() {
     const fetchFeaturedNews = async () => {
       try {
         const news = await getNews(1);
-        setFeaturedNews(news.slice(0, 3)); // Get only the first 3 news items
+        setFeaturedNews(news.articles.slice(0, 3)); // Get only the first 3 news items
       } catch (error) {
         console.error('Error fetching featured news:', error);
       } finally {

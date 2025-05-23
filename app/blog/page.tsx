@@ -22,7 +22,7 @@ export default function BlogPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
 
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
@@ -30,6 +30,23 @@ export default function BlogPage() {
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
+
+  const NewsSkeleton = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg p-6">
+      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        <span>•</span>
+        <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+      </div>
+      <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-700 rounded mb-4 animate-pulse"></div>
+      <div className="space-y-2">
+        <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        <div className="h-4 w-5/6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        <div className="h-4 w-4/6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+      </div>
+      <div className="mt-4 h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+    </div>
+  );
 
   useEffect(() => {
     const fetchNewsData = async () => {
@@ -49,7 +66,7 @@ export default function BlogPage() {
         if (response.articles && response.articles.length > 0) {
           setNews(response.articles);
           setHasMore(response.hasMore);
-          setTotalPages(response.totalPages);
+          // setTotalPages(response.totalPages);
         } else {
           setError("No news articles available at the moment.");
         }
@@ -87,7 +104,7 @@ export default function BlogPage() {
         setNews(prev => [...prev, ...response.articles]);
         setCurrentPage(nextPage);
         setHasMore(response.hasMore);
-        setTotalPages(response.totalPages);
+        // setTotalPages(response.totalPages);
       } else {
         setHasMore(false);
       }
@@ -213,8 +230,10 @@ export default function BlogPage() {
 
           {/* News Grid */}
           {loading ? (
-            <div className="flex justify-center items-center min-h-[400px]" role="status" aria-label="Loading news">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(8)].map((_, index) => (
+                <NewsSkeleton key={index} />
+              ))}
             </div>
           ) : news.length === 0 ? (
             <div className="text-center py-8">
@@ -281,6 +300,9 @@ export default function BlogPage() {
                       </svg>
                     </a>
                   </motion.article>
+                ))}
+                {loadingMore && [...Array(10)].map((_, index) => (
+                  <NewsSkeleton key={`skeleton-${index}`} />
                 ))}
               </section>
 

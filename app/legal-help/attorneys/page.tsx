@@ -350,48 +350,6 @@ export default function AllAttorneysPage() {
     console.log(`${timestamp}: ${message}`);
   };
 
-  const initializeLocation = useCallback(async () => {
-    addLog("Initializing location services");
-    if ("geolocation" in navigator) {
-      try {
-        addLog("Requesting user location");
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-            addLog(`Location received: ${latitude}, ${longitude}`);
-            setUserLocation({ lat: latitude, lng: longitude });
-            await fetchAttorneys(latitude, longitude);
-          },
-          (error) => {
-            const errorMessage = `Location error: ${error.message}`;
-            addLog(errorMessage);
-            setError("Unable to get your location. Please enable location services.");
-            setLoading(false);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-          }
-        );
-      } catch (err) {
-        const errorMessage = `Geolocation error: ${err instanceof Error ? err.message : 'Unknown error'}`;
-        addLog(errorMessage);
-        setError("Error accessing location services");
-        setLoading(false);
-      }
-    } else {
-      addLog("Geolocation not supported");
-      setError("Geolocation is not supported by your browser");
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    addLog("Component mounted");
-    initializeLocation();
-  }, [initializeLocation]);
-
   const fetchAttorneys = async (lat: number, lng: number) => {
     addLog("Fetching attorneys from Overpass API");
     try {
@@ -484,6 +442,39 @@ export default function AllAttorneysPage() {
       setLoading(false);
     }
   };
+
+  const initializeLocation = useCallback(async () => {
+    addLog("Initializing location");
+    if ("geolocation" in navigator) {
+      try {
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          });
+        });
+
+        const { latitude: lat, longitude: lng } = position.coords;
+        addLog(`Location obtained: ${lat}, ${lng}`);
+        setUserLocation({ lat, lng });
+        await fetchAttorneys(lat, lng);
+      } catch (error) {
+        addLog(`Geolocation error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        setError("Error accessing location services");
+        setLoading(false);
+      }
+    } else {
+      addLog("Geolocation not supported");
+      setError("Geolocation is not supported by your browser");
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    addLog("Component mounted");
+    initializeLocation();
+  }, [initializeLocation]);
 
   const specializations = practiceAreas;
   const locations = Array.from(new Set(attorneys.map(a => a.location)));
