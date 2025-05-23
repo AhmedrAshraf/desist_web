@@ -46,7 +46,7 @@ export default function IncidentsPage() {
   const [filter, setFilter] = useState("all");
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [listLayout, setListLayout] = useState<'list' | 'grid'>('grid');
-  const [showAll, setShowAll] = useState(false);
+  const showAll = false;
   const INITIAL_DISPLAY_COUNT = 3;
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function IncidentsPage() {
   );
 
   const displayedIncidents = showAll ? filteredIncidents : filteredIncidents.slice(0, INITIAL_DISPLAY_COUNT);
-  const hasMoreIncidents = filteredIncidents.length > INITIAL_DISPLAY_COUNT;
+  // const hasMoreIncidents = filteredIncidents.length > INITIAL_DISPLAY_COUNT;
 
   const incidentStats = [
     {

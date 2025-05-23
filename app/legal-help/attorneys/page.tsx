@@ -299,12 +299,33 @@ const sampleAttorneys: Attorney[] = [
 ];
 
 const RADIUS_STEPS = [50, 100, 200, 500]; // radius in kilometers
-const MAX_RADIUS = 500;
+// const MAX_RADIUS = 500;
 const MAX_ADDRESS_LENGTH = 80;
 
 const truncateAddress = (address: string) => {
   if (address.length <= MAX_ADDRESS_LENGTH) return address;
   return address.substring(0, MAX_ADDRESS_LENGTH) + '...';
+};
+
+// Define attorney element type
+type AttorneyElement = {
+  id: string;
+  lat: number;
+  lon: number;
+  tags: {
+    name?: string;
+    'addr:city'?: string;
+    'addr:state'?: string;
+    'addr:street'?: string;
+    'addr:postcode'?: string;
+    'addr:housenumber'?: string;
+    'addr:full'?: string;
+    phone?: string;
+    website?: string;
+    email?: string;
+    opening_hours?: string;
+    office?: string;
+  };
 };
 
 export default function AllAttorneysPage() {
@@ -316,16 +337,16 @@ export default function AllAttorneysPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
-  const [nearbyCities, setNearbyCities] = useState<string[]>([]);
-  const [logs, setLogs] = useState<string[]>([]);
+  // const [nearbyCities, setNearbyCities] = useState<string[]>([]);
+  // const [logs, setLogs] = useState<string[]>([]);
   const [currentRadius, setCurrentRadius] = useState(RADIUS_STEPS[0]);
-  const [searchAttempts, setSearchAttempts] = useState(0);
+  // const [searchAttempts, setSearchAttempts] = useState(0);
   const [displayCount, setDisplayCount] = useState(5); // Changed to 5 for initial display
   const [loadingMore, setLoadingMore] = useState(false);
 
   const addLog = (message: string) => {
     const timestamp = new Date().toISOString();
-    setLogs(prev => [...prev, `${timestamp}: ${message}`]);
+    // setLogs(prev => [...prev, `${timestamp}: ${message}`]);
     console.log(`${timestamp}: ${message}`);
   };
 
@@ -415,7 +436,7 @@ export default function AllAttorneysPage() {
         setAttorneys(attorneysWithLocation);
       } else {
         // Transform Overpass data to attorney format
-        const transformedAttorneys = data.elements.map((element: any, index: number) => {
+        const transformedAttorneys = data.elements.map((element: AttorneyElement, index: number) => {
           const rating = Math.round((4.5 + Math.random() * 0.5) * 10) / 10; // Round to 1 decimal place
           const detailedAddress = [
             element.tags["addr:street"],
