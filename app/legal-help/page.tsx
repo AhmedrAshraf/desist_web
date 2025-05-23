@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { StatsDisplay } from "../components/StatsDisplay";
 import { CallToAction } from "../components/CallToAction";
@@ -42,72 +42,87 @@ const practiceAreas = [
   "Intellectual Property"
 ];
 
-// Sample attorneys data
-const attorneys: Attorney[] = [
-  {
-    id: "1",
-    name: "Advocate Ahmed Khan",
-    specialization: "Criminal Law",
-    location: "Karachi",
-    detailedLocation: "Office #302, 3rd Floor, Al-Habib Plaza, Block 6, PECHS, Karachi",
-    rating: 4.8,
-    cases: 220,
-    image: "/images/attorneys/attorney1.jpg",
-    languages: ["English", "Urdu", "Sindhi"],
-    featured: true,
-    phone: "+92 300 1234567",
-    email: "ahmed.khan@example.com",
-    barNumber: "BAR123456",
-    education: ["Karachi University", "LLB"],
-    experience: "18 years of experience in criminal law",
-    lat: 24.8607,
-    lng: 67.0011
-  },
-  {
-    id: "2",
-    name: "Barrister Sarah Malik",
-    specialization: "Corporate Law",
-    location: "Karachi",
-    detailedLocation: "Suite 405, 4th Floor, Business Center, Clifton Block 5, Karachi",
-    rating: 4.7,
-    cases: 150,
-    image: "/images/attorneys/attorney2.jpg",
-    languages: ["English", "Urdu"],
-    featured: true,
-    phone: "+92 300 2345678",
-    email: "sarah.malik@example.com",
-    barNumber: "BAR234567",
-    education: ["Lincoln's Inn", "Barrister-at-Law"],
-    experience: "12 years of experience in corporate law",
-    lat: 24.8138,
-    lng: 67.0472
-  },
-  {
-    id: "3",
-    name: "Advocate Usman Ali",
-    specialization: "Family Law",
-    location: "Karachi",
-    detailedLocation: "Office #201, 2nd Floor, Gulshan-e-Iqbal Block 7, Karachi",
-    rating: 4.9,
-    cases: 180,
-    image: "/images/attorneys/attorney3.jpg",
-    languages: ["English", "Urdu", "Punjabi"],
-    featured: true,
-    phone: "+92 300 3456789",
-    email: "usman.ali@example.com",
-    barNumber: "BAR345678",
-    education: ["Punjab University", "LLB"],
-    experience: "15 years of experience in family law",
-    lat: 24.9277,
-    lng: 67.0997
-  }
-];
-
 export default function LegalHelpPage() {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
+  const [attorneys, setAttorneys] = useState<Attorney[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+
+  const fetchAttorneys = async (lat: number, lng: number) => {
+    try {
+      const response = await fetch(`/api/lawyers?lat=${lat}&lng=${lng}&radius=50`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.lawyers || data.lawyers.length === 0) {
+        setAttorneys([]);
+      } else {
+        // Transform API data to attorney format
+        const transformedAttorneys = data.lawyers.map((lawyer: any) => ({
+          id: lawyer.id,
+          name: lawyer.name,
+          specialization: lawyer.specialization?.[0] || "General Practice",
+          location: lawyer.address?.split(',')[0] || "Location not available",
+          detailedLocation: lawyer.address || "Address not available",
+          rating: lawyer.rating || 0,
+          cases: Math.floor(Math.random() * 200) + 50, // This would come from the API in a real implementation
+          image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
+          languages: ["English", "Urdu"], // This would come from the API in a real implementation
+          featured: false, // This would be determined by the API in a real implementation
+          phone: lawyer.phone,
+          website: lawyer.website,
+          address: lawyer.address,
+          email: lawyer.email,
+          lat: lawyer.latitude,
+          lng: lawyer.longitude
+        }));
+        setAttorneys(transformedAttorneys);
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      const errorMessage = `Error fetching attorneys: ${err instanceof Error ? err.message : 'Unknown error'}`;
+      setError(errorMessage);
+      setAttorneys([]);
+      setLoading(false);
+    }
+  };
+
+  const initializeLocation = async () => {
+    if ("geolocation" in navigator) {
+      try {
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          });
+        });
+
+        const { latitude: lat, longitude: lng } = position.coords;
+        setUserLocation({ lat, lng });
+        await fetchAttorneys(lat, lng);
+      } catch (error) {
+        setError("Error accessing location services");
+        setLoading(false);
+      }
+    } else {
+      setError("Geolocation is not supported by your browser");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    initializeLocation();
+  }, []);
 
   const filteredAttorneys = attorneys.filter(attorney => {
     const matchesSearch = attorney.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -125,6 +140,37 @@ export default function LegalHelpPage() {
   });
 
   const locations = Array.from(new Set(attorneys.map(a => a.location)));
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Finding attorneys near you...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 dark:text-red-400">{error}</p>
+          <button 
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              initializeLocation();
+            }}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

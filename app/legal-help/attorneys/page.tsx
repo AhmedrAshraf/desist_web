@@ -39,264 +39,8 @@ const practiceAreas = [
   "Intellectual Property"
 ];
 
-// Sample attorneys data
-const sampleAttorneys: Attorney[] = [
-  {
-    id: "1",
-    name: "Advocate Ahmed Khan",
-    specialization: "Criminal Law",
-    location: "Karachi",
-    detailedLocation: "Office #302, 3rd Floor, Al-Habib Plaza, Block 6, PECHS, Karachi",
-    rating: 4.8,
-    cases: 220,
-    image: "/images/attorneys/attorney1.jpg",
-    languages: ["English", "Urdu", "Sindhi"],
-    featured: true,
-    phone: "+92 300 1234567",
-    email: "ahmed.khan@example.com",
-    barNumber: "BAR123456",
-    education: ["Karachi University", "LLB"],
-    experience: "18 years of experience in criminal law"
-  },
-  {
-    id: "2",
-    name: "Barrister Sarah Malik",
-    specialization: "Corporate Law",
-    location: "Karachi",
-    detailedLocation: "Suite 405, 4th Floor, Business Center, Clifton Block 5, Karachi",
-    rating: 4.7,
-    cases: 150,
-    image: "/images/attorneys/attorney2.jpg",
-    languages: ["English", "Urdu"],
-    featured: true,
-    phone: "+92 300 2345678",
-    email: "sarah.malik@example.com",
-    barNumber: "BAR234567",
-    education: ["Lincoln's Inn", "Barrister-at-Law"],
-    experience: "12 years of experience in corporate law"
-  },
-  {
-    id: "3",
-    name: "Advocate Usman Ali",
-    specialization: "Family Law",
-    location: "Karachi",
-    detailedLocation: "Office #201, 2nd Floor, Gulshan-e-Iqbal Block 7, Karachi",
-    rating: 4.9,
-    cases: 180,
-    image: "/images/attorneys/attorney3.jpg",
-    languages: ["English", "Urdu", "Punjabi"],
-    featured: true,
-    phone: "+92 300 3456789",
-    email: "usman.ali@example.com",
-    barNumber: "BAR345678",
-    education: ["Punjab University", "LLB"],
-    experience: "15 years of experience in family law"
-  },
-  {
-    id: "4",
-    name: "Ahmed Khan",
-    specialization: "Criminal Law",
-    location: "Karachi Division, Pakistan",
-    detailedLocation: "Address not available",
-    rating: 4.8,
-    cases: 220,
-    image: "/images/attorneys/attorney4.jpg",
-    languages: ["English", "Urdu", "Sindhi"],
-    featured: false,
-    phone: "+92 (555) 456-7890",
-    email: "ahmed.khan@example.com",
-    barNumber: "BAR456789",
-    education: ["Oxford Law School", "JD"],
-    experience: "18 years of experience in criminal law"
-  },
-  {
-    id: "5",
-    name: "Advocate Fatima Zahra",
-    specialization: "Family Law",
-    location: "Lahore",
-    detailedLocation: "Office #501, 5th Floor, Liberty Plaza, Gulberg III, Lahore",
-    rating: 4.7,
-    cases: 160,
-    image: "/images/attorneys/attorney5.jpg",
-    languages: ["English", "Urdu", "Punjabi"],
-    featured: false,
-    phone: "+92 300 5678901",
-    email: "fatima.zahra@example.com",
-    barNumber: "BAR567890",
-    education: ["Lahore University", "LLB"],
-    experience: "10 years of experience in family law"
-  },
-  {
-    id: "6",
-    name: "Barrister Muhammad Ali",
-    specialization: "Corporate Law",
-    location: "Islamabad",
-    detailedLocation: "Suite 202, Blue Area, Jinnah Avenue, Islamabad",
-    rating: 4.6,
-    cases: 140,
-    image: "/images/attorneys/attorney6.jpg",
-    languages: ["English", "Urdu"],
-    featured: false,
-    phone: "+92 300 6789012",
-    email: "muhammad.ali@example.com",
-    barNumber: "BAR678901",
-    education: ["Cambridge University", "Barrister-at-Law"],
-    experience: "8 years of experience in corporate law"
-  },
-  {
-    id: "7",
-    name: "Advocate Ayesha Khan",
-    specialization: "Criminal Law",
-    location: "Karachi",
-    detailedLocation: "Office #103, 1st Floor, Defence Plaza, Clifton, Karachi",
-    rating: 4.5,
-    cases: 120,
-    image: "/images/attorneys/attorney7.jpg",
-    languages: ["English", "Urdu", "Sindhi"],
-    featured: false,
-    phone: "+92 300 7890123",
-    email: "ayesha.khan@example.com",
-    barNumber: "BAR789012",
-    education: ["Karachi University", "LLB"],
-    experience: "6 years of experience in criminal law"
-  },
-  {
-    id: "8",
-    name: "Barrister Hassan Raza",
-    specialization: "Immigration Law",
-    location: "Lahore",
-    detailedLocation: "Suite 305, 3rd Floor, Mall Road, Lahore",
-    rating: 4.4,
-    cases: 100,
-    image: "/images/attorneys/attorney8.jpg",
-    languages: ["English", "Urdu", "Punjabi"],
-    featured: false,
-    phone: "+92 300 8901234",
-    email: "hassan.raza@example.com",
-    barNumber: "BAR890123",
-    education: ["Lincoln's Inn", "Barrister-at-Law"],
-    experience: "5 years of experience in immigration law"
-  },
-  {
-    id: "9",
-    name: "Advocate Zainab Ali",
-    specialization: "Family Law",
-    location: "Islamabad",
-    detailedLocation: "Office #402, 4th Floor, Centaurus Mall, Islamabad",
-    rating: 4.3,
-    cases: 90,
-    image: "/images/attorneys/attorney9.jpg",
-    languages: ["English", "Urdu"],
-    featured: false,
-    phone: "+92 300 9012345",
-    email: "zainab.ali@example.com",
-    barNumber: "BAR901234",
-    education: ["Islamabad University", "LLB"],
-    experience: "4 years of experience in family law"
-  },
-  {
-    id: "10",
-    name: "Advocate Bilal Khan",
-    specialization: "Corporate Law",
-    location: "Karachi",
-    detailedLocation: "Office #601, 6th Floor, Bahria Complex, Clifton, Karachi",
-    rating: 4.2,
-    cases: 85,
-    image: "/images/attorneys/attorney10.jpg",
-    languages: ["English", "Urdu"],
-    featured: false,
-    phone: "+92 300 0123456",
-    email: "bilal.khan@example.com",
-    barNumber: "BAR012345",
-    education: ["Karachi University", "LLB"],
-    experience: "4 years of experience in corporate law"
-  },
-  {
-    id: "11",
-    name: "Barrister Sana Malik",
-    specialization: "Family Law",
-    location: "Lahore",
-    detailedLocation: "Suite 401, 4th Floor, Gulberg V, Lahore",
-    rating: 4.1,
-    cases: 80,
-    image: "/images/attorneys/attorney11.jpg",
-    languages: ["English", "Urdu", "Punjabi"],
-    featured: false,
-    phone: "+92 300 1234567",
-    email: "sana.malik@example.com",
-    barNumber: "BAR123456",
-    education: ["Lincoln's Inn", "Barrister-at-Law"],
-    experience: "3 years of experience in family law"
-  },
-  {
-    id: "12",
-    name: "Advocate Omar Ali",
-    specialization: "Criminal Law",
-    location: "Islamabad",
-    detailedLocation: "Office #303, 3rd Floor, F-8 Markaz, Islamabad",
-    rating: 4.0,
-    cases: 75,
-    image: "/images/attorneys/attorney12.jpg",
-    languages: ["English", "Urdu"],
-    featured: false,
-    phone: "+92 300 2345678",
-    email: "omar.ali@example.com",
-    barNumber: "BAR234567",
-    education: ["Islamabad University", "LLB"],
-    experience: "3 years of experience in criminal law"
-  },
-  {
-    id: "13",
-    name: "Barrister Hina Khan",
-    specialization: "Immigration Law",
-    location: "Karachi",
-    detailedLocation: "Suite 502, 5th Floor, Defence Housing Authority, Karachi",
-    rating: 3.9,
-    cases: 70,
-    image: "/images/attorneys/attorney13.jpg",
-    languages: ["English", "Urdu", "Sindhi"],
-    featured: false,
-    phone: "+92 300 3456789",
-    email: "hina.khan@example.com",
-    barNumber: "BAR345678",
-    education: ["Lincoln's Inn", "Barrister-at-Law"],
-    experience: "2 years of experience in immigration law"
-  },
-  {
-    id: "14",
-    name: "Advocate Faisal Raza",
-    specialization: "Corporate Law",
-    location: "Lahore",
-    detailedLocation: "Office #202, 2nd Floor, Gulberg III, Lahore",
-    rating: 3.8,
-    cases: 65,
-    image: "/images/attorneys/attorney14.jpg",
-    languages: ["English", "Urdu"],
-    featured: false,
-    phone: "+92 300 4567890",
-    email: "faisal.raza@example.com",
-    barNumber: "BAR456789",
-    education: ["Lahore University", "LLB"],
-    experience: "2 years of experience in corporate law"
-  },
-  {
-    id: "15",
-    name: "Barrister Ayesha Malik",
-    specialization: "Family Law",
-    location: "Islamabad",
-    detailedLocation: "Suite 301, 3rd Floor, Blue Area, Islamabad",
-    rating: 3.7,
-    cases: 60,
-    image: "/images/attorneys/attorney15.jpg",
-    languages: ["English", "Urdu", "Punjabi"],
-    featured: false,
-    phone: "+92 300 5678901",
-    email: "ayesha.malik@example.com",
-    barNumber: "BAR567890",
-    education: ["Cambridge University", "Barrister-at-Law"],
-    experience: "1 year of experience in family law"
-  }
-];
+// Remove sample attorneys data
+const sampleAttorneys: Attorney[] = [];
 
 const RADIUS_STEPS = [50, 100, 200, 500]; // radius in kilometers
 // const MAX_RADIUS = 500;
@@ -351,78 +95,40 @@ export default function AllAttorneysPage() {
   };
 
   const fetchAttorneys = async (lat: number, lng: number) => {
-    addLog("Fetching attorneys from Overpass API");
+    addLog("Fetching attorneys from API");
     try {
-      // Overpass API query to find law firms and lawyers
-      const radius = 5000; // 5km radius
-      const query = `
-        [out:json][timeout:25];
-        (
-          node["amenity"="lawyer"](around:${radius},${lat},${lng});
-          node["office"="lawyer"](around:${radius},${lat},${lng});
-          node["office"="attorney"](around:${radius},${lat},${lng});
-          way["amenity"="lawyer"](around:${radius},${lat},${lng});
-          way["office"="lawyer"](around:${radius},${lat},${lng});
-          way["office"="attorney"](around:${radius},${lat},${lng});
-        );
-        out body;
-        >;
-        out skel qt;
-      `;
-
-      const response = await fetch('https://overpass-api.de/api/interpreter', {
-        method: 'POST',
-        body: query
-      });
-
+      const response = await fetch(`/api/lawyers?lat=${lat}&lng=${lng}&radius=${currentRadius}`);
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      addLog(`Found ${data.elements?.length || 0} legal professionals`);
+      addLog(`Found ${data.lawyers?.length || 0} legal professionals`);
 
-      if (!data.elements || data.elements.length === 0) {
-        // If no results from Overpass, use sample data
-        addLog("No results from Overpass API, using sample data");
-        // Use the full sampleAttorneys array instead of just 3 attorneys
-        const attorneysWithLocation = sampleAttorneys.map(attorney => ({
-          ...attorney,
-          lat: lat + (Math.random() * 0.02 - 0.01), // Add some random variation to coordinates
-          lng: lng + (Math.random() * 0.02 - 0.01)
-        }));
-        setAttorneys(attorneysWithLocation);
+      if (!data.lawyers || data.lawyers.length === 0) {
+        addLog("No attorneys found from API");
+        setAttorneys([]);
       } else {
-        // Transform Overpass data to attorney format
-        const transformedAttorneys = data.elements.map((element: AttorneyElement, index: number) => {
-          const rating = Math.round((4.5 + Math.random() * 0.5) * 10) / 10; // Round to 1 decimal place
-          const detailedAddress = [
-            element.tags["addr:street"],
-            element.tags["addr:housenumber"],
-            element.tags["addr:postcode"],
-            element.tags["addr:city"],
-            element.tags["addr:state"],
-            "Pakistan"
-          ].filter(Boolean).join(", ");
-
-          return {
-            id: element.id.toString(),
-            name: element.tags.name || `Legal Professional ${index + 1}`,
-            specialization: element.tags.office || "General Practice",
-            location: element.tags["addr:city"] || "Karachi",
-            detailedLocation: detailedAddress || "Address not available",
-            rating: rating,
-            cases: Math.floor(Math.random() * 200) + 50,
-            image: `/images/attorneys/attorney${(index % 3) + 1}.jpg`,
-            languages: ["English", "Urdu"],
-            featured: Math.random() > 0.5,
-            phone: element.tags.phone,
-            website: element.tags.website,
-            address: element.tags["addr:full"] || element.tags["addr:street"],
-            lat: element.lat,
-            lng: element.lon
-          };
-        });
+        // Transform API data to attorney format
+        const transformedAttorneys = data.lawyers.map((lawyer: any) => ({
+          id: lawyer.id,
+          name: lawyer.name,
+          specialization: lawyer.specialization?.[0] || "General Practice",
+          location: lawyer.address?.split(',')[0] || "Location not available",
+          detailedLocation: lawyer.address || "Address not available",
+          rating: lawyer.rating || 0,
+          cases: Math.floor(Math.random() * 200) + 50, // This would come from the API in a real implementation
+          image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
+          languages: ["English", "Urdu"], // This would come from the API in a real implementation
+          featured: false, // This would be determined by the API in a real implementation
+          phone: lawyer.phone,
+          website: lawyer.website,
+          address: lawyer.address,
+          email: lawyer.email,
+          lat: lawyer.latitude,
+          lng: lawyer.longitude
+        }));
         setAttorneys(transformedAttorneys);
       }
       
@@ -430,15 +136,8 @@ export default function AllAttorneysPage() {
     } catch (err) {
       const errorMessage = `Error fetching attorneys: ${err instanceof Error ? err.message : 'Unknown error'}`;
       addLog(errorMessage);
-      // Fallback to sample data on error
-      addLog("Using sample data due to error");
-      // Use the full sampleAttorneys array instead of just 3 attorneys
-      const attorneysWithLocation = sampleAttorneys.map(attorney => ({
-        ...attorney,
-        lat: lat + (Math.random() * 0.02 - 0.01), // Add some random variation to coordinates
-        lng: lng + (Math.random() * 0.02 - 0.01)
-      }));
-      setAttorneys(attorneysWithLocation);
+      setError(errorMessage);
+      setAttorneys([]);
       setLoading(false);
     }
   };
