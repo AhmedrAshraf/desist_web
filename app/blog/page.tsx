@@ -22,6 +22,7 @@ export default function BlogPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
@@ -35,17 +36,23 @@ export default function BlogPage() {
       try {
         setLoading(true);
         console.log('Fetching news data...');
-        const newsData = await getNews(1);
+        const response = await getNews(1);
         console.log('News data fetched successfully:', {
-          totalItems: newsData.length,
-          items: newsData.map(item => ({
+          totalItems: response.articles.length,
+          hasMore: response.hasMore,
+          totalPages: response.totalPages,
+          items: response.articles.map(item => ({
             title: item.title,
             source: item.source
           }))
         });
-        setNews(newsData);
-        setHasMore(newsData.length === 5);
-        setError(null);
+        if (response.articles && response.articles.length > 0) {
+          setNews(response.articles);
+          setHasMore(response.hasMore);
+          setTotalPages(response.totalPages);
+        } else {
+          setError("No news articles available at the moment.");
+        }
       } catch (err) {
         console.error("Error fetching news:", err);
         setError("Failed to load news. Please try again later.");
@@ -64,20 +71,23 @@ export default function BlogPage() {
       setLoadingMore(true);
       const nextPage = currentPage + 1;
       console.log(`Loading more news, page ${nextPage}...`);
-      const moreNews = await getNews(nextPage);
+      const response = await getNews(nextPage);
       console.log('Additional news loaded:', {
         page: nextPage,
-        itemsCount: moreNews.length,
-        items: moreNews.map(item => ({
+        itemsCount: response.articles.length,
+        hasMore: response.hasMore,
+        totalPages: response.totalPages,
+        items: response.articles.map(item => ({
           title: item.title,
           source: item.source
         }))
       });
       
-      if (moreNews.length > 0) {
-        setNews(prev => [...prev, ...moreNews]);
+      if (response.articles && response.articles.length > 0) {
+        setNews(prev => [...prev, ...response.articles]);
         setCurrentPage(nextPage);
-        setHasMore(moreNews.length === 5);
+        setHasMore(response.hasMore);
+        setTotalPages(response.totalPages);
       } else {
         setHasMore(false);
       }

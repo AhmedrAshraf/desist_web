@@ -10,6 +10,21 @@ interface NewsItem {
   date: string;
 }
 
+interface ApiResponse {
+  articles: NewsItem[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+  };
+}
+
+interface NewsResponse {
+  articles: NewsItem[];
+  hasMore: boolean;
+  totalPages: number;
+}
+
 // Default images for different types of news
 const DEFAULT_IMAGES = {
   incident: '/images/blog/default-incident.jpg',
@@ -48,65 +63,72 @@ const fallbackNews: NewsItem[] = [
   }
 ];
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10; // Match the API's ARTICLES_PER_PAGE
 
-async function fetchFromAPI(): Promise<NewsItem[]> {
+async function fetchFromAPI(page: number = 1): Promise<ApiResponse | null> {
   try {
-    const response = await axios.get('/api/news');
-    return response.data;
+    const response = await axios.get(`/api/news?page=${page}&limit=${PAGE_SIZE}`);
+    if (response.data && response.data.articles && Array.isArray(response.data.articles)) {
+      return response.data;
+    }
+    console.error('Invalid response format from API:', response.data);
+    return null;
   } catch (error) {
     console.error('Error fetching news from API:', error);
-    return [];
+    return null;
   }
 }
 
-export async function fetchNews(): Promise<NewsItem[]> {
+export async function fetchNews(page: number = 1): Promise<NewsResponse> {
   try {
-    const apiResults = await fetchFromAPI();
+    const apiResponse = await fetchFromAPI(page);
 
-    // If we have results from the API, return them
-    if (apiResults.length > 0) {
-      const uniqueNews = removeDuplicates(apiResults);
-      return uniqueNews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // If we have results from the API, return them with pagination info
+    if (apiResponse && apiResponse.articles && apiResponse.articles.length > 0) {
+      return {
+        articles: apiResponse.articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+        hasMore: page < apiResponse.pagination.totalPages,
+        totalPages: apiResponse.pagination.totalPages
+      };
     }
 
     // If no results from API, return fallback data
     console.warn('No results from API, using fallback data');
-    return fallbackNews;
+    return {
+      articles: fallbackNews,
+      hasMore: false,
+      totalPages: 1
+    };
   } catch (error: unknown) {
     console.error('Error in fetchNews:', error);
-    return fallbackNews;
+    return {
+      articles: fallbackNews,
+      hasMore: false,
+      totalPages: 1
+    };
   }
-}
-
-function removeDuplicates(news: NewsItem[]): NewsItem[] {
-  const seen = new Set();
-  return news.filter(item => {
-    const duplicate = seen.has(item.title);
-    seen.add(item.title);
-    return !duplicate;
-  });
 }
 
 // Cache news results for 1 hour
-let cachedNews: NewsItem[] = [];
+let cachedPages: Map<number, NewsResponse> = new Map();
 let lastFetchTime = 0;
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 
-export async function getNews(page: number = 1): Promise<NewsItem[]> {
+export async function getNews(page: number = 1): Promise<NewsResponse> {
   const now = Date.now();
   
-  // If cache is empty or expired, fetch new data
-  if (cachedNews.length === 0 || now - lastFetchTime > CACHE_DURATION) {
-    const news = await fetchNews();
-    cachedNews = news;
-    lastFetchTime = now;
+  // Check if we have a valid cached response for this page
+  const cachedResponse = cachedPages.get(page);
+  if (cachedResponse && now - lastFetchTime <= CACHE_DURATION) {
+    return cachedResponse;
   }
 
-  // Calculate start and end indices for the requested page
-  const startIndex = (page - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
+  // Fetch new data for this page
+  const response = await fetchNews(page);
   
-  // Return the slice of news for the requested page
-  return cachedNews.slice(startIndex, endIndex);
+  // Update cache
+  cachedPages.set(page, response);
+  lastFetchTime = now;
+
+  return response;
 } 
