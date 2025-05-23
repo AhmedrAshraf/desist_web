@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import supabase from "../../../utils/supabase";
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { moderateContent } from '../../../utils/contentModeration';
+import { useRouter } from 'next/navigation';
 
 interface Post {
   id: number;
@@ -14,6 +15,19 @@ interface Post {
   created_at: string;
   moderation_status: 'pending' | 'approved' | 'rejected';
   moderation_reason?: string;
+  like_count: number;
+  users: {
+    email: string;
+    full_name: string | null;
+    username: string | null;
+  };
+}
+
+interface Comment {
+  id: number;
+  content: string;
+  created_at: string;
+  user_id: string;
   users: {
     email: string;
     full_name: string | null;
@@ -293,6 +307,7 @@ const UserMenu = ({ user, onLogout }: { user: SupabaseUser | null; onLogout: () 
 };
 
 export const MessageBoard = () => {
+  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showNewPostForm, setShowNewPostForm] = useState(false);
@@ -300,6 +315,10 @@ export const MessageBoard = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [expandedPost, setExpandedPost] = useState<number | null>(null);
+  const [comments, setComments] = useState<Record<number, Comment[]>>({});
+  const [newComment, setNewComment] = useState('');
+  const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     // Check for existing session
@@ -308,6 +327,8 @@ export const MessageBoard = () => {
       if (session?.user) {
         // Ensure user exists in users table
         ensureUserExists(session.user);
+        // Fetch user's liked posts
+        fetchUserLikes(session.user.id);
       }
       setLoading(false);
     });
@@ -318,6 +339,11 @@ export const MessageBoard = () => {
       if (session?.user) {
         // Ensure user exists in users table
         await ensureUserExists(session.user);
+        // Fetch user's liked posts
+        await fetchUserLikes(session.user.id);
+      } else {
+        // Clear liked posts when user logs out
+        setLikedPosts(new Set());
       }
     });
 
@@ -350,6 +376,9 @@ export const MessageBoard = () => {
             email,
             full_name,
             username
+          ),
+          post_likes (
+            id
           )
         `)
         .eq('moderation_status', 'approved')
@@ -357,7 +386,14 @@ export const MessageBoard = () => {
         .limit(50);
 
       if (error) throw error;
-      setPosts(data || []);
+
+      // Transform the data to include like_count
+      const transformedPosts = data.map(post => ({
+        ...post,
+        like_count: post.post_likes?.length || 0
+      }));
+
+      setPosts(transformedPosts || []);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -402,6 +438,23 @@ export const MessageBoard = () => {
       }
     } catch (error) {
       console.error('Error ensuring user exists:', error);
+    }
+  };
+
+  const fetchUserLikes = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('post_likes')
+        .select('post_id')
+        .eq('user_id', userId);
+
+      if (error) throw error;
+      
+      // Create a Set of liked post IDs
+      const likedPostIds = new Set(data.map(like => like.post_id));
+      setLikedPosts(likedPostIds);
+    } catch (error) {
+      console.error('Error fetching user likes:', error);
     }
   };
 
@@ -488,21 +541,230 @@ export const MessageBoard = () => {
     });
   };
 
+  const fetchComments = async (postId: number) => {
+    try {
+      const { data, error } = await supabase
+        .from('post_comments')
+        .select(`
+          *,
+          users!inner (
+            email,
+            full_name,
+            username
+          )
+        `)
+        .eq('post_id', postId)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+      setComments(prev => ({ ...prev, [postId]: data || [] }));
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  const handleLike = async (postId: number) => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    try {
+      const isCurrentlyLiked = likedPosts.has(postId);
+
+      // Optimistically update UI
+      setLikedPosts(prev => {
+        const newSet = new Set(prev);
+        if (isCurrentlyLiked) {
+          newSet.delete(postId);
+        } else {
+          newSet.add(postId);
+        }
+        return newSet;
+      });
+
+      // Update posts with optimistic like count
+      setPosts(current =>
+        current.map(post =>
+          post.id === postId
+            ? {
+                ...post,
+                like_count: isCurrentlyLiked
+                  ? Math.max(0, post.like_count - 1) // Ensure we don't go below 0
+                  : post.like_count + 1
+              }
+            : post
+        )
+      );
+
+      if (isCurrentlyLiked) {
+        // Unlike
+        const { error } = await supabase
+          .from('post_likes')
+          .delete()
+          .eq('post_id', postId)
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+      } else {
+        // Like
+        const { error } = await supabase
+          .from('post_likes')
+          .insert([{ post_id: postId, user_id: user.id }]);
+
+        if (error) throw error;
+      }
+
+      // Refresh the post to get accurate like count
+      const { data: updatedPost, error: fetchError } = await supabase
+        .from('posts')
+        .select(`
+          *,
+          post_likes (
+            id
+          )
+        `)
+        .eq('id', postId)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      // Update the post with accurate like count
+      setPosts(current =>
+        current.map(post =>
+          post.id === postId
+            ? {
+                ...post,
+                like_count: updatedPost.post_likes?.length || 0
+              }
+            : post
+        )
+      );
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      
+      // Revert optimistic update on error
+      setLikedPosts(prev => {
+        const newSet = new Set(prev);
+        if (likedPosts.has(postId)) {
+          newSet.add(postId);
+        } else {
+          newSet.delete(postId);
+        }
+        return newSet;
+      });
+
+      // Refresh the post to get accurate like count
+      const { data: post, error: fetchError } = await supabase
+        .from('posts')
+        .select(`
+          *,
+          post_likes (
+            id
+          )
+        `)
+        .eq('id', postId)
+        .single();
+
+      if (!fetchError && post) {
+        setPosts(current =>
+          current.map(p =>
+            p.id === postId
+              ? {
+                  ...p,
+                  like_count: post.post_likes?.length || 0
+                }
+              : p
+          )
+        );
+      }
+    }
+  };
+
+  const handleComment = async (postId: number) => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    if (!newComment.trim()) {
+      alert('Please enter a comment');
+      return;
+    }
+
+    try {
+      // Moderate the comment content first
+      const moderationResult = await moderateContent(newComment.trim());
+      
+      if (!moderationResult.isAppropriate) {
+        alert(`Your comment contains inappropriate content: ${moderationResult.reason}`);
+        return;
+      }
+
+      // Add comment to database
+      const { data: comment, error } = await supabase
+        .from('post_comments')
+        .insert([
+          {
+            post_id: postId,
+            user_id: user.id,
+            content: newComment.trim()
+          }
+        ])
+        .select(`
+          *,
+          users!inner (
+            email,
+            full_name,
+            username
+          )
+        `)
+        .single();
+
+      if (error) throw error;
+
+      // Update comments state with the new comment
+      setComments(prev => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), comment]
+      }));
+
+      // Clear the comment input
+      setNewComment('');
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      alert('Failed to add comment. Please try again.');
+    }
+  };
+
+  const toggleComments = async (postId: number) => {
+    if (expandedPost === postId) {
+      setExpandedPost(null);
+    } else {
+      setExpandedPost(postId);
+      if (!comments[postId]) {
+        await fetchComments(postId);
+      }
+    }
+  };
+
+  const handlePostClick = (postId: number) => {
+    router.push(`/community/post/${postId}`);
+  };
 
   const filteredPosts = selectedCategory === 'all' 
     ? posts 
     : posts.filter(post => post.category === selectedCategory);
 
-
-    if (loading) {
-      return (
-        <section>
-          <div className="flex justify-center items-center h-screen">
-            <div className="w-16 h-16 border-t-4 border-b-4 border-gray-900 dark:border-white rounded-full animate-spin"></div>
-          </div>
-        </section>
-      );
-    }
+  if (loading) {
+    return (
+      <section>
+        <div className="flex justify-center items-center h-screen">
+          <div className="w-16 h-16 border-t-4 border-b-4 border-gray-900 dark:border-white rounded-full animate-spin"></div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section>
       <motion.div
@@ -675,12 +937,15 @@ export const MessageBoard = () => {
             filteredPosts.map((post) => {
               const category = CATEGORIES.find(c => c.id === post.category);
               const displayName = post.users?.username || post.users?.full_name || post.users?.email;
+              const isLiked = likedPosts.has(post.id);
+
               return (
                 <motion.div
                   key={post.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 px-6"
+                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 px-6 cursor-pointer hover:shadow-2xl transition-shadow"
+                  onClick={() => handlePostClick(post.id)}
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
@@ -705,9 +970,56 @@ export const MessageBoard = () => {
                   <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">
                     {post.title}
                   </h3>
-                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-4 line-clamp-3">
                     {post.content}
                   </p>
+
+                  {/* Like and Comment buttons */}
+                  <div className="flex items-center gap-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLike(post.id);
+                      }}
+                      className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+                        isLiked
+                          ? 'text-blue-600 dark:text-blue-400'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      }`}
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill={isLiked ? 'currentColor' : 'none'}
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        />
+                      </svg>
+                      {post.like_count} {post.like_count === 1 ? 'Like' : 'Likes'}
+                    </button>
+
+                    <div className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
+                      </svg>
+                      {comments[post.id]?.length || 0} Comments
+                    </div>
+                  </div>
                 </motion.div>
               );
             })
