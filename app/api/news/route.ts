@@ -73,13 +73,18 @@ const MAX_DESCRIPTION_LENGTH = 150; // Maximum description length in characters
 const IMAGES_DIR = path.join(process.cwd(), 'public', 'images', 'news');
 
 // Ensure the images directory exists
-if (!fs.existsSync(IMAGES_DIR)) {
-  fs.mkdirSync(IMAGES_DIR, { recursive: true });
+try {
+  if (!fs.existsSync(IMAGES_DIR)) {
+    fs.mkdirSync(IMAGES_DIR, { recursive: true });
+  }
+} catch (error) {
+  console.error('Error creating images directory:', error);
 }
 
 // Check if article is relevant to our topics
 function isRelevantArticle(item: { title?: string; contentSnippet?: string; content?: string }): boolean {
-  const searchText = `${item.title} ${item.contentSnippet || ''} ${item.content || ''}`.toLowerCase();
+  if (!item) return false;
+  const searchText = `${item.title || ''} ${item.contentSnippet || ''} ${item.content || ''}`.toLowerCase();
   return RELEVANT_KEYWORDS.some(keyword => searchText.includes(keyword.toLowerCase()));
 }
 
@@ -154,18 +159,24 @@ export async function GET() {
         console.log(`\n=== Fetching feed from ${feed.name} ===`);
         const feedData = await parser.parseURL(feed.url);
         
+        if (!feedData?.items) {
+          console.log(`No items found in feed ${feed.name}`);
+          return [];
+        }
+
         // Filter and process relevant articles
         const relevantItems = feedData.items.filter(isRelevantArticle);
         console.log(`Found ${relevantItems.length} relevant articles in ${feed.name}`);
 
         const articlePromises = relevantItems.map(async item => {
+          if (!item) return null;
+
           const imageUrl = item.enclosure?.url;
-          
           const localImagePath = imageUrl ? await downloadAndSaveImage(imageUrl) : null;
           
           const processedItem = {
-            id: item.guid || item.link || '',
-            title: item.title || '',
+            id: item.guid || item.link || uuidv4(),
+            title: item.title || 'Untitled Article',
             description: truncateText(item.contentSnippet || item.content || '', MAX_DESCRIPTION_LENGTH),
             url: item.link || '',
             imageUrl: localImagePath,
@@ -181,7 +192,8 @@ export async function GET() {
           return processedItem;
         });
 
-        return await Promise.all(articlePromises);
+        const articles = await Promise.all(articlePromises);
+        return articles.filter((article): article is NonNullable<typeof article> => article !== null);
       } catch (error) {
         console.error(`Error fetching feed ${feed.url}:`, error);
         return [];
