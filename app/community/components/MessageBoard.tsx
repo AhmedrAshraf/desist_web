@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import supabase from "../../../utils/supabase";
 import { User as SupabaseUser } from '@supabase/supabase-js';
+import { moderateContent } from '../../../utils/contentModeration';
 
 interface Post {
   id: number;
@@ -11,6 +12,8 @@ interface Post {
   category: string;
   user_id: string;
   created_at: string;
+  moderation_status: 'pending' | 'approved' | 'rejected';
+  moderation_reason?: string;
   users: {
     email: string;
     full_name: string | null;
@@ -349,6 +352,7 @@ export const MessageBoard = () => {
             username
           )
         `)
+        .eq('moderation_status', 'approved')
         .order('created_at', { ascending: false })
         .limit(50);
 
@@ -414,6 +418,14 @@ export const MessageBoard = () => {
     }
 
     try {
+      // Moderate the content first
+      const moderationResult = await moderateContent(newPost.content);
+      
+      if (!moderationResult.isAppropriate) {
+        alert(`Your post contains inappropriate content: ${moderationResult.reason}`);
+        return;
+      }
+
       // First ensure user exists in users table
       const { error: userError } = await supabase
         .from('users')
@@ -424,7 +436,7 @@ export const MessageBoard = () => {
 
       if (userError) throw userError;
 
-      // Then create the post
+      // Then create the post with moderation status
       const { error: postError } = await supabase
         .from('posts')
         .insert([
@@ -432,7 +444,8 @@ export const MessageBoard = () => {
             title: newPost.title.trim(),
             content: newPost.content.trim(),
             category: newPost.category,
-            user_id: user.id
+            user_id: user.id,
+            moderation_status: 'pending'
           }
         ]);
 
@@ -440,6 +453,7 @@ export const MessageBoard = () => {
       
       setNewPost({ title: '', content: '', category: '' });
       setShowNewPostForm(false);
+      alert('Your post has been submitted and is pending moderation. It will be visible once approved.');
     } catch (error) {
       console.error('Error creating post:', error);
       alert('Failed to create post. Please try again.');
