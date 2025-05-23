@@ -68,8 +68,9 @@ const RELEVANT_KEYWORDS = [
   'assault'
 ];
 
-const MAX_ARTICLES = 20;
-const MAX_DESCRIPTION_LENGTH = 150; // Maximum description length in characters
+const MAX_ARTICLES = 50; // Increased total articles limit
+const ARTICLES_PER_PAGE = 10; // Number of articles per page
+const MAX_DESCRIPTION_LENGTH = 150;
 const IMAGES_DIR = path.join(process.cwd(), 'public', 'images', 'news');
 
 // Ensure the images directory exists
@@ -141,13 +142,19 @@ async function downloadAndSaveImage(imageUrl: string): Promise<string | null> {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Check if we have valid cached data
-    const now = Date.now();
-    if (cache.articles && (now - cache.timestamp) < CACHE_DURATION) {
-      console.log('Returning cached articles');
-      return NextResponse.json(cache.articles);
+    // Get pagination parameters
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '1');
+    const limit = parseInt(url.searchParams.get('limit') || String(ARTICLES_PER_PAGE));
+    
+    // Validate pagination parameters
+    if (isNaN(page) || page < 1) {
+      return NextResponse.json({ error: 'Invalid page number' }, { status: 400 });
+    }
+    if (isNaN(limit) || limit < 1 || limit > 20) {
+      return NextResponse.json({ error: 'Invalid limit. Must be between 1 and 20' }, { status: 400 });
     }
 
     const parser = new Parser();
@@ -203,22 +210,33 @@ export async function GET() {
     const results = await Promise.all(feedPromises);
     allArticles.push(...results.flat());
     
-    // Sort by date and limit to MAX_ARTICLES
+    // Sort by date
     const sortedArticles = allArticles
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, MAX_ARTICLES);
 
-    // Update cache
-    cache = {
-      articles: sortedArticles,
-      timestamp: now
-    };
+    // Calculate pagination
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedArticles = sortedArticles.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(sortedArticles.length / limit);
+    const hasMore = page < totalPages;
 
     console.log(`\n=== Final Results ===`);
     console.log(`Total relevant articles found: ${sortedArticles.length}`);
+    console.log(`Page ${page} of ${totalPages}`);
     console.log('Articles with images:', sortedArticles.filter(article => article.imageUrl).length);
     
-    return NextResponse.json(sortedArticles);
+    return NextResponse.json({
+      articles: paginatedArticles,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalArticles: sortedArticles.length,
+        articlesPerPage: limit,
+        hasMore
+      }
+    });
   } catch (error) {
     console.error('Error fetching RSS feeds:', error);
     return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 });
