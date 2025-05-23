@@ -5,6 +5,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
+// Simple in-memory cache
+let cache = {
+  articles: null as any[] | null,
+  timestamp: 0
+};
+
+// Cache duration in milliseconds (5 minutes)
+const CACHE_DURATION = 5 * 60 * 1000;
+
 // RSS feed sources - US focused
 const RSS_FEEDS = [
   {
@@ -116,8 +125,15 @@ async function downloadAndSaveImage(imageUrl: string): Promise<string | null> {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // Check if we have valid cached data
+    const now = Date.now();
+    if (cache.articles && (now - cache.timestamp) < CACHE_DURATION) {
+      console.log('Returning cached articles');
+      return NextResponse.json(cache.articles);
+    }
+
     const parser = new Parser();
     const allArticles = [];
 
@@ -168,6 +184,12 @@ export async function GET() {
     const sortedArticles = allArticles
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, MAX_ARTICLES);
+
+    // Update cache
+    cache = {
+      articles: sortedArticles,
+      timestamp: now
+    };
 
     console.log(`\n=== Final Results ===`);
     console.log(`Total relevant articles found: ${sortedArticles.length}`);
