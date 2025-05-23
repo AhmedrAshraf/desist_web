@@ -6,24 +6,24 @@ import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 // Define article type
-type Article = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  imageUrl: string | null;
-  source: string;
-  date: string;
-};
+// type Article = {
+//   id: string;
+//   title: string;
+//   description: string;
+//   url: string;
+//   imageUrl: string | null;
+//   source: string;
+//   date: string;
+// };
 
 // Simple in-memory cache
-let cache = {
-  articles: null as Article[] | null,
-  timestamp: 0
-};
+// let cache = {
+//   articles: null as Article[] | null,
+//   timestamp: 0
+// };
 
-// Cache duration in milliseconds (5 minutes)
-const CACHE_DURATION = 5 * 60 * 1000;
+// // Cache duration in milliseconds (5 minutes)
+// const CACHE_DURATION = 5 * 60 * 1000;
 
 // RSS feed sources - US focused
 const RSS_FEEDS = [

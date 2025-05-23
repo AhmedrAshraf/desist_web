@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { HeroSection } from "../../components/HeroSection";
 
 interface Attorney {
@@ -350,12 +350,7 @@ export default function AllAttorneysPage() {
     console.log(`${timestamp}: ${message}`);
   };
 
-  useEffect(() => {
-    addLog("Component mounted");
-    initializeLocation();
-  }, []);
-
-  const initializeLocation = async () => {
+  const initializeLocation = useCallback(async () => {
     addLog("Initializing location services");
     if ("geolocation" in navigator) {
       try {
@@ -390,7 +385,12 @@ export default function AllAttorneysPage() {
       setError("Geolocation is not supported by your browser");
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    addLog("Component mounted");
+    initializeLocation();
+  }, [initializeLocation]);
 
   const fetchAttorneys = async (lat: number, lng: number) => {
     addLog("Fetching attorneys from Overpass API");
