@@ -100,6 +100,66 @@ const MenuButton = memo(({ isOpen, onClick }: { isOpen: boolean; onClick: () => 
 ));
 MenuButton.displayName = 'MenuButton';
 
+// Language selector component
+const LanguageSelector = memo(() => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState("EN");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
+      >
+        {currentLang}
+        <svg
+          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
+          <button
+            onClick={() => {
+              setCurrentLang("EN");
+              setIsOpen(false);
+            }}
+            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+          >
+            English
+          </button>
+          <button
+            onClick={() => {
+              setCurrentLang("ES");
+              setIsOpen(false);
+            }}
+            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+          >
+            Español
+          </button>
+        </div>
+      )}
+    </div>
+  );
+});
+LanguageSelector.displayName = 'LanguageSelector';
+
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -168,13 +228,15 @@ export const Header = () => {
               {navigation.map((item) => (
                 <NavItem key={item.href} item={item} isActive={pathname === item.href} />
               ))}
-              <div className="ml-4 pl-4 border-l border-gray-200 dark:border-gray-700">
+              <div className="ml-4 pl-4 border-l border-gray-200 dark:border-gray-700 flex items-center gap-4">
+                <LanguageSelector />
                 <ThemeToggle />
               </div>
             </div>
 
             {/* Mobile Menu Button */}
             <div className="flex items-center gap-4 lg:hidden">
+              <LanguageSelector />
               <ThemeToggle />
               <MenuButton isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
             </div>
