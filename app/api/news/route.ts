@@ -51,6 +51,7 @@ const RELEVANT_KEYWORDS = [
   'protection',
   'harassment',
   'incident',
+  'karen',
   'safety',
   'crime',
   'law enforcement',
