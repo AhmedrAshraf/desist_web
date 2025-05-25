@@ -23,17 +23,17 @@ interface Post {
   };
 }
 
-interface Comment {
-  id: number;
-  content: string;
-  created_at: string;
-  user_id: string;
-  users: {
-    email: string;
-    full_name: string | null;
-    username: string | null;
-  };
-}
+// interface Comment {
+//   id: number;
+//   content: string;
+//   created_at: string;
+//   user_id: string;
+//   users: {
+//     email: string;
+//     full_name: string | null;
+//     username: string | null;
+//   };
+// }
 
 const CATEGORIES = [
   { id: 'support', name: 'Support Groups', color: 'blue', bgClass: 'bg-blue-100 dark:bg-blue-900/30', textClass: 'text-blue-800 dark:text-blue-300', selectedBgClass: 'bg-blue-600' },
@@ -315,9 +315,7 @@ export const MessageBoard = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [expandedPost, setExpandedPost] = useState<number | null>(null);
-  const [comments, setComments] = useState<Record<number, Comment[]>>({});
-  const [newComment, setNewComment] = useState('');
+  // const [comments, setComments] = useState<Record<number, Comment[]>>({});
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
@@ -541,28 +539,6 @@ export const MessageBoard = () => {
     });
   };
 
-  const fetchComments = async (postId: number) => {
-    try {
-      const { data, error } = await supabase
-        .from('post_comments')
-        .select(`
-          *,
-          users!inner (
-            email,
-            full_name,
-            username
-          )
-        `)
-        .eq('post_id', postId)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      setComments(prev => ({ ...prev, [postId]: data || [] }));
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-    }
-  };
-
   const handleLike = async (postId: number) => {
     if (!user) {
       setShowAuthModal(true);
@@ -677,73 +653,6 @@ export const MessageBoard = () => {
               : p
           )
         );
-      }
-    }
-  };
-
-  const handleComment = async (postId: number) => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    if (!newComment.trim()) {
-      alert('Please enter a comment');
-      return;
-    }
-
-    try {
-      // Moderate the comment content first
-      const moderationResult = await moderateContent(newComment.trim());
-      
-      if (!moderationResult.isAppropriate) {
-        alert(`Your comment contains inappropriate content: ${moderationResult.reason}`);
-        return;
-      }
-
-      // Add comment to database
-      const { data: comment, error } = await supabase
-        .from('post_comments')
-        .insert([
-          {
-            post_id: postId,
-            user_id: user.id,
-            content: newComment.trim()
-          }
-        ])
-        .select(`
-          *,
-          users!inner (
-            email,
-            full_name,
-            username
-          )
-        `)
-        .single();
-
-      if (error) throw error;
-
-      // Update comments state with the new comment
-      setComments(prev => ({
-        ...prev,
-        [postId]: [...(prev[postId] || []), comment]
-      }));
-
-      // Clear the comment input
-      setNewComment('');
-    } catch (error) {
-      console.error('Error adding comment:', error);
-      alert('Failed to add comment. Please try again.');
-    }
-  };
-
-  const toggleComments = async (postId: number) => {
-    if (expandedPost === postId) {
-      setExpandedPost(null);
-    } else {
-      setExpandedPost(postId);
-      if (!comments[postId]) {
-        await fetchComments(postId);
       }
     }
   };
@@ -1017,7 +926,7 @@ export const MessageBoard = () => {
                           d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                         />
                       </svg>
-                      {comments[post.id]?.length || 0} Comments
+                      {/* {comments[post.id]?.length || 0} Comments */}
                     </div>
                   </div>
                 </motion.div>

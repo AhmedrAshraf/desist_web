@@ -25,6 +25,19 @@ interface Attorney {
   lng?: number;
 }
 
+interface Lawyer {
+  id: string;
+  name: string;
+  specialization: string[];
+  address: string;
+  phone: string;
+  email: string;
+  rating: number;
+  latitude: number;
+  longitude: number;
+  website?: string;
+}
+
 // Sample data for demonstration
 const practiceAreas = [
   "Immigration Law",
@@ -38,9 +51,6 @@ const practiceAreas = [
   "Employment Law",
   "Intellectual Property"
 ];
-
-// Remove sample attorneys data
-const sampleAttorneys: Attorney[] = [];
 
 const RADIUS_STEPS = [50, 100, 200, 500]; // radius in kilometers
 // const MAX_RADIUS = 500;
@@ -57,27 +67,6 @@ const truncateName = (name: string) => {
   return name.substring(0, MAX_NAME_LENGTH) + '...';
 };
 
-// Define attorney element type
-type AttorneyElement = {
-  id: string;
-  lat: number;
-  lon: number;
-  tags: {
-    name?: string;
-    'addr:city'?: string;
-    'addr:state'?: string;
-    'addr:street'?: string;
-    'addr:postcode'?: string;
-    'addr:housenumber'?: string;
-    'addr:full'?: string;
-    phone?: string;
-    website?: string;
-    email?: string;
-    opening_hours?: string;
-    office?: string;
-  };
-};
-
 export default function AllAttorneysPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
@@ -87,20 +76,14 @@ export default function AllAttorneysPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
-  // const [nearbyCities, setNearbyCities] = useState<string[]>([]);
-  // const [logs, setLogs] = useState<string[]>([]);
   const [currentRadius, setCurrentRadius] = useState(RADIUS_STEPS[0]);
-  // const [searchAttempts, setSearchAttempts] = useState(0);
-  const [displayCount, setDisplayCount] = useState(5); // Changed to 5 for initial display
-  const [loadingMore, setLoadingMore] = useState(false);
 
   const addLog = (message: string) => {
-    const timestamp = new Date().toISOString();
-    // setLogs(prev => [...prev, `${timestamp}: ${message}`]);
+    const timestamp = new Date().toISOString(); 
     console.log(`${timestamp}: ${message}`);
   };
 
-  const fetchAttorneys = async (lat: number, lng: number) => {
+  const fetchAttorneys = useCallback(async (lat: number, lng: number) => {
     addLog("Fetching attorneys from API");
     try {
       const response = await fetch(`/api/lawyers?lat=${lat}&lng=${lng}&radius=${currentRadius}`);
@@ -119,7 +102,7 @@ export default function AllAttorneysPage() {
         // Transform API data to attorney format and limit to 5
         const transformedAttorneys = data.lawyers
           .slice(0, 5) // Limit to 5 attorneys
-          .map((lawyer: any, index: number) => ({
+          .map((lawyer: Lawyer, index: number) => ({
             id: lawyer.id,
             name: lawyer.name,
             specialization: lawyer.specialization?.[0] || "General Practice",
@@ -148,7 +131,7 @@ export default function AllAttorneysPage() {
       setAttorneys([]);
       setLoading(false);
     }
-  };
+  }, [currentRadius]);
 
   const initializeLocation = useCallback(async () => {
     addLog("Initializing location");
@@ -176,7 +159,7 @@ export default function AllAttorneysPage() {
       setError("Geolocation is not supported by your browser");
       setLoading(false);
     }
-  }, []);
+  }, [fetchAttorneys]);
 
   useEffect(() => {
     addLog("Component mounted");
@@ -243,7 +226,6 @@ export default function AllAttorneysPage() {
   });
 
   const displayedAttorneys = filteredAttorneys; // Remove slice since we're only showing 5
-  const hasMore = false; // Remove load more functionality
 
   const handleRadiusChange = (radius: number) => {
     setCurrentRadius(radius);

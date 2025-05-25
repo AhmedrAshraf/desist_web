@@ -14,6 +14,24 @@ interface Lawyer {
   website?: string;
 }
 
+interface OverpassElement {
+  lat: number;
+  lon: number;
+  tags: {
+    name?: string;
+    'addr:street'?: string;
+    'addr:city'?: string;
+    'addr:postcode'?: string;
+    'addr:housenumber'?: string;
+    'addr:full'?: string;
+    phone?: string;
+    website?: string;
+    email?: string;
+    opening_hours?: string;
+    office?: string;
+  };
+}
+
 // Mock data for fallback
 const mockLawyers: Lawyer[] = [
   {
@@ -74,7 +92,7 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
   
   try {
     // Convert radius from km to degrees (roughly)
-    const radiusDegrees = radius / 111.32;
+    // const radiusDegrees = radius / 111.32;
     
     // Create Overpass QL query
     const query = `
@@ -108,7 +126,7 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
     }
 
     // Transform the results into our Lawyer interface
-    const lawyers: Lawyer[] = response.data.elements.map((element: any, index: number) => {
+    const lawyers: Lawyer[] = response.data.elements.map((element: OverpassElement, index: number) => {
       const rating = 3.5 + Math.random() * 1.5;
       const specializations = [
         ['Family Law', 'Divorce', 'Child Custody'],

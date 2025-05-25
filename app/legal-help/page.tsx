@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { StatsDisplay } from "../components/StatsDisplay";
 import { CallToAction } from "../components/CallToAction";
@@ -26,6 +26,19 @@ interface Attorney {
   experience?: string;
   lat?: number;
   lng?: number;
+}
+
+interface Lawyer {
+  id: string;
+  name: string;
+  specialization: string[];
+  address: string;
+  phone: string;
+  email: string;
+  rating: number;
+  latitude: number;
+  longitude: number;
+  website?: string;
 }
 
 // Sample data for demonstration
@@ -63,9 +76,9 @@ export default function LegalHelpPage() {
   const [attorneys, setAttorneys] = useState<Attorney[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+  // const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
 
-  const fetchAttorneys = async (lat: number, lng: number) => {
+  const fetchAttorneys = useCallback(async (lat: number, lng: number) => {
     try {
       const response = await fetch(`/api/lawyers?lat=${lat}&lng=${lng}&radius=50`);
       
@@ -81,7 +94,7 @@ export default function LegalHelpPage() {
         // Transform API data to attorney format and limit to 5
         const transformedAttorneys = data.lawyers
           .slice(0, 5) // Limit to 5 attorneys
-          .map((lawyer: any, index: number) => ({
+          .map((lawyer: Lawyer, index: number) => ({
             id: lawyer.id,
             name: lawyer.name,
             specialization: lawyer.specialization?.[0] || "General Practice",
@@ -109,9 +122,9 @@ export default function LegalHelpPage() {
       setAttorneys([]);
       setLoading(false);
     }
-  };
+  }, []);
 
-  const initializeLocation = async () => {
+  const initializeLocation = useCallback(async () => {
     if ("geolocation" in navigator) {
       try {
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
@@ -123,21 +136,21 @@ export default function LegalHelpPage() {
         });
 
         const { latitude: lat, longitude: lng } = position.coords;
-        setUserLocation({ lat, lng });
+        // setUserLocation({ lat, lng });
         await fetchAttorneys(lat, lng);
       } catch (error) {
-        setError("Error accessing location services");
+        setError("Error accessing location services" + error);
         setLoading(false);
       }
     } else {
       setError("Geolocation is not supported by your browser");
       setLoading(false);
     }
-  };
+  }, [fetchAttorneys]);
 
   useEffect(() => {
     initializeLocation();
-  }, []);
+  }, [initializeLocation]);
 
   const filteredAttorneys = attorneys.filter(attorney => {
     const matchesSearch = attorney.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

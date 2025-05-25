@@ -129,7 +129,7 @@ export async function POST(request: Request) {
     }
 
     // Save to Supabase
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('requests')
       .insert([
         {
