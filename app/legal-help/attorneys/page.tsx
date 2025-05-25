@@ -45,10 +45,16 @@ const sampleAttorneys: Attorney[] = [];
 const RADIUS_STEPS = [50, 100, 200, 500]; // radius in kilometers
 // const MAX_RADIUS = 500;
 const MAX_ADDRESS_LENGTH = 80;
+const MAX_NAME_LENGTH = 25;
 
 const truncateAddress = (address: string) => {
   if (address.length <= MAX_ADDRESS_LENGTH) return address;
   return address.substring(0, MAX_ADDRESS_LENGTH) + '...';
+};
+
+const truncateName = (name: string) => {
+  if (name.length <= MAX_NAME_LENGTH) return name;
+  return name.substring(0, MAX_NAME_LENGTH) + '...';
 };
 
 // Define attorney element type
@@ -110,25 +116,27 @@ export default function AllAttorneysPage() {
         addLog("No attorneys found from API");
         setAttorneys([]);
       } else {
-        // Transform API data to attorney format
-        const transformedAttorneys = data.lawyers.map((lawyer: any) => ({
-          id: lawyer.id,
-          name: lawyer.name,
-          specialization: lawyer.specialization?.[0] || "General Practice",
-          location: lawyer.address?.split(',')[0] || "Location not available",
-          detailedLocation: lawyer.address || "Address not available",
-          rating: lawyer.rating || 0,
-          cases: Math.floor(Math.random() * 200) + 50, // This would come from the API in a real implementation
-          image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
-          languages: ["English", "Urdu"], // This would come from the API in a real implementation
-          featured: false, // This would be determined by the API in a real implementation
-          phone: lawyer.phone,
-          website: lawyer.website,
-          address: lawyer.address,
-          email: lawyer.email,
-          lat: lawyer.latitude,
-          lng: lawyer.longitude
-        }));
+        // Transform API data to attorney format and limit to 5
+        const transformedAttorneys = data.lawyers
+          .slice(0, 5) // Limit to 5 attorneys
+          .map((lawyer: any, index: number) => ({
+            id: lawyer.id,
+            name: lawyer.name,
+            specialization: lawyer.specialization?.[0] || "General Practice",
+            location: lawyer.address?.split(',')[0] || "Location not available",
+            detailedLocation: lawyer.address || "Address not available",
+            rating: lawyer.rating || 0,
+            cases: Math.floor(Math.random() * 200) + 50,
+            image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
+            languages: ["English", "Urdu"],
+            featured: index < 2, // Make first two featured
+            phone: lawyer.phone,
+            website: lawyer.website,
+            address: lawyer.address,
+            email: lawyer.email,
+            lat: lawyer.latitude,
+            lng: lawyer.longitude
+          }));
         setAttorneys(transformedAttorneys);
       }
       
@@ -234,34 +242,8 @@ export default function AllAttorneysPage() {
     }
   });
 
-  const displayedAttorneys = filteredAttorneys.slice(0, displayCount);
-  const hasMore = displayCount < filteredAttorneys.length;
-
-  // Add console logs to track load more button visibility
-  console.log('Load More Button Debug:', {
-    displayCount,
-    totalFilteredAttorneys: filteredAttorneys.length,
-    hasMore,
-    displayedAttorneysCount: displayedAttorneys.length,
-    remainingAttorneys: filteredAttorneys.length - displayCount
-  });
-
-  const handleLoadMore = () => {
-    setLoadingMore(true);
-    // Simulate loading delay
-    setTimeout(() => {
-      setDisplayCount(prev => {
-        const newCount = prev + 5;
-        console.log('Updating display count:', {
-          previous: prev,
-          new: newCount,
-          totalAvailable: filteredAttorneys.length
-        });
-        return newCount;
-      });
-      setLoadingMore(false);
-    }, 500);
-  };
+  const displayedAttorneys = filteredAttorneys; // Remove slice since we're only showing 5
+  const hasMore = false; // Remove load more functionality
 
   const handleRadiusChange = (radius: number) => {
     setCurrentRadius(radius);
@@ -430,22 +412,22 @@ export default function AllAttorneysPage() {
                       Featured
                     </div>
                   )}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col h-full">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                      {/* <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
                         attorney.featured 
                           ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white' 
                           : 'bg-gray-200 dark:bg-gray-700'
-                      }`}>
-                        <span className="text-2xl">👨‍⚖️</span>
-                      </div>
+                      }`}> */}
+                        {/* <span className="text-2xl">👨‍⚖️</span> */}
+                      {/* </div> */}
                       <div>
                         <h3 className={`text-xl font-semibold ${
                           attorney.featured 
                             ? 'text-blue-900 dark:text-blue-100' 
                             : 'text-gray-900 dark:text-white'
                         }`}>
-                          {attorney.name}
+                          {truncateName(attorney.name)}
                         </h3>
                         <p className={`${
                           attorney.featured 
@@ -456,7 +438,7 @@ export default function AllAttorneysPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="space-y-2 mb-4">
+                    <div className="space-y-2 mb-4 flex-grow">
                       <div className="flex items-center gap-2">
                         <span className="text-yellow-400">★</span>
                         <span className={`${
@@ -500,7 +482,7 @@ export default function AllAttorneysPage() {
                         </span>
                       ))}
                     </div>
-                    <button className={`w-full py-2 rounded-lg transition-colors ${
+                    <button className={`w-full py-2 rounded-lg transition-colors mt-auto ${
                       attorney.featured
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
                         : 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -511,29 +493,6 @@ export default function AllAttorneysPage() {
                 </motion.div>
               ))}
             </div>
-              {hasMore && (
-                <div className="mt-12 text-center">
-                  <button
-                    onClick={handleLoadMore}
-                    disabled={loadingMore}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mx-auto gap-2"
-                  >
-                    {loadingMore ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        Loading...
-                      </>
-                    ) : (
-                      <>
-                        Load More Attorneys
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
             </>
           ) : (
             <>
@@ -556,8 +515,8 @@ export default function AllAttorneysPage() {
                       Featured
                     </div>
                   )}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-4 mb-4">
                       <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
                         attorney.featured 
                           ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white' 
@@ -565,13 +524,13 @@ export default function AllAttorneysPage() {
                       }`}>
                         <span className="text-2xl">👨‍⚖️</span>
                       </div>
-                      <div>
+                      <div className="flex-grow">
                         <h3 className={`text-xl font-semibold ${
                           attorney.featured 
                             ? 'text-blue-900 dark:text-blue-100' 
                             : 'text-gray-900 dark:text-white'
                         }`}>
-                          {attorney.name}
+                          {truncateName(attorney.name)}
                         </h3>
                         <p className={`${
                           attorney.featured 
@@ -605,43 +564,34 @@ export default function AllAttorneysPage() {
                             } ${attorney.detailedLocation.length > MAX_ADDRESS_LENGTH ? 'text-sm' : ''}`}>
                               📍 {truncateAddress(attorney.detailedLocation)}
                           </span>
-                          </div>
+                        </div>
                       </div>
                     </div>
-                    <button className={`px-6 py-2 rounded-lg transition-colors ${
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {attorney.languages.map((lang) => (
+                        <span
+                          key={lang}
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            attorney.featured
+                              ? 'bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200'
+                              : 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
+                          }`}
+                        >
+                          {lang}
+                        </span>
+                      ))}
+                    </div>
+                    <button className={`w-full py-2 rounded-lg transition-colors ${
                       attorney.featured
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                     }`}>
-                      Contact
+                      Contact Attorney
                     </button>
                   </div>
                 </motion.div>
               ))}
             </div>
-              {hasMore && (
-                <div className="mt-12 text-center">
-                  <button
-                    onClick={handleLoadMore}
-                    disabled={loadingMore}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mx-auto gap-2"
-                  >
-                    {loadingMore ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        Loading...
-                      </>
-                    ) : (
-                      <>
-                        Load More Attorneys
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
             </>
           )}
         </div>

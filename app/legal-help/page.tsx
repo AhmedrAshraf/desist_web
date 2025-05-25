@@ -42,6 +42,19 @@ const practiceAreas = [
   "Intellectual Property"
 ];
 
+const MAX_NAME_LENGTH = 25;
+const MAX_ADDRESS_LENGTH = 80;
+
+const truncateName = (name: string) => {
+  if (name.length <= MAX_NAME_LENGTH) return name;
+  return name.substring(0, MAX_NAME_LENGTH) + '...';
+};
+
+const truncateAddress = (address: string) => {
+  if (address.length <= MAX_ADDRESS_LENGTH) return address;
+  return address.substring(0, MAX_ADDRESS_LENGTH) + '...';
+};
+
 export default function LegalHelpPage() {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState("");
@@ -65,25 +78,27 @@ export default function LegalHelpPage() {
       if (!data.lawyers || data.lawyers.length === 0) {
         setAttorneys([]);
       } else {
-        // Transform API data to attorney format
-        const transformedAttorneys = data.lawyers.map((lawyer: any) => ({
-          id: lawyer.id,
-          name: lawyer.name,
-          specialization: lawyer.specialization?.[0] || "General Practice",
-          location: lawyer.address?.split(',')[0] || "Location not available",
-          detailedLocation: lawyer.address || "Address not available",
-          rating: lawyer.rating || 0,
-          cases: Math.floor(Math.random() * 200) + 50, // This would come from the API in a real implementation
-          image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
-          languages: ["English", "Urdu"], // This would come from the API in a real implementation
-          featured: false, // This would be determined by the API in a real implementation
-          phone: lawyer.phone,
-          website: lawyer.website,
-          address: lawyer.address,
-          email: lawyer.email,
-          lat: lawyer.latitude,
-          lng: lawyer.longitude
-        }));
+        // Transform API data to attorney format and limit to 5
+        const transformedAttorneys = data.lawyers
+          .slice(0, 5) // Limit to 5 attorneys
+          .map((lawyer: any, index: number) => ({
+            id: lawyer.id,
+            name: lawyer.name,
+            specialization: lawyer.specialization?.[0] || "General Practice",
+            location: lawyer.address?.split(',')[0] || "Location not available",
+            detailedLocation: lawyer.address || "Address not available",
+            rating: lawyer.rating || 0,
+            cases: Math.floor(Math.random() * 200) + 50,
+            image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
+            languages: ["English", "Urdu"],
+            featured: index < 2, // Make first two featured
+            phone: lawyer.phone,
+            website: lawyer.website,
+            address: lawyer.address,
+            email: lawyer.email,
+            lat: lawyer.latitude,
+            lng: lawyer.longitude
+          }));
         setAttorneys(transformedAttorneys);
       }
       
@@ -311,31 +326,22 @@ export default function LegalHelpPage() {
                       Featured
                     </div>
                   )}
-                  <div className="p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                  <div className="p-6 flex flex-col h-full">
+                    <div className="mb-4">
+                      <h3 className={`text-xl font-semibold ${
                         attorney.featured 
-                          ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white' 
-                          : 'bg-gray-200 dark:bg-gray-700'
+                          ? 'text-blue-900 dark:text-blue-100' 
+                          : 'text-gray-900 dark:text-white'
                       }`}>
-                        <span className="text-2xl">👨‍⚖️</span>
-                      </div>
-                      <div>
-                        <h3 className={`text-xl font-semibold ${
-                          attorney.featured 
-                            ? 'text-blue-900 dark:text-blue-100' 
-                            : 'text-gray-900 dark:text-white'
-                        }`}>
-                          {attorney.name}
-                        </h3>
-                        <p className={`${
-                          attorney.featured 
-                            ? 'text-blue-700 dark:text-blue-300' 
-                            : 'text-gray-600 dark:text-gray-400'
-                        }`}>
-                          {attorney.specialization}
-                        </p>
-                      </div>
+                        {truncateName(attorney.name)}
+                      </h3>
+                      <p className={`${
+                        attorney.featured 
+                          ? 'text-blue-700 dark:text-blue-300' 
+                          : 'text-gray-600 dark:text-gray-400'
+                      }`}>
+                        {attorney.specialization}
+                      </p>
                     </div>
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center gap-2">
@@ -354,7 +360,7 @@ export default function LegalHelpPage() {
                             ? 'text-blue-900 dark:text-blue-100' 
                             : 'text-gray-700 dark:text-gray-300'
                         }`}>
-                          📍 {attorney.detailedLocation}
+                          📍 {truncateAddress(attorney.detailedLocation)}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -381,13 +387,15 @@ export default function LegalHelpPage() {
                         </span>
                       ))}
                     </div>
-                    <button className={`w-full py-2 rounded-lg transition-colors ${
-                      attorney.featured
-                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
-                        : 'bg-blue-600 hover:bg-blue-700 text-white'
-                    }`}>
-                      Contact Attorney
-                    </button>
+                    <div className="mt-auto">
+                      <button className={`w-full py-2 rounded-lg transition-colors ${
+                        attorney.featured
+                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
+                          : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      }`}>
+                        Contact Attorney
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               ))}
