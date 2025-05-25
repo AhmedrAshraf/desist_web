@@ -74,6 +74,11 @@ const BENEFITS = [
 
 export default function ContactFormPage() {
   const [selectedPurpose, setSelectedPurpose] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -91,8 +96,53 @@ export default function ContactFormPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement form submission logic
-    console.log('Form submitted:', { ...formData, purpose: selectedPurpose });
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          purpose: selectedPurpose,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit request');
+      }
+
+      setSubmitStatus({
+        type: 'success',
+        message: 'Your request has been submitted successfully! We will contact you soon.',
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        experience: '',
+        motivation: '',
+        organization: '',
+        'partnership-type': '',
+        'feedback-type': '',
+        suggestion: '',
+      });
+      setSelectedPurpose('');
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'An error occurred while submitting your request.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -180,6 +230,18 @@ export default function ContactFormPage() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                   Contact Form
                 </h2>
+
+                {submitStatus.type && (
+                  <div
+                    className={`p-4 mb-6 rounded-lg ${
+                      submitStatus.type === 'success'
+                        ? 'bg-green-50 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+                        : 'bg-red-50 text-red-800 dark:bg-red-900/50 dark:text-red-200'
+                    }`}
+                  >
+                    {submitStatus.message}
+                  </div>
+                )}
 
                 <div className="space-y-6">
                   <div>
@@ -371,11 +433,42 @@ export default function ContactFormPage() {
                   <div>
                     <motion.button
                       type="submit"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors font-medium"
+                      disabled={isSubmitting}
+                      whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                      whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                      className={`w-full px-6 py-3 bg-blue-900 text-white rounded-lg transition-colors font-medium ${
+                        isSubmitting
+                          ? 'opacity-75 cursor-not-allowed'
+                          : 'hover:bg-blue-800'
+                      }`}
                     >
-                      Submit
+                      {isSubmitting ? (
+                        <span className="flex items-center justify-center">
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Submitting...
+                        </span>
+                      ) : (
+                        'Submit'
+                      )}
                     </motion.button>
                   </div>
                 </div>

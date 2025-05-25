@@ -68,7 +68,7 @@ export default function ContactPage() {
         imageSrc="/images/community/stories/community-speaker.jpg"
         imageAlt="Community members engaged in conversation"
       >
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <motion.a
             href="#contact-form"
             whileHover={{ scale: 1.05 }}
@@ -85,7 +85,7 @@ export default function ContactPage() {
           >
             Find Local Office
           </motion.a>
-        </div>
+        </div> */}
       </HeroSection>
 
       {/* Contact Options */}
