@@ -102,14 +102,22 @@ export function LocalEvents({ }: LocalEventsProps) {
                 🤝 Host an Event
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Want to organize a community event? Download our app to:
+                Want to organize a community event? Submit a request to:
               </p>
               <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                <li>• Create and manage events</li>
+                <li>• Create and manage your event</li>
                 <li>• Reach local community members</li>
                 <li>• Get support from our team</li>
                 <li>• Access event planning resources</li>
               </ul>
+              <motion.button
+                onClick={() => router.push('/request?type=event')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-4 px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors w-full"
+              >
+                Request to Host an Event
+              </motion.button>
             </div>
           </div>
         </motion.div>

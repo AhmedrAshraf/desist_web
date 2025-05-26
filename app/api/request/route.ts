@@ -10,7 +10,7 @@ const supabase = createClient(
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'trustmuhammadimedical@gmail.com',
+    user: 'test@test.com',
     pass: 'fxjqiyaquedqyyjj',
   },
 });
