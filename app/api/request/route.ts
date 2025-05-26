@@ -117,7 +117,11 @@ export async function POST(request: Request) {
       organization,
       'partnership-type': partnershipType,
       'feedback-type': feedbackType,
-      suggestion
+      suggestion,
+      'event-type': eventType,
+      'event-details': eventDetails,
+      date,
+      location
     } = body;
 
     // Validate required fields
@@ -143,6 +147,10 @@ export async function POST(request: Request) {
           partnership_type: partnershipType,
           feedback_type: feedbackType,
           suggestion,
+          event_type: eventType,
+          event_details: eventDetails,
+          event_date: date,
+          event_location: location,
           status: 'pending'
         }
       ])
@@ -189,6 +197,25 @@ export async function POST(request: Request) {
         <div class="info-item">
           <span class="info-label">Suggestion</span>
           ${suggestion}
+        </div>
+      `;
+    } else if (purpose === 'event') {
+      purposeSpecificContent = `
+        <div class="info-item">
+          <span class="info-label">Event Type</span>
+          ${eventType}
+        </div>
+        <div class="info-item">
+          <span class="info-label">Event Details</span>
+          ${eventDetails}
+        </div>
+        <div class="info-item">
+          <span class="info-label">Proposed Date</span>
+          ${new Date(date).toLocaleString()}
+        </div>
+        <div class="info-item">
+          <span class="info-label">Proposed Location</span>
+          ${location}
         </div>
       `;
     }

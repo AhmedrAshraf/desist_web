@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { useRouter } from 'next/navigation';
 
 interface Event {
   id: number;
@@ -17,6 +18,12 @@ interface LocalEventsProps {
 }
 
 export function LocalEvents({ }: LocalEventsProps) {
+  const router = useRouter();
+
+  const handleEventTypeClick = (type: string) => {
+    router.push(`/request?type=event&category=${type}`);
+  };
+
   return (
     <section className="py-16 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -35,19 +42,31 @@ export function LocalEvents({ }: LocalEventsProps) {
                 Types of Events
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-purple-50 dark:bg-gray-700 p-4 rounded-lg">
+                <div 
+                  onClick={() => handleEventTypeClick('support')}
+                  className="bg-purple-50 dark:bg-gray-700 p-4 rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                >
                   <h4 className="font-semibold mb-2 text-purple-700 dark:text-purple-300">Support Groups</h4>
                   <p className="text-gray-600 dark:text-gray-400">Regular meetings for sharing and healing</p>
                 </div>
-                <div className="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
+                <div 
+                  onClick={() => handleEventTypeClick('workshop')}
+                  className="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                >
                   <h4 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">Workshops</h4>
                   <p className="text-gray-600 dark:text-gray-400">Educational sessions on safety and empowerment</p>
                 </div>
-                <div className="bg-green-50 dark:bg-gray-700 p-4 rounded-lg">
+                <div 
+                  onClick={() => handleEventTypeClick('community')}
+                  className="bg-green-50 dark:bg-gray-700 p-4 rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                >
                   <h4 className="font-semibold mb-2 text-green-700 dark:text-green-300">Community Actions</h4>
                   <p className="text-gray-600 dark:text-gray-400">Organized activities for social change</p>
                 </div>
-                <div className="bg-pink-50 dark:bg-gray-700 p-4 rounded-lg">
+                <div 
+                  onClick={() => handleEventTypeClick('social')}
+                  className="bg-pink-50 dark:bg-gray-700 p-4 rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                >
                   <h4 className="font-semibold mb-2 text-pink-700 dark:text-pink-300">Social Gatherings</h4>
                   <p className="text-gray-600 dark:text-gray-400">Casual meetups to build connections</p>
                 </div>

@@ -1,7 +1,8 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 const PURPOSE_OPTIONS = [
   {
@@ -24,6 +25,13 @@ const PURPOSE_OPTIONS = [
     description: 'Share your thoughts and help us improve our services.',
     icon: '💭',
     fields: ['feedback-type', 'suggestion']
+  },
+  {
+    id: 'event',
+    name: 'Create Event',
+    description: 'Organize a community event or meetup.',
+    icon: '📅',
+    fields: ['event-type', 'event-details', 'date', 'location']
   }
 ];
 
@@ -73,6 +81,7 @@ const BENEFITS = [
 ];
 
 export default function ContactFormPage() {
+  const searchParams = useSearchParams();
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -91,8 +100,30 @@ export default function ContactFormPage() {
     'partnership-type': '',
     // Feedback specific fields
     'feedback-type': '',
-    suggestion: ''
+    suggestion: '',
+    // Event specific fields
+    'event-type': '',
+    'event-details': '',
+    date: '',
+    location: ''
   });
+
+  useEffect(() => {
+    const type = searchParams.get('type');
+    const category = searchParams.get('category');
+    
+    if (type) {
+      setSelectedPurpose(type);
+      
+      // If it's an event request, also set the event type
+      if (type === 'event' && category) {
+        setFormData(prev => ({
+          ...prev,
+          'event-type': category
+        }));
+      }
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,6 +164,10 @@ export default function ContactFormPage() {
         'partnership-type': '',
         'feedback-type': '',
         suggestion: '',
+        'event-type': '',
+        'event-details': '',
+        date: '',
+        location: '',
       });
       setSelectedPurpose('');
     } catch (error) {
@@ -424,6 +459,74 @@ export default function ContactFormPage() {
                           rows={4}
                           required
                           placeholder="Please share your feedback..."
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {selectedPurpose === 'event' && (
+                    <>
+                      <div>
+                        <label htmlFor="event-type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Event Type
+                        </label>
+                        <select
+                          id="event-type"
+                          name="event-type"
+                          value={formData['event-type']}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="">Select event type</option>
+                          <option value="support">Support Group</option>
+                          <option value="workshop">Workshop</option>
+                          <option value="community">Community Action</option>
+                          <option value="social">Social Gathering</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="event-details" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Event Details
+                        </label>
+                        <textarea
+                          id="event-details"
+                          name="event-details"
+                          value={formData['event-details']}
+                          onChange={handleInputChange}
+                          rows={4}
+                          required
+                          placeholder="Describe your event, its purpose, and what participants can expect..."
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Proposed Date
+                        </label>
+                        <input
+                          type="datetime-local"
+                          id="date"
+                          name="date"
+                          value={formData.date}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Proposed Location
+                        </label>
+                        <input
+                          type="text"
+                          id="location"
+                          name="location"
+                          value={formData.location}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="Enter the proposed venue or location"
                           className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                       </div>

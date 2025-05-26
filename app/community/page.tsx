@@ -138,7 +138,7 @@ export default function CommunityPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => {window.location.href = "/request"}}
+                onClick={() => {window.location.href = "/request?type=volunteer"}}
                 className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
               >
                 Join Us

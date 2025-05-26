@@ -15,7 +15,7 @@ export default function AboutPage() {
       >
         <div className="flex">
           <motion.a
-            href="/request"
+            href="/request?type=volunteer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
