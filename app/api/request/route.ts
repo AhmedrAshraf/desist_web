@@ -273,7 +273,7 @@ export async function POST(request: Request) {
             <div class="message-box">
               <h3>Your Request Details</h3>
               <div class="info-item">
-                <span class="info-label">Request Type</span>
+                <span class="info-label">Request Type:</span>
                 ${purpose.charAt(0).toUpperCase() + purpose.slice(1)}
               </div>
               ${purposeSpecificContent}
@@ -283,7 +283,7 @@ export async function POST(request: Request) {
             
             <p>If you have any additional information to share, please feel free to reply to this email.</p>
             
-            <a href="https://desist.org" class="button">Visit Our Website</a>
+            <a href="https://wedesist.com" class="button">Visit Our Website</a>
           </div>
           <div class="footer">
             <p>Best regards,<br>The Desist Team</p>

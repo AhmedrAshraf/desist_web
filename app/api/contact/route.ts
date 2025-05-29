@@ -131,19 +131,19 @@ export async function POST(request: Request) {
           </div>
           <div class="content">
             <div class="info-item">
-              <span class="info-label">Name</span>
+              <span class="info-label">Name:</span>
               ${name}
             </div>
             <div class="info-item">
-              <span class="info-label">Email</span>
+              <span class="info-label">Email:</span>
               ${email}
             </div>
             <div class="info-item">
-              <span class="info-label">Subject</span>
+              <span class="info-label">Subject:</span>
               ${subject}
             </div>
             <div class="message-box">
-              <h3>Message</h3>
+              <h3>Message:</h3>
               <p>${message}</p>
             </div>
             <div class="divider"></div>
@@ -174,11 +174,11 @@ export async function POST(request: Request) {
             <div class="message-box">
               <h3>Your Message Details</h3>
               <div class="info-item">
-                <span class="info-label">Subject</span>
+                <span class="info-label">Subject:</span>
                 ${subject}
               </div>
               <div class="info-item">
-                <span class="info-label">Message</span>
+                <span class="info-label">Message:</span>
                 <p>${message}</p>
               </div>
             </div>
@@ -187,7 +187,7 @@ export async function POST(request: Request) {
             
             <p>If you have any additional information to share, please feel free to reply to this email.</p>
             
-            <a href="https://desist.org" class="button">Visit Our Website</a>
+            <a href="https://wedesist.com" class="button">Visit Our Website</a>
           </div>
           <div class="footer">
             <p>Best regards,<br>The Desist Team</p>

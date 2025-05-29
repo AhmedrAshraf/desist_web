@@ -220,7 +220,7 @@ export default function ContactPage() {
                       <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Email</h3>
                       <p className="text-gray-700 dark:text-gray-300">support@desist.org</p>
                     </div>
-                    <div>
+                    {/* <div>
                       <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Phone</h3>
                       <p className="text-gray-700 dark:text-gray-300">1-800-555-0000</p>
                     </div>
@@ -230,7 +230,7 @@ export default function ContactPage() {
                         123 Movement Street<br />
                         San Francisco, CA 94105
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
