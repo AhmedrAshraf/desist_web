@@ -106,24 +106,17 @@ export default function IncidentsPage() {
       icon: "📊",
       color: "bg-blue-100 dark:bg-blue-900/30"
     },
-    {
-      value: incidents.filter(i => i.status === "active").length.toString(),
-      label: "Active Cases",
-      icon: "🔴",
+    ...Object.entries(
+      incidents.reduce((acc, incident) => {
+        acc[incident.type] = (acc[incident.type] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>)
+    ).map(([type, count]) => ({
+      value: count.toString(),
+      label: type,
+      icon: "🚨",
       color: "bg-red-100 dark:bg-red-900/30"
-    },
-    {
-      value: incidents.filter(i => i.status === "investigating").length.toString(),
-      label: "Under Investigation",
-      icon: "🔍",
-      color: "bg-yellow-100 dark:bg-yellow-900/30"
-    },
-    {
-      value: incidents.filter(i => i.status === "resolved").length.toString(),
-      label: "Resolved Cases",
-      icon: "✅",
-      color: "bg-green-100 dark:bg-green-900/30"
-    }
+    }))
   ];
 
   const reportingFeatures = [

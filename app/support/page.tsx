@@ -91,8 +91,8 @@ export default function SupportPage() {
   const immediateServices = [
     {
       icon: "🚨",
-      title: "Emergency Response",
-      description: "24/7 emergency response team ready to assist in critical situations."
+      title: "Crisis Response",
+      description: "24/7 crisis response available through these public organizations."
     },
     {
       icon: "🤝",
@@ -165,7 +165,7 @@ export default function SupportPage() {
       {/* Immediate Services */}
       <FeatureGrid
         title="Immediate Assistance"
-        description="Get help right away with our emergency services"
+        description="Get help right away through these live public services"
         features={immediateServices}
         columns={3}
         variant="minimal"

@@ -56,18 +56,18 @@ export const CallToAction = ({
 
               {/* Secondary Pins */}
               {[
-                { x: '20%', y: '30%', delay: 0.3, status: 'active' },
-                { x: '75%', y: '40%', delay: 0.4, status: 'resolved' },
-                { x: '35%', y: '70%', delay: 0.5, status: 'investigating' },
-                { x: '80%', y: '65%', delay: 0.6, status: 'active' }
+                  // { x: '20%', y: '30%', delay: 0.3, status: 'active' },
+                  // { x: '75%', y: '40%', delay: 0.4, status: 'resolved' },
+                  // { x: '35%', y: '70%', delay: 0.5, status: 'investigating' },
+                  // { x: '80%', y: '65%', delay: 0.6, status: 'active' }
               ].map((pin, index) => (
                 <motion.div
                   key={index}
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.3, delay: pin.delay }}
+                  // transition={{ duration: 0.3, delay: pin.delay }}
                   className="absolute"
-                  style={{ left: pin.x, top: pin.y }}
+                  // style={{ left: pin.x, top: pin.y }}
                 >
                   <div className="relative">
                     <div className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md">
@@ -77,11 +77,11 @@ export const CallToAction = ({
                     </div>
                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white/90 rotate-45" />
                     <div className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-1 rounded-full text-xs font-medium ${
-                      pin.status === 'active' ? 'bg-red-500 text-white' :
-                      pin.status === 'resolved' ? 'bg-green-500 text-white' :
+                      // pin.status === 'active' ? 'bg-red-500 text-white' :
+                      // pin.status === 'resolved' ? 'bg-green-500 text-white' :
                       'bg-yellow-500 text-white'
                     }`}>
-                      {pin.status}
+                      {/* {pin.status} */}
                     </div>
                   </div>
                 </motion.div>
