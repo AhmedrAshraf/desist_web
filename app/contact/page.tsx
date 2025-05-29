@@ -218,7 +218,7 @@ export default function ContactPage() {
                   <div className="space-y-6">
                     <div>
                       <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Email</h3>
-                      <p className="text-gray-700 dark:text-gray-300">support@desist.org</p>
+                      <p className="text-gray-700 dark:text-gray-300">support@wedesist.com</p>
                     </div>
                     {/* <div>
                       <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Phone</h3>

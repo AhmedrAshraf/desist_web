@@ -208,7 +208,7 @@ export const CallToAction = ({
               <div className="w-full flex justify-center items-center gap-8 mt-8">
                 {[
                   { icon: "📱", label: "Phone", value: "1-800-555-0000" },
-                  { icon: "📧", label: "Email", value: "support@desist.org" },
+                  { icon: "📧", label: "Email", value: "support@wedesist.com" },
                   { icon: "📍", label: "Office", value: "San Francisco, CA" }
                 ].map((item, index) => (
                   <motion.div

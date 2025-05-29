@@ -136,10 +136,21 @@ export default function LegalHelpPage() {
         });
 
         const { latitude: lat, longitude: lng } = position.coords;
-        // setUserLocation({ lat, lng });
         await fetchAttorneys(lat, lng);
       } catch (error) {
-        setError("Error accessing location services" + error);
+        if (error instanceof GeolocationPositionError) {
+          if (error.code === error.PERMISSION_DENIED) {
+            setError("Location access was denied. Please enable location access in your browser settings to use this feature.");
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            setError("Location information is unavailable. Please check your device settings.");
+          } else if (error.code === error.TIMEOUT) {
+            setError("The request to get your location timed out. Please try again.");
+          } else {
+            setError("Unable to access your location. Please try again.");
+          }
+        } else {
+          setError("An error occurred while accessing location services. Please try again.");
+        }
         setLoading(false);
       }
     } else {
@@ -506,7 +517,7 @@ export default function LegalHelpPage() {
         description="Join our network and become a featured attorney. Help make a difference in your community while growing your practice."
         primaryAction={{
           label: "Join Our Network",
-          href: "mailto:admin@desist.org"
+          href: "mailto:admin@wedesist.com"
         }}
         secondaryAction={{
           label: "Learn More",

@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import LocationPermissionHandler from './LocationPermissionHandler';
 
 // Fix for default marker icons in Leaflet with Next.js
 const DefaultIcon = L.icon({
@@ -73,24 +74,38 @@ function getUserLocation(): Promise<{ lat: number; lng: number }> {
 }
 
 export default function DynamicMap({ locations, center: initialCenter, zoom: initialZoom = 12 }: DynamicMapProps) {
-  const userLocation = null;
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
-  const mapZoom = initialZoom
+  const mapZoom = initialZoom;
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
+  const handleLocationGranted = useCallback((position: GeolocationPosition) => {
+    const { latitude: lat, longitude: lng } = position.coords;
+    setUserLocation({ lat, lng });
+    if (!initialCenter) {
+      setMapCenter([lat, lng]);
+    }
+  }, [initialCenter]);
+
+  const handleLocationDenied = useCallback(() => {
+    setLocationError('Location access was denied. Please enable location access to use this feature.');
+    if (!initialCenter) {
+      setMapCenter([37.7749, -122.4194]); // Default to San Francisco
+    }
+  }, [initialCenter]);
+
+  const handleLocationError = useCallback((error: GeolocationPositionError) => {
+    setLocationError(error.message);
+    if (!initialCenter) {
+      setMapCenter([37.7749, -122.4194]); // Default to San Francisco
+    }
+  }, [initialCenter]);
 
   useEffect(() => {
     const initializeMap = async () => {
-      // Get user location or use default
-      const { lat, lng } = await getUserLocation();
-
-      // Set center based on priority:
-      // 1. Provided center
-      // 2. User location
-      // 3. Default location (handled in getUserLocation)
       if (initialCenter) {
         setMapCenter([initialCenter.lat, initialCenter.lng]);
-      } else {
-        setMapCenter([lat, lng]);
       }
     };
 
@@ -171,84 +186,96 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
   }
 
   return (
-    <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
-      <MapContainer
-        center={mapCenter}
-        zoom={mapZoom}
-        className="w-full h-full"
-        style={{ background: '#f0f0f0' }}
-        ref={setMapInstance}
-      >
-        <ChangeView center={mapCenter} zoom={mapZoom} />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        
-        {userLocation && (
-          <Marker
-            position={userLocation}
-            icon={createCustomIcon('red')}
-          >
-            <Popup>
-              <div className="text-sm">
-                <strong>Your Location</strong>
-              </div>
-            </Popup>
-          </Marker>
-        )}
-
-        <MarkerClusterGroup
-          chunkedLoading
-          maxClusterRadius={50}
-          spiderfyOnMaxZoom={true}
-          showCoverageOnHover={false}
+    <LocationPermissionHandler
+      onLocationGranted={handleLocationGranted}
+      onLocationDenied={handleLocationDenied}
+      onLocationError={handleLocationError}
+    >
+      <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
+        <MapContainer
+          center={mapCenter}
+          zoom={mapZoom}
+          className="w-full h-full"
+          style={{ background: '#f0f0f0' }}
+          ref={setMapInstance}
         >
-          {locations.map((item) => (
+          <ChangeView center={mapCenter} zoom={mapZoom} />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          
+          {userLocation && (
             <Marker
-              key={item.id}
-              position={[item.latitude, item.longitude]}
-              icon={createCustomIcon(getMarkerColor(item))}
+              position={userLocation}
+              icon={createCustomIcon('red')}
             >
               <Popup>
                 <div className="text-sm">
-                  <strong className="block mb-1">{item.title}</strong>
-                  <p className="mb-1">{item.description}</p>
-                  <p className="text-gray-600">{item.address}</p>
-                  {item.date && (
-                    <p className="text-gray-600 mt-1">{new Date(item.date).toLocaleDateString()}</p>
-                  )}
-                  {item.status && (
-                    <span className={`
-                      inline-block px-2 py-1 mt-2 rounded-full text-xs
-                      ${item.status.toLowerCase() === 'active' ? 'bg-red-100 text-red-800' :
-                        item.status.toLowerCase() === 'resolved' ? 'bg-green-100 text-green-800' :
-                        'bg-yellow-100 text-yellow-800'}
-                    `}>
-                      {item.status}
-                    </span>
-                  )}
+                  <strong>Your Location</strong>
                 </div>
               </Popup>
             </Marker>
-          ))}
-        </MarkerClusterGroup>
-      </MapContainer>
+          )}
 
-      <div className="absolute bottom-4 right-4 z-[1000] flex gap-2">
-        <button
-          onClick={() => userLocation && mapInstance?.setView(userLocation, mapZoom)}
-          className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
-        >
-          Center on Me
-        </button>
-        <button
-          onClick={handleViewAllClick}
-          className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
-        >
-          View All
-        </button>
+          <MarkerClusterGroup
+            chunkedLoading
+            maxClusterRadius={50}
+            spiderfyOnMaxZoom={true}
+            showCoverageOnHover={false}
+          >
+            {locations.map((item) => (
+              <Marker
+                key={item.id}
+                position={[item.latitude, item.longitude]}
+                icon={createCustomIcon(getMarkerColor(item))}
+              >
+                <Popup>
+                  <div className="text-sm">
+                    <strong className="block mb-1">{item.title}</strong>
+                    <p className="mb-1">{item.description}</p>
+                    <p className="text-gray-600">{item.address}</p>
+                    {item.date && (
+                      <p className="text-gray-600 mt-1">{new Date(item.date).toLocaleDateString()}</p>
+                    )}
+                    {item.status && (
+                      <span className={`
+                        inline-block px-2 py-1 mt-2 rounded-full text-xs
+                        ${item.status.toLowerCase() === 'active' ? 'bg-red-100 text-red-800' :
+                          item.status.toLowerCase() === 'resolved' ? 'bg-green-100 text-green-800' :
+                          'bg-yellow-100 text-yellow-800'}
+                      `}>
+                        {item.status}
+                      </span>
+                    )}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
+        </MapContainer>
+
+        {locationError && (
+          <div className="absolute top-4 left-4 z-[1000] p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-400">{locationError}</p>
+          </div>
+        )}
+
+        <div className="absolute bottom-4 right-4 z-[1000] flex gap-2">
+          <button
+            onClick={() => userLocation && mapInstance?.setView(userLocation, mapZoom)}
+            className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
+          >
+            Center on Me
+          </button>
+          <button
+            onClick={handleViewAllClick}
+            className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
+          >
+            View All
+          </button>
+        </div>
       </div>
-    </div>
+    </LocationPermissionHandler>
   );
 } 

@@ -65,7 +65,7 @@ export default function CreateEventPage() {
       window.location.href = "/events";
     } catch (error) {
       console.error("Error creating event:", error);
-      alert("Failed to create event. Please try again.");
+      alert("Failed to Suggest Event. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -216,7 +216,7 @@ export default function CreateEventPage() {
                   disabled={isSubmitting || !formData.location.lat || !formData.location.lng}
                   className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Creating Event..." : "Create Event"}
+                  {isSubmitting ? "Creating Event..." : "Suggest Event"}
                 </button>
               </div>
             </form>

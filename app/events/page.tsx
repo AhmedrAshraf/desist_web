@@ -119,7 +119,7 @@ export default function EventsPage() {
               href="/events/create"
               className="inline-flex items-center px-8 py-4 bg-white text-blue-600 rounded-full font-semibold text-lg shadow-lg hover:bg-gray-50 transition-colors group"
             >
-              <span className="mr-2">Create Event</span>
+              <span className="mr-2">Suggest Event</span>
               <svg
                 className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
                 fill="none"

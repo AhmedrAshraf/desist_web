@@ -165,7 +165,7 @@ export default function SupportPage() {
       {/* Immediate Services */}
       <FeatureGrid
         title="Immediate Assistance"
-        description="Get help right away through these live public services"
+        description="Get help right away through these public services"
         features={immediateServices}
         columns={3}
         variant="minimal"

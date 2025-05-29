@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -28,7 +28,7 @@ const PURPOSE_OPTIONS = [
   },
   {
     id: 'event',
-    name: 'Create Event',
+    name: 'Suggest Event',
     description: 'Organize a community event or meetup.',
     icon: '📅',
     fields: ['event-type', 'event-details', 'date', 'location']
@@ -81,14 +81,6 @@ const BENEFITS = [
 ];
 
 export default function ContactFormPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ContactFormContent />
-    </Suspense>
-  );
-}
-
-function ContactFormContent() {
   const searchParams = useSearchParams();
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
