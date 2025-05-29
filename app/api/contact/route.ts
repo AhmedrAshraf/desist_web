@@ -5,8 +5,8 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'trustmuhammadimedical@gmail.com',
-    pass: 'fxjqiyaquedqyyjj',
+    user: 'test@wedesist.com',
+    pass: 'Wjcvdentqvtpmgum',
   },
 });
 
@@ -104,12 +104,14 @@ const emailStyles = `
 `;
 
 export async function POST(request: Request) {
+  console.log('Contact form submitted');
   try {
     const body = await request.json();
     const { name, email, subject, message } = body;
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
+
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -118,8 +120,8 @@ export async function POST(request: Request) {
 
     // Email to admin
     const adminMailOptions = {
-      from: 'trustmuhammadimedical@gmail.com',
-      to: 'ahmedr.0331@gmail.com',
+      from: 'Wedesist <test@wedesist.com>',
+      to: 'admin@wedesist.com',
       subject: `New Contact Form Submission: ${subject}`,
       html: `
         ${emailStyles}
@@ -156,7 +158,7 @@ export async function POST(request: Request) {
 
     // Email to user (confirmation)
     const userMailOptions = {
-      from: 'trustmuhammadimedical@gmail.com',
+      from: 'Wedesist <test@wedesist.com>',
       to: email,
       subject: 'Thank you for contacting us',
       html: `

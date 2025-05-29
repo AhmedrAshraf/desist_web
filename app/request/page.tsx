@@ -503,7 +503,7 @@ export default function ContactFormPage() {
                       </div>
                       <div>
                         <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Proposed Date
+                          Event Date
                         </label>
                         <input
                           type="datetime-local"
@@ -517,7 +517,7 @@ export default function ContactFormPage() {
                       </div>
                       <div>
                         <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Proposed Location
+                          Event Location
                         </label>
                         <input
                           type="text"
@@ -526,7 +526,7 @@ export default function ContactFormPage() {
                           value={formData.location}
                           onChange={handleInputChange}
                           required
-                          placeholder="Enter the proposed venue or location"
+                          placeholder="Enter the event venue or location"
                           className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                       </div>

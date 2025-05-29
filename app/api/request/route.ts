@@ -10,8 +10,8 @@ const supabase = createClient(
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'test@test.com',
-    pass: 'fxjqiyaquedqyyjj',
+    user: 'test@wedesist.com',
+    pass: 'Wjcvdentqvtpmgum',
   },
 });
 
@@ -222,8 +222,8 @@ export async function POST(request: Request) {
 
     // Email to admin
     const adminMailOptions = {
-      from: 'trustmuhammadimedical@gmail.com',
-      to: 'ahmedr.0331@gmail.com',
+      from: 'Wedesist <test@wedesist.com>',
+      to: 'admin@wedesist.com',
       subject: `New ${purpose.charAt(0).toUpperCase() + purpose.slice(1)} Request`,
       html: `
         ${emailStyles}
@@ -257,7 +257,7 @@ export async function POST(request: Request) {
 
     // Email to user (confirmation)
     const userMailOptions = {
-      from: 'trustmuhammadimedical@gmail.com',
+      from: 'Wedesist <test@wedesist.com>',
       to: email,
       subject: 'Thank you for your request',
       html: `
