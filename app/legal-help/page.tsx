@@ -225,7 +225,7 @@ export default function LegalHelpPage() {
 
       {/* Legal Services */}
       <FeatureGrid
-        title="Our PartnersLegal Services"
+        title="Our Partners Legal Services"
         description="Comprehensive legal support tailored to your needs"
         features={[]}
         columns={3}

@@ -9,7 +9,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HeroSection
         title="About Our Mission"
-        description="We are a community-driven organization dedicated to protecting and empowering immigrant communities through unity, education, and mutual support."
+        description="We are a community-driven organization dedicated to protecting and empowering marginalized communities through unity, education, and mutual support."
         imageSrc="/images/community/unity/community-circle.jpg"
         imageAlt="Community members standing together in solidarity"
       >
@@ -108,7 +108,7 @@ export default function AboutPage() {
       {/* Call to Action */}
       <CallToAction
         title="Join Our Community"
-        description="Be part of our mission to protect and empower immigrant communities through unity and support."
+        description="Be part of our mission to protect and empower marginalized communities through unity and support."
         primaryAction={{
           label: "Join Us",
           href: "/join"
