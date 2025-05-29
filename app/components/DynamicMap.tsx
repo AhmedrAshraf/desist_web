@@ -50,6 +50,7 @@ function ChangeView({ center, zoom }: { center: [number, number]; zoom: number }
   return null;
 }
 
+
 function getUserLocation(): Promise<{ lat: number; lng: number }> {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -79,6 +80,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
   const mapZoom = initialZoom;
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleLocationGranted = useCallback((position: GeolocationPosition) => {
     const { latitude: lat, longitude: lng } = position.coords;
@@ -86,26 +88,65 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
     if (!initialCenter) {
       setMapCenter([lat, lng]);
     }
+    setIsLoading(false);
   }, [initialCenter]);
 
   const handleLocationDenied = useCallback(() => {
-    setLocationError('Location access was denied. Please enable location access to use this feature.');
+    setLocationError('Location access was denied. Please enable location access in your browser settings to use this feature.');
     if (!initialCenter) {
       setMapCenter([37.7749, -122.4194]); // Default to San Francisco
     }
+    setIsLoading(false);
   }, [initialCenter]);
 
   const handleLocationError = useCallback((error: GeolocationPositionError) => {
-    setLocationError(error.message);
+    let message = 'Unable to access your location. ';
+    switch (error.code) {
+      case error.POSITION_UNAVAILABLE:
+        message += 'Location information is unavailable.';
+        break;
+      case error.TIMEOUT:
+        message += 'The request to get your location timed out.';
+        break;
+      default:
+        message += 'An unknown error occurred.';
+    }
+    setLocationError(message);
     if (!initialCenter) {
       setMapCenter([37.7749, -122.4194]); // Default to San Francisco
     }
+    setIsLoading(false);
   }, [initialCenter]);
 
   useEffect(() => {
     const initializeMap = async () => {
       if (initialCenter) {
         setMapCenter([initialCenter.lat, initialCenter.lng]);
+        setIsLoading(false);
+      } else {
+        try {
+          const location = await getUserLocation();
+          setUserLocation(location);
+          setMapCenter([location.lat, location.lng]);
+        } catch (error) {
+          if (error instanceof GeolocationPositionError) {
+            if (error.code === error.PERMISSION_DENIED) {
+              setLocationError('Location access was denied. Please enable location access in your browser settings to use this feature.');
+            } else if (error.code === error.POSITION_UNAVAILABLE) {
+              setLocationError('Location information is unavailable. Please check your device settings.');
+            } else if (error.code === error.TIMEOUT) {
+              setLocationError('The request to get your location timed out. Please try again.');
+            } else {
+              setLocationError('Unable to access your location. Please try again.');
+            }
+          } else {
+            setLocationError('An error occurred while accessing location services. Please try again.');
+          }
+          // Default to San Francisco
+          setMapCenter([37.7749, -122.4194]);
+        } finally {
+          setIsLoading(false);
+        }
       }
     };
 
@@ -177,10 +218,24 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-[600px] flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Getting your location...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!mapCenter) {
     return (
       <div className="w-full h-[600px] flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Initializing map...</p>
+        </div>
       </div>
     );
   }

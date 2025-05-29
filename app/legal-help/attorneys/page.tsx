@@ -26,18 +26,18 @@ interface Attorney {
   lng?: number;
 }
 
-interface Lawyer {
-  id: string;
-  name: string;
-  specialization: string[];
-  address: string;
-  phone: string;
-  email: string;
-  rating: number;
-  latitude: number;
-  longitude: number;
-  website?: string;
-}
+// interface Lawyer {
+//   id: string;
+//   name: string;
+//   specialization: string[];
+//   address: string;
+//   phone: string;
+//   email: string;
+//   rating: number;
+//   latitude: number;
+//   longitude: number;
+//   website?: string;
+// }
 
 // Sample data for demonstration
 const practiceAreas = [
