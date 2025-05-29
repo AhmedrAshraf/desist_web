@@ -213,31 +213,6 @@ export function AppDownloadCTA() {
                   />
                 </div>
               </div>
-
-              {/* Floating Elements */}
-              <motion.div
-                className="absolute -right-16 top-20 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl backdrop-blur-xl"
-                animate={{
-                  y: [0, -10, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-              />
-              <motion.div
-                className="absolute -left-16 bottom-20 w-32 h-32 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl backdrop-blur-xl"
-                animate={{
-                  y: [0, 10, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: 1,
-                }}
-              />
             </div>
           </motion.div>
         </div>
