@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -81,6 +81,14 @@ const BENEFITS = [
 ];
 
 export default function ContactFormPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ContactFormContent />
+    </Suspense>
+  );
+}
+
+function ContactFormContent() {
   const searchParams = useSearchParams();
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
