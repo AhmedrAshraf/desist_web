@@ -320,6 +320,68 @@
       "secondary": "Saber Más"
     }
   },
+  "resources": {
+    "hero": {
+      "title": "Recursos Comunitarios",
+      "description": "Accede a herramientas, información y redes de apoyo diseñadas para ayudarte a ti y a tu comunidad a mantenerse informados y empoderados.",
+      "viewGuides": "Ver Guías",
+      "getHelp": "Obtener Ayuda"
+    },
+    "categories": {
+      "educational": {
+        "title": "Recursos Educativos",
+        "items": {
+          "harassment": "Entender el acoso",
+          "warning": "Reconocer señales de advertencia",
+          "prevention": "Estrategias de prevención"
+        },
+        "button": "Saber Más"
+      },
+      "legal": {
+        "title": "Recursos Legales",
+        "items": {
+          "rights": "Conoce tus derechos",
+          "assistance": "Asistencia legal",
+          "documentation": "Guías de documentación"
+        },
+        "button": "Acceder a Recursos"
+      },
+      "support": {
+        "title": "Red de Apoyo",
+        "items": {
+          "groups": "Grupos de apoyo",
+          "counseling": "Servicios de consejería",
+          "events": "Eventos comunitarios"
+        },
+        "button": "Encontrar Apoyo"
+      }
+    },
+    "tools": {
+      "title": "Herramientas y Descargas",
+      "safety": {
+        "title": "Herramientas de Planificación de Seguridad",
+        "items": {
+          "checklist": "Lista de verificación de seguridad personal",
+          "contacts": "Plantillas de contactos de emergencia",
+          "builder": "Constructor de planes de seguridad"
+        },
+        "button": "Descargar Herramientas"
+      },
+      "documentation": {
+        "title": "Recursos de Documentación",
+        "items": {
+          "templates": "Plantillas de reportes de incidentes",
+          "evidence": "Guías de recolección de evidencia",
+          "samples": "Muestras de documentos legales"
+        },
+        "button": "Acceder a Documentos"
+      }
+    },
+    "mobile": {
+      "title": "Accede a Recursos en Cualquier Lugar",
+      "description": "Descarga nuestra aplicación para acceder a todos los recursos y herramientas en tu dispositivo móvil."
+    }
+  },
   "legal": {
     "attorney": {
       "contact": "Contactar Abogado",

@@ -320,6 +320,68 @@
       "secondary": "Learn More"
     }
   },
+  "resources": {
+    "hero": {
+      "title": "Community Resources",
+      "description": "Access tools, information, and support networks designed to help you and your community stay informed and empowered.",
+      "viewGuides": "View Guides",
+      "getHelp": "Get Help"
+    },
+    "categories": {
+      "educational": {
+        "title": "Educational Resources",
+        "items": {
+          "harassment": "Understanding harassment",
+          "warning": "Recognizing warning signs",
+          "prevention": "Prevention strategies"
+        },
+        "button": "Learn More"
+      },
+      "legal": {
+        "title": "Legal Resources",
+        "items": {
+          "rights": "Know your rights",
+          "assistance": "Legal assistance",
+          "documentation": "Documentation guides"
+        },
+        "button": "Access Resources"
+      },
+      "support": {
+        "title": "Support Network",
+        "items": {
+          "groups": "Support groups",
+          "counseling": "Counseling services",
+          "events": "Community events"
+        },
+        "button": "Find Support"
+      }
+    },
+    "tools": {
+      "title": "Tools & Downloads",
+      "safety": {
+        "title": "Safety Planning Tools",
+        "items": {
+          "checklist": "Personal safety checklist",
+          "contacts": "Emergency contact templates",
+          "builder": "Safety plan builder"
+        },
+        "button": "Download Tools"
+      },
+      "documentation": {
+        "title": "Documentation Resources",
+        "items": {
+          "templates": "Incident report templates",
+          "evidence": "Evidence collection guides",
+          "samples": "Legal document samples"
+        },
+        "button": "Access Documents"
+      }
+    },
+    "mobile": {
+      "title": "Access Resources Anywhere",
+      "description": "Download our app to access all resources and tools on your mobile device."
+    }
+  },
   "legal": {
     "attorney": {
       "contact": "Contact Attorney",
