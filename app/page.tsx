@@ -5,30 +5,33 @@ import { StatsDisplay } from "./components/StatsDisplay";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { CallToAction } from "./components/CallToAction";
 import FeaturedNews from './components/FeaturedNews';
+import { useTranslation } from "./context/TranslationContext";
 
 export default function JoinPage() {
+  const { t } = useTranslation();
+
   const impactStats = [
     {
-      value: "10K+",
-      label: "Community Members",
+      value: t('home.impact.stats.members.value'),
+      label: t('home.impact.stats.members.label'),
       icon: "👥",
       color: "bg-blue-100 dark:bg-blue-900/30"
     },
     {
-      value: "50+",
-      label: "Partner Organizations",
+      value: t('home.impact.stats.partners.value'),
+      label: t('home.impact.stats.partners.label'),
       icon: "🤝",
       color: "bg-yellow-100 dark:bg-yellow-900/30"
     },
     {
-      value: "100K+",
-      label: "People Supported",
+      value: t('home.impact.stats.supported.value'),
+      label: t('home.impact.stats.supported.label'),
       icon: "❤️",
       color: "bg-red-100 dark:bg-red-900/30"
     },
     {
-      value: "24/7",
-      label: "Community Support",
+      value: t('home.impact.stats.support.value'),
+      label: t('home.impact.stats.support.label'),
       icon: "🌟",
       color: "bg-purple-100 dark:bg-purple-900/30"
     }
@@ -37,28 +40,28 @@ export default function JoinPage() {
   const volunteerFeatures = [
     {
       icon: "✋",
-      title: "Community Outreach",
-      description: "Connect with and support community members in need.",
+      title: t('home.volunteer.features.outreach.title'),
+      description: t('home.volunteer.features.outreach.description'),
       link: {
-        label: "Learn More",
+        label: t('home.volunteer.features.outreach.link'),
         href: "#outreach"
       }
     },
     {
       icon: "📅",
-      title: "Event Support",
-      description: "Help organize and run community events and workshops.",
+      title: t('home.volunteer.features.events.title'),
+      description: t('home.volunteer.features.events.description'),
       link: {
-        label: "View Events",
+        label: t('home.volunteer.features.events.link'),
         href: "#events"
       }
     },
     {
       icon: "📦",
-      title: "Resource Distribution",
-      description: "Assist in distributing resources to community members.",
+      title: t('home.volunteer.features.resources.title'),
+      description: t('home.volunteer.features.resources.description'),
       link: {
-        label: "Get Started",
+        label: t('home.volunteer.features.resources.link'),
         href: "#resources"
       }
     }
@@ -67,28 +70,28 @@ export default function JoinPage() {
   const partnerFeatures = [
     {
       icon: "🤝",
-      title: "Organization Partnerships",
-      description: "Join forces with like-minded organizations to amplify impact.",
+      title: t('home.partner.features.organizations.title'),
+      description: t('home.partner.features.organizations.description'),
       link: {
-        label: "Partner With Us",
+        label: t('home.partner.features.organizations.link'),
         href: "#partner"
       }
     },
     {
       icon: "🔄",
-      title: "Resource Sharing",
-      description: "Share resources and expertise to strengthen our community.",
+      title: t('home.partner.features.sharing.title'),
+      description: t('home.partner.features.sharing.description'),
       link: {
-        label: "Share Resources",
+        label: t('home.partner.features.sharing.link'),
         href: "#share"
       }
     },
     {
       icon: "🎯",
-      title: "Joint Initiatives",
-      description: "Collaborate on projects that drive meaningful change.",
+      title: t('home.partner.features.initiatives.title'),
+      description: t('home.partner.features.initiatives.description'),
       link: {
-        label: "Start Project",
+        label: t('home.partner.features.initiatives.link'),
         href: "#initiatives"
       }
     }
@@ -97,8 +100,8 @@ export default function JoinPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HeroSection
-        title="Join Our Community"
-        description="Be part of a movement that's making a real difference. Together, we can create stronger, safer communities for everyone."
+        title={t('home.hero.title')}
+        description={t('home.hero.description')}
         imageSrc="/images/community/community-hero.jpg"
         imageAlt="Community members working together in solidarity"
       >
@@ -110,7 +113,7 @@ export default function JoinPage() {
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
             >
-              Volunteer
+              {t('home.hero.volunteer')}
             </motion.a>
             <motion.a
               onClick={() => {
@@ -120,23 +123,23 @@ export default function JoinPage() {
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
             >
-              Support Us
+              {t('home.hero.supportUs')}
             </motion.a>
           </div>
 
           <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
-            <h2 className="text-2xl font-bold text-white mb-4">Join the Movement</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">{t('home.hero.joinMovement')}</h2>
             <div className="grid md:grid-cols-3 gap-4 text-white">
               <div className="bg-white/10 rounded-lg p-4">
-                <div className="font-bold">Volunteers</div>
+                <div className="font-bold">{t('home.hero.stats.volunteers')}</div>
                 <div className="text-xl">1,000+</div>
               </div>
               <div className="bg-white/10 rounded-lg p-4">
-                <div className="font-bold">Communities</div>
+                <div className="font-bold">{t('home.hero.stats.communities')}</div>
                 <div className="text-xl">50+</div>
               </div>
               <div className="bg-white/10 rounded-lg p-4">
-                <div className="font-bold">Impact</div>
+                <div className="font-bold">{t('home.hero.stats.impact')}</div>
                 <div className="text-xl">100K+</div>
               </div>
             </div>
@@ -146,15 +149,15 @@ export default function JoinPage() {
 
       {/* Impact Stats */}
       <StatsDisplay
-        title="Our Impact"
-        description="Together, we're making a real difference in our communities"
+        title={t('home.impact.title')}
+        description={t('home.impact.description')}
         stats={impactStats}
       />
 
       {/* Volunteer Opportunities */}
       <FeatureGrid
-        title="Volunteer Opportunities"
-        description="Make a difference in your community through various volunteer roles"
+        title={t('home.volunteer.title')}
+        description={t('home.volunteer.description')}
         features={volunteerFeatures}
         columns={3}
         variant="bordered"
@@ -162,8 +165,8 @@ export default function JoinPage() {
 
       {/* Partnership Opportunities */}
       <FeatureGrid
-        title="Partnership Opportunities"
-        description="Join forces with us to create lasting change"
+        title={t('home.partner.title')}
+        description={t('home.partner.description')}
         features={partnerFeatures}
         columns={3}
         variant="minimal"
@@ -176,14 +179,14 @@ export default function JoinPage() {
 
       {/* Mobile App Section */}
       <CallToAction
-        title="Join the Movement on Mobile"
-        description="Download our app to stay connected with the community and access resources on the go."
+        title={t('home.mobile.title')}
+        description={t('home.mobile.description')}
         primaryAction={{
-          label: "Download App",
+          label: t('home.mobile.download'),
           href: "#download"
         }}
         secondaryAction={{
-          label: "Learn More",
+          label: t('home.mobile.learnMore'),
           href: "/about"
         }}
         pageType="default"

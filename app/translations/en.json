@@ -29,9 +29,92 @@
   },
   "home": {
     "hero": {
-      "title": "Stand Against Harassment",
-      "subtitle": "Join the movement to create safer spaces for everyone",
-      "cta": "Get Started"
+      "title": "Join Our Community",
+      "description": "Be part of a movement that's making a real difference. Together, we can create stronger, safer communities for everyone.",
+      "volunteer": "Volunteer",
+      "supportUs": "Support Us",
+      "joinMovement": "Join the Movement",
+      "stats": {
+        "volunteers": "Volunteers",
+        "communities": "Communities",
+        "impact": "Impact"
+      }
+    },
+    "impact": {
+      "title": "Our Impact",
+      "description": "Together, we're making a real difference in our communities",
+      "stats": {
+        "members": {
+          "value": "10K+",
+          "label": "Community Members"
+        },
+        "partners": {
+          "value": "50+",
+          "label": "Partner Organizations"
+        },
+        "supported": {
+          "value": "100K+",
+          "label": "People Supported"
+        },
+        "support": {
+          "value": "24/7",
+          "label": "Community Support"
+        }
+      }
+    },
+    "volunteer": {
+      "title": "Volunteer Opportunities",
+      "description": "Make a difference in your community through various volunteer roles",
+      "features": {
+        "outreach": {
+          "title": "Community Outreach",
+          "description": "Connect with and support community members in need.",
+          "link": "Learn More"
+        },
+        "events": {
+          "title": "Event Support",
+          "description": "Help organize and run community events and workshops.",
+          "link": "View Events"
+        },
+        "resources": {
+          "title": "Resource Distribution",
+          "description": "Assist in distributing resources to community members.",
+          "link": "Get Started"
+        }
+      }
+    },
+    "partner": {
+      "title": "Partnership Opportunities",
+      "description": "Join forces with us to create lasting change",
+      "features": {
+        "organizations": {
+          "title": "Organization Partnerships",
+          "description": "Join forces with like-minded organizations to amplify impact.",
+          "link": "Partner With Us"
+        },
+        "sharing": {
+          "title": "Resource Sharing",
+          "description": "Share resources and expertise to strengthen our community.",
+          "link": "Share Resources"
+        },
+        "initiatives": {
+          "title": "Joint Initiatives",
+          "description": "Collaborate on projects that drive meaningful change.",
+          "link": "Start Project"
+        }
+      }
+    },
+    "mobile": {
+      "title": "Join the Movement on Mobile",
+      "description": "Download our app to stay connected with the community and access resources on the go.",
+      "download": "Download App",
+      "learnMore": "Learn More"
+    },
+    "news": {
+      "title": "Latest News",
+      "description": "Stay informed about important developments affecting our community. Read the latest news and updates.",
+      "viewAll": "View All News",
+      "readMore": "Read More →"
     }
   },
   "legal": {

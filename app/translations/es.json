@@ -29,9 +29,92 @@
   },
   "home": {
     "hero": {
-      "title": "¡Alto al Acoso!",
-      "subtitle": "Únete al movimiento para crear espacios más seguros para todos",
-      "cta": "Comenzar"
+      "title": "Únete a Nuestra Comunidad",
+      "description": "Sé parte de un movimiento que está marcando una diferencia real. Juntos, podemos crear comunidades más fuertes y seguras para todos.",
+      "volunteer": "Voluntario",
+      "supportUs": "Apóyanos",
+      "joinMovement": "Únete al Movimiento",
+      "stats": {
+        "volunteers": "Voluntarios",
+        "communities": "Comunidades",
+        "impact": "Impacto"
+      }
+    },
+    "impact": {
+      "title": "Nuestro Impacto",
+      "description": "Juntos, estamos marcando una diferencia real en nuestras comunidades",
+      "stats": {
+        "members": {
+          "value": "10K+",
+          "label": "Miembros de la Comunidad"
+        },
+        "partners": {
+          "value": "50+",
+          "label": "Organizaciones Socias"
+        },
+        "supported": {
+          "value": "100K+",
+          "label": "Personas Apoyadas"
+        },
+        "support": {
+          "value": "24/7",
+          "label": "Soporte Comunitario"
+        }
+      }
+    },
+    "volunteer": {
+      "title": "Oportunidades de Voluntariado",
+      "description": "Marca la diferencia en tu comunidad a través de varios roles de voluntariado",
+      "features": {
+        "outreach": {
+          "title": "Alcance Comunitario",
+          "description": "Conéctate y apoya a los miembros de la comunidad que lo necesitan.",
+          "link": "Saber Más"
+        },
+        "events": {
+          "title": "Apoyo a Eventos",
+          "description": "Ayuda a organizar y ejecutar eventos y talleres comunitarios.",
+          "link": "Ver Eventos"
+        },
+        "resources": {
+          "title": "Distribución de Recursos",
+          "description": "Ayuda a distribuir recursos a los miembros de la comunidad.",
+          "link": "Comenzar"
+        }
+      }
+    },
+    "partner": {
+      "title": "Oportunidades de Alianzas",
+      "description": "Únete a nosotros para crear un cambio duradero",
+      "features": {
+        "organizations": {
+          "title": "Alianzas con Organizaciones",
+          "description": "Únete a organizaciones afines para amplificar el impacto.",
+          "link": "Asociarse con Nosotros"
+        },
+        "sharing": {
+          "title": "Compartir Recursos",
+          "description": "Comparte recursos y experiencia para fortalecer nuestra comunidad.",
+          "link": "Compartir Recursos"
+        },
+        "initiatives": {
+          "title": "Iniciativas Conjuntas",
+          "description": "Colabora en proyectos que impulsan un cambio significativo.",
+          "link": "Iniciar Proyecto"
+        }
+      }
+    },
+    "mobile": {
+      "title": "Únete al Movimiento en Móvil",
+      "description": "Descarga nuestra aplicación para mantenerte conectado con la comunidad y acceder a recursos sobre la marcha.",
+      "download": "Descargar App",
+      "learnMore": "Saber Más"
+    },
+    "news": {
+      "title": "Últimas Noticias",
+      "description": "Mantente informado sobre los desarrollos importantes que afectan a nuestra comunidad. Lee las últimas noticias y actualizaciones.",
+      "viewAll": "Ver Todas las Noticias",
+      "readMore": "Leer Más →"
     }
   },
   "legal": {
