@@ -117,6 +117,123 @@
       "readMore": "Leer Más →"
     }
   },
+  "community": {
+    "hero": {
+      "title": "Centro Comunitario",
+      "description": "Une fuerzas con tu comunidad local para crear vecindarios más seguros y apoyar a quienes lo necesitan.",
+      "joinButton": "Únete a Nosotros",
+      "impactTitle": "Impacto Comunitario",
+      "stats": {
+        "reports": "Reportes Activos",
+        "members": "Miembros",
+        "events": "Eventos"
+      }
+    },
+    "stats": {
+      "title": "Impacto Comunitario",
+      "description": "Juntos, estamos construyendo comunidades más fuertes y seguras",
+      "activeReports": "Reportes Activos",
+      "communityMembers": "Miembros de la Comunidad",
+      "localEvents": "Eventos Locales",
+      "supportAvailable": "Soporte Disponible"
+    },
+    "forum": {
+      "title": "Foro Comunitario",
+      "description": "Únete a la conversación y comparte tus experiencias",
+      "viewButton": "Ver Foro Completo",
+      "noPosts": "Aún no hay publicaciones. ¡Sé el primero en iniciar una conversación!",
+      "categories": {
+        "support": "Grupos de Apoyo",
+        "resources": "Intercambio de Recursos",
+        "stories": "Historias de Éxito",
+        "updates": "Actualizaciones de la Comunidad"
+      }
+    },
+    "events": {
+      "title": "Eventos y Encuentros Locales",
+      "types": {
+        "title": "Tipos de Eventos",
+        "support": {
+          "title": "Grupos de Apoyo",
+          "description": "Reuniones regulares para compartir y sanar"
+        },
+        "workshop": {
+          "title": "Talleres",
+          "description": "Sesiones educativas sobre seguridad y empoderamiento"
+        },
+        "community": {
+          "title": "Acciones Comunitarias",
+          "description": "Actividades organizadas para el cambio social"
+        },
+        "social": {
+          "title": "Encuentros Sociales",
+          "description": "Reuniones casuales para construir conexiones"
+        }
+      },
+      "app": {
+        "title": "📱 Obtén Más con Nuestra App",
+        "features": {
+          "notifications": "Notificaciones de eventos en tiempo real",
+          "rsvp": "Confirmación y seguimiento de asistencia",
+          "connect": "Conéctate con organizadores de eventos",
+          "discovery": "Descubre eventos basados en tu ubicación"
+        }
+      },
+      "host": {
+        "title": "🤝 Organiza un Evento",
+        "description": "¿Quieres organizar un evento comunitario? Envía una solicitud para:",
+        "benefits": {
+          "create": "Crear y gestionar tu evento",
+          "reach": "Alcanzar a miembros de la comunidad local",
+          "support": "Recibir apoyo de nuestro equipo",
+          "resources": "Acceder a recursos para planificación de eventos"
+        },
+        "button": "Solicitar Organizar un Evento"
+      }
+    },
+    "appDownload": {
+      "title": "Toma Acción en Cualquier Lugar",
+      "description": "Descarga la aplicación DESIST para acceder a recursos, reportar incidentes y mantenerte conectado con tu comunidad.",
+      "features": {
+        "support": {
+          "title": "Soporte Instantáneo",
+          "description": "Acceso 24/7 a recursos y soporte de emergencia"
+        },
+        "reporting": {
+          "title": "Reportes Rápidos",
+          "description": "Reporta incidentes y comparte actualizaciones en tiempo real"
+        },
+        "network": {
+          "title": "Red Comunitaria",
+          "description": "Conéctate con aliados y redes de apoyo cercanas"
+        }
+      },
+      "stores": {
+        "apple": {
+          "download": "Descarga en",
+          "name": "App Store"
+        },
+        "google": {
+          "download": "Disponible en",
+          "name": "Google Play"
+        }
+      },
+      "stats": {
+        "downloads": {
+          "value": "100K+",
+          "label": "Descargas"
+        },
+        "rating": {
+          "value": "4.8★",
+          "label": "Calificación"
+        },
+        "cities": {
+          "value": "50+",
+          "label": "Ciudades"
+        }
+      }
+    }
+  },
   "legal": {
     "attorney": {
       "contact": "Contactar Abogado",

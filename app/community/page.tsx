@@ -8,13 +8,7 @@ import { useState, useEffect } from "react";
 import supabase from "../../utils/supabase";
 import Link from "next/link";
 import FeaturedNews from '../components/FeaturedNews';
-
-const CATEGORIES = [
-  { id: 'support', name: 'Support Groups', color: 'blue', bgClass: 'bg-blue-100 dark:bg-blue-900/30', textClass: 'text-blue-800 dark:text-blue-300' },
-  { id: 'resources', name: 'Resource Sharing', color: 'purple', bgClass: 'bg-purple-100 dark:bg-purple-900/30', textClass: 'text-purple-800 dark:text-purple-300' },
-  { id: 'stories', name: 'Success Stories', color: 'pink', bgClass: 'bg-pink-100 dark:bg-pink-900/30', textClass: 'text-pink-800 dark:text-pink-300' },
-  { id: 'updates', name: 'Community Updates', color: 'green', bgClass: 'bg-green-100 dark:bg-green-900/30', textClass: 'text-green-800 dark:text-green-300' }
-];
+import { useTranslation } from "../context/TranslationContext";
 
 interface Event {
   id: number;
@@ -40,6 +34,15 @@ interface Posts {
 }
 
 export default function CommunityPage() {
+  const { t } = useTranslation();
+
+  const CATEGORIES = [
+    { id: 'support', name: t('community.forum.categories.support'), color: 'blue', bgClass: 'bg-blue-100 dark:bg-blue-900/30', textClass: 'text-blue-800 dark:text-blue-300' },
+    { id: 'resources', name: t('community.forum.categories.resources'), color: 'purple', bgClass: 'bg-purple-100 dark:bg-purple-900/30', textClass: 'text-purple-800 dark:text-purple-300' },
+    { id: 'stories', name: t('community.forum.categories.stories'), color: 'pink', bgClass: 'bg-pink-100 dark:bg-pink-900/30', textClass: 'text-pink-800 dark:text-pink-300' },
+    { id: 'updates', name: t('community.forum.categories.updates'), color: 'green', bgClass: 'bg-green-100 dark:bg-green-900/30', textClass: 'text-green-800 dark:text-green-300' }
+  ];
+
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [recentPosts, setRecentPosts] = useState<Posts[]>([]);
@@ -100,25 +103,25 @@ export default function CommunityPage() {
   const communityStats = [
     {
       value: "500+",
-      label: "Active Reports",
+      label: t('community.stats.activeReports'),
       icon: "🚨",
       color: "bg-red-100 dark:bg-red-900/30"
     },
     {
       value: "1000+",
-      label: "Community Members",
+      label: t('community.stats.communityMembers'),
       icon: "👥",
       color: "bg-blue-100 dark:bg-blue-900/30"
     },
     {
       value: "50+",
-      label: "Local Events",
+      label: t('community.stats.localEvents'),
       icon: "📅",
       color: "bg-green-100 dark:bg-green-900/30"
     },
     {
       value: "24/7",
-      label: "Support Available",
+      label: t('community.stats.supportAvailable'),
       icon: "💪",
       color: "bg-purple-100 dark:bg-purple-900/30"
     }
@@ -128,8 +131,8 @@ export default function CommunityPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="pt-0">
         <HeroSection
-          title="Community Hub"
-          description="Join forces with your local community to create safer neighborhoods and support those in need."
+          title={t('community.hero.title')}
+          description={t('community.hero.description')}
           imageSrc="/images/community/community-hero.jpg"
           imageAlt="Community members working together"
         >
@@ -141,23 +144,23 @@ export default function CommunityPage() {
                 onClick={() => {window.location.href = "/request?type=volunteer"}}
                 className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
               >
-                Join Us
+                {t('community.hero.joinButton')}
               </motion.button>
             </div>
 
             <div className="container bg-black/30 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
-              <h2 className="text-2xl font-bold text-white mb-4">Community Impact</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">{t('community.hero.impactTitle')}</h2>
               <div className="grid md:grid-cols-3 gap-4 text-white">
                 <div className="bg-white/10 rounded-lg p-4">
-                  <div className="font-bold">Active Reports</div>
+                  <div className="font-bold">{t('community.hero.stats.reports')}</div>
                   <div className="text-xl">500+</div>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
-                  <div className="font-bold">Members</div>
+                  <div className="font-bold">{t('community.hero.stats.members')}</div>
                   <div className="text-xl">1,000+</div>
                 </div>
                 <div className="bg-white/10 rounded-lg p-4">
-                  <div className="font-bold">Events</div>
+                  <div className="font-bold">{t('community.hero.stats.events')}</div>
                   <div className="text-xl">50+</div>
                 </div>
               </div>
@@ -170,8 +173,8 @@ export default function CommunityPage() {
           <div className="space-y-12">
             {/* Community Stats */}
             <StatsDisplay
-              title="Community Impact"
-              description="Together, we're building stronger and safer communities"
+              title={t('community.stats.title')}
+              description={t('community.stats.description')}
               stats={communityStats}
             />
 
@@ -181,17 +184,17 @@ export default function CommunityPage() {
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-2xl font-bold text-white mb-2">
-                      Community Forum
+                      {t('community.forum.title')}
                     </h2>
                     <p className="text-blue-100">
-                      Join the conversation and share your experiences
+                      {t('community.forum.description')}
                     </p>
                   </div>
                   <Link
                     href="/community/forum"
                     className="px-6 py-3 text-white rounded-lg font-medium hover:bg-white/20 transition-colors backdrop-blur-sm bg-gray-800"
                   >
-                    View Full Forum
+                    {t('community.forum.viewButton')}
                   </Link>
                 </div>
               </div>
@@ -217,7 +220,7 @@ export default function CommunityPage() {
                         </svg>
                       </div>
                       <p className="text-gray-600 dark:text-gray-400">
-                        No posts yet. Be the first to start a conversation!
+                        {t('community.forum.noPosts')}
                       </p>
                     </div>
                   ) : (

@@ -2,9 +2,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { useTranslation } from "../context/TranslationContext";
 
 export function AppDownloadCTA() {
   const [hoveredStore, setHoveredStore] = useState<"apple" | "google" | null>(null);
+  const { t } = useTranslation();
 
   const storeButtonVariants = {
     initial: { scale: 1 },
@@ -40,10 +42,10 @@ export function AppDownloadCTA() {
               className="mb-8"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Take Action Anywhere
+                {t('community.appDownload.title')}
               </h3>
               <p className="text-gray-300 text-lg">
-                Download the DESIST app to access resources, report incidents, and stay connected with your community.
+                {t('community.appDownload.description')}
               </p>
             </motion.div>
 
@@ -58,22 +60,34 @@ export function AppDownloadCTA() {
               <div className="bg-gray-800/50 rounded-xl p-4 flex items-center gap-4">
                 <span className="text-3xl">🛡️</span>
                 <div>
-                  <h4 className="text-white font-semibold">Instant Support</h4>
-                  <p className="text-gray-400 text-sm">24/7 access to emergency resources and support</p>
+                  <h4 className="text-white font-semibold">
+                    {t('community.appDownload.features.support.title')}
+                  </h4>
+                  <p className="text-gray-400 text-sm">
+                    {t('community.appDownload.features.support.description')}
+                  </p>
                 </div>
               </div>
               <div className="bg-gray-800/50 rounded-xl p-4 flex items-center gap-4">
                 <span className="text-3xl">📱</span>
                 <div>
-                  <h4 className="text-white font-semibold">Quick Reporting</h4>
-                  <p className="text-gray-400 text-sm">Report incidents and share updates in real-time</p>
+                  <h4 className="text-white font-semibold">
+                    {t('community.appDownload.features.reporting.title')}
+                  </h4>
+                  <p className="text-gray-400 text-sm">
+                    {t('community.appDownload.features.reporting.description')}
+                  </p>
                 </div>
               </div>
               <div className="bg-gray-800/50 rounded-xl p-4 flex items-center gap-4">
                 <span className="text-3xl">🤝</span>
                 <div>
-                  <h4 className="text-white font-semibold">Community Network</h4>
-                  <p className="text-gray-400 text-sm">Connect with allies and support networks nearby</p>
+                  <h4 className="text-white font-semibold">
+                    {t('community.appDownload.features.network.title')}
+                  </h4>
+                  <p className="text-gray-400 text-sm">
+                    {t('community.appDownload.features.network.description')}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -105,8 +119,12 @@ export function AppDownloadCTA() {
                     className="w-6 h-6"
                   />
                   <div className="text-left">
-                    <div className="text-xs text-gray-600">Download on the</div>
-                    <div className="text-sm font-semibold text-gray-900">App Store</div>
+                    <div className="text-xs text-gray-600">
+                      {t('community.appDownload.stores.apple.download')}
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900">
+                      {t('community.appDownload.stores.apple.name')}
+                    </div>
                   </div>
                 </div>
                 {hoveredStore === "apple" && (
@@ -138,8 +156,12 @@ export function AppDownloadCTA() {
                     className="w-6 h-6"
                   />
                   <div className="text-left">
-                    <div className="text-xs text-gray-600">Get it on</div>
-                    <div className="text-sm font-semibold text-gray-900">Google Play</div>
+                    <div className="text-xs text-gray-600">
+                      {t('community.appDownload.stores.google.download')}
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900">
+                      {t('community.appDownload.stores.google.name')}
+                    </div>
                   </div>
                 </div>
                 {hoveredStore === "google" && (
@@ -162,16 +184,22 @@ export function AppDownloadCTA() {
               className="mt-8 flex justify-start gap-8 text-center text-gray-400 text-sm"
             >
               <div>
-                <div className="font-semibold text-white">100K+</div>
-                <div>Downloads</div>
+                <div className="font-semibold text-white">
+                  {t('community.appDownload.stats.downloads.value')}
+                </div>
+                <div>{t('community.appDownload.stats.downloads.label')}</div>
               </div>
               <div>
-                <div className="font-semibold text-white">4.8★</div>
-                <div>Rating</div>
+                <div className="font-semibold text-white">
+                  {t('community.appDownload.stats.rating.value')}
+                </div>
+                <div>{t('community.appDownload.stats.rating.label')}</div>
               </div>
               <div>
-                <div className="font-semibold text-white">50+</div>
-                <div>Cities</div>
+                <div className="font-semibold text-white">
+                  {t('community.appDownload.stats.cities.value')}
+                </div>
+                <div>{t('community.appDownload.stats.cities.label')}</div>
               </div>
             </motion.div>
           </div>

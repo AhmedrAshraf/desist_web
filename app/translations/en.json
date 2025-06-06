@@ -117,6 +117,123 @@
       "readMore": "Read More →"
     }
   },
+  "community": {
+    "hero": {
+      "title": "Community Hub",
+      "description": "Join forces with your local community to create safer neighborhoods and support those in need.",
+      "joinButton": "Join Us",
+      "impactTitle": "Community Impact",
+      "stats": {
+        "reports": "Active Reports",
+        "members": "Members",
+        "events": "Events"
+      }
+    },
+    "stats": {
+      "title": "Community Impact",
+      "description": "Together, we're building stronger and safer communities",
+      "activeReports": "Active Reports",
+      "communityMembers": "Community Members",
+      "localEvents": "Local Events",
+      "supportAvailable": "Support Available"
+    },
+    "forum": {
+      "title": "Community Forum",
+      "description": "Join the conversation and share your experiences",
+      "viewButton": "View Full Forum",
+      "noPosts": "No posts yet. Be the first to start a conversation!",
+      "categories": {
+        "support": "Support Groups",
+        "resources": "Resource Sharing",
+        "stories": "Success Stories",
+        "updates": "Community Updates"
+      }
+    },
+    "events": {
+      "title": "Local Events & Meetups",
+      "types": {
+        "title": "Types of Events",
+        "support": {
+          "title": "Support Groups",
+          "description": "Regular meetings for sharing and healing"
+        },
+        "workshop": {
+          "title": "Workshops",
+          "description": "Educational sessions on safety and empowerment"
+        },
+        "community": {
+          "title": "Community Actions",
+          "description": "Organized activities for social change"
+        },
+        "social": {
+          "title": "Social Gatherings",
+          "description": "Casual meetups to build connections"
+        }
+      },
+      "app": {
+        "title": "📱 Get More with Our App",
+        "features": {
+          "notifications": "Real-time event notifications",
+          "rsvp": "RSVP and attendance tracking",
+          "connect": "Connect with event organizers",
+          "discovery": "Location-based event discovery"
+        }
+      },
+      "host": {
+        "title": "🤝 Host an Event",
+        "description": "Want to organize a community event? Submit a request to:",
+        "benefits": {
+          "create": "Create and manage your event",
+          "reach": "Reach local community members",
+          "support": "Get support from our team",
+          "resources": "Access event planning resources"
+        },
+        "button": "Request to Host an Event"
+      }
+    },
+    "appDownload": {
+      "title": "Take Action Anywhere",
+      "description": "Download the DESIST app to access resources, report incidents, and stay connected with your community.",
+      "features": {
+        "support": {
+          "title": "Instant Support",
+          "description": "24/7 access to emergency resources and support"
+        },
+        "reporting": {
+          "title": "Quick Reporting",
+          "description": "Report incidents and share updates in real-time"
+        },
+        "network": {
+          "title": "Community Network",
+          "description": "Connect with allies and support networks nearby"
+        }
+      },
+      "stores": {
+        "apple": {
+          "download": "Download on the",
+          "name": "App Store"
+        },
+        "google": {
+          "download": "Get it on",
+          "name": "Google Play"
+        }
+      },
+      "stats": {
+        "downloads": {
+          "value": "100K+",
+          "label": "Downloads"
+        },
+        "rating": {
+          "value": "4.8★",
+          "label": "Rating"
+        },
+        "cities": {
+          "value": "50+",
+          "label": "Cities"
+        }
+      }
+    }
+  },
   "legal": {
     "attorney": {
       "contact": "Contact Attorney",
