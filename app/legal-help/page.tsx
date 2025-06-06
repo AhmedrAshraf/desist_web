@@ -5,6 +5,7 @@ import { StatsDisplay } from "../components/StatsDisplay";
 import { CallToAction } from "../components/CallToAction";
 import { FeatureGrid } from "../components/FeatureGrid";
 import { HeroSection } from "../components/HeroSection";
+import { useTranslation } from "../context/TranslationContext";
 
 interface Attorney {
   id: string;
@@ -76,6 +77,7 @@ export default function LegalHelpPage() {
   const [attorneys, setAttorneys] = useState<Attorney[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
   // const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
 
   const fetchAttorneys = useCallback(async (lat: number, lng: number) => {
@@ -103,7 +105,7 @@ export default function LegalHelpPage() {
             rating: lawyer.rating || 0,
             cases: Math.floor(Math.random() * 200) + 50,
             image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
-            languages: ["English", "Urdu"],
+            languages: ["English"],
             featured: index < 2, // Make first two featured
             phone: lawyer.phone,
             website: lawyer.website,
@@ -214,8 +216,8 @@ export default function LegalHelpPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <HeroSection
-        title="Legal Help Directory"
-        description="Connect with experienced attorneys dedicated to protecting your rights and providing expert legal assistance."
+        title={t('legalHelp.hero.title')}
+        description={t('legalHelp.hero.description')}
         imageSrc="/images/legal/legal-team.jpg"
         imageAlt="Legal professionals working together to provide justice"
       />
@@ -225,8 +227,8 @@ export default function LegalHelpPage() {
 
       {/* Legal Services */}
       <FeatureGrid
-        title="Our Partners Legal Services"
-        description="Comprehensive legal support tailored to your needs"
+        title={t('legalHelp.features.title')}
+        description={t('legalHelp.features.description')}
         features={[]}
         columns={3}
         variant="bordered"
@@ -238,10 +240,10 @@ export default function LegalHelpPage() {
           <div className="flex items-center justify-between mb-12">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                Our Partners Attorneys
+                {t('legalHelp.attorneys.title')}
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                Connect with experienced legal professionals in our network
+                {t('legalHelp.attorneys.description')}
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -278,7 +280,7 @@ export default function LegalHelpPage() {
                 whileTap={{ scale: 0.95 }}
                 className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium flex items-center gap-2"
               >
-                View All Attorneys
+                {t('legalHelp.attorneys.viewAll')}
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                 </svg>
@@ -292,7 +294,7 @@ export default function LegalHelpPage() {
               <div>
                 <input
                   type="text"
-                  placeholder="Search by name or specialization..."
+                  placeholder={t('legalHelp.attorneys.search')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -304,7 +306,7 @@ export default function LegalHelpPage() {
                   onChange={(e) => setSelectedSpecialization(e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
-                  <option value="">All Specializations</option>
+                  <option value="">{t('legalHelp.attorneys.filter.all')}</option>
                   {practiceAreas.map(spec => (
                     <option key={spec} value={spec}>{spec}</option>
                   ))}
@@ -316,7 +318,7 @@ export default function LegalHelpPage() {
                   onChange={(e) => setSelectedLocation(e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
-                  <option value="">All Locations</option>
+                  <option value="">{t('legalHelp.attorneys.filter.all')}</option>
                   {locations.map(loc => (
                     <option key={loc} value={loc}>{loc}</option>
                   ))}
@@ -328,7 +330,7 @@ export default function LegalHelpPage() {
           {/* Attorneys Grid/List */}
           {filteredAttorneys.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-600 dark:text-gray-400">No attorneys found matching your criteria.</p>
+              <p className="text-gray-600 dark:text-gray-400">{t('legalHelp.attorneys.noResults')}</p>
             </div>
           ) : viewMode === 'grid' ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -347,7 +349,7 @@ export default function LegalHelpPage() {
                 >
                   {attorney.featured && (
                     <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-lg font-medium text-sm">
-                      Featured
+                      {t('legalHelp.attorneys.featured')}
                     </div>
                   )}
                   <div className="p-6 flex flex-col h-full">
@@ -417,7 +419,7 @@ export default function LegalHelpPage() {
                           ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
                           : 'bg-blue-600 hover:bg-blue-700 text-white'
                       }`}>
-                        Contact Attorney
+                        {t('legalHelp.attorneys.contact')}
                       </button>
                     </div>
                   </div>
@@ -441,7 +443,7 @@ export default function LegalHelpPage() {
                 >
                   {attorney.featured && (
                     <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 rounded-bl-lg font-medium text-sm">
-                      Featured
+                      {t('legalHelp.attorneys.featured')}
                     </div>
                   )}
                   <div className="flex items-center justify-between">
@@ -513,14 +515,14 @@ export default function LegalHelpPage() {
 
       {/* Call to Action for Attorneys */}
       <CallToAction
-        title="Are You an Attorney?"
-        description="Join our network and become a featured attorney. Help make a difference in your community while growing your practice."
+        title={t('legalHelp.cta.title')}
+        description={t('legalHelp.cta.description')}
         primaryAction={{
-          label: "Join Our Network",
+          label: t('legalHelp.cta.primary'),
           href: "mailto:admin@wedesist.com"
         }}
         secondaryAction={{
-          label: "Learn More",
+          label: t('legalHelp.cta.secondary'),
           href: "/legal-help/join"
         }}
       />

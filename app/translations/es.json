@@ -326,5 +326,34 @@
       "cases": "casos atendidos",
       "languages": "Idiomas"
     }
+  },
+  "legalHelp": {
+    "hero": {
+      "title": "Directorio de Ayuda Legal",
+      "description": "Conéctate con abogados experimentados dedicados a proteger tus derechos y proporcionar asistencia legal experta."
+    },
+    "features": {
+      "title": "Servicios Legales de Nuestros Socios",
+      "description": "Asistencia legal personalizada para tus necesidades"
+    },
+    "attorneys": {
+      "title": "Abogados de Nuestros Socios",
+      "description": "Conéctate con abogados experimentados dedicados a proteger tus derechos y proporcionar asistencia legal experta.",
+      "viewAll": "Ver Todos los Abogados",
+      "search": "Buscar por nombre o especialización...",
+      "contact": "Contactar Abogado",
+      "featured": "Destacado",
+      "filter": {
+        "all": "Todos los Abogados",
+        "featured": "Destacados"
+      },
+      "noResults": "No se encontraron abogados que coincidan con tus criterios."
+    },
+    "cta": {
+      "title": "¿Eres un Abogado?",
+      "description": "Únete a nuestra red y conviértete en un abogado destacado. Ayuda a hacer una diferencia en tu comunidad mientras creces en tu práctica.",
+      "primary": "Únete a Nuestra Red",
+      "secondary": "Saber Más"
+    }
   }
 } 

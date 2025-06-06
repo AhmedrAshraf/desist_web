@@ -325,6 +325,41 @@
       "contact": "Contact Attorney",
       "cases": "cases handled",
       "languages": "Languages"
+    },
+    "cta": {
+      "title": "Are You an Attorney?",
+      "description": "Join our network and become a featured attorney. Help make a difference in your community while growing your practice.",
+      "primary": "Join Our Network",
+      "secondary": "Learn More"
+    }
+  },
+  "legalHelp": {
+    "hero": {
+      "title": "Legal Help Directory",
+      "description": "Connect with experienced attorneys dedicated to protecting your rights and providing expert legal assistance."
+    },
+    "features": {
+      "title": "Our Partners Legal Services",
+      "description": "Comprehensive legal support tailored to your needs"
+    },
+    "attorneys": {
+      "title": "Our Partners Attorneys",
+      "description": "Connect with experienced attorneys dedicated to protecting your rights and providing expert legal assistance.",
+      "viewAll": "View All Attorneys",
+      "search": "Search by name or specialization...",
+      "contact": "Contact Attorney",
+      "featured": "Featured",
+      "filter": {
+        "all": "All Attorneys",
+        "featured": "Featured"
+      },
+      "noResults": "No attorneys found matching your criteria."
+    },
+    "cta": {
+      "title": "Are You an Attorney?",
+      "description": "Join our network and become a featured attorney. Help make a difference in your community while growing your practice.",
+      "primary": "Join Our Network",
+      "secondary": "Learn More"
     }
   }
 } 
