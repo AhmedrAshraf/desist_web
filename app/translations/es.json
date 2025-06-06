@@ -417,5 +417,46 @@
       "primary": "Únete a Nuestra Red",
       "secondary": "Saber Más"
     }
+  },
+  "support": {
+    "hero": {
+      "title": "Soporte y Recursos 24/7",
+      "description": "No estás solo. Obtén soporte inmediato y acceso a recursos cuando los necesites.",
+      "chatButton": "Chatear Ahora",
+      "callButton": "Llamar Soporte"
+    },
+    "emergency": {
+      "title": "Contactos de Emergencia",
+      "services": {
+        "title": "Servicios de Emergencia",
+        "number": "911"
+      },
+      "crisis": {
+        "title": "Línea de Crisis",
+        "number": "1-800-555-0000"
+      }
+    },
+    "immediate": {
+      "title": "Asistencia Inmediata",
+      "description": "Obtén ayuda inmediatamente a través de estos servicios públicos",
+      "crisis": {
+        "title": "Respuesta a Crisis",
+        "description": "Respuesta a crisis 24/7 disponible a través de estas organizaciones públicas."
+      },
+      "advocacy": {
+        "title": "Soporte de Defensoría",
+        "description": "Defensores profesionales para ayudar a navegar situaciones complejas."
+      },
+      "housing": {
+        "title": "Vivienda Segura",
+        "description": "Asistencia de vivienda y refugio de emergencia cuando sea necesario."
+      }
+    },
+    "mobile": {
+      "title": "Soporte en tu Bolsillo",
+      "description": "Descarga nuestra aplicación para acceder a todos los servicios de soporte y obtener ayuda cuando la necesites.",
+      "download": "Descargar App",
+      "learnMore": "Saber Más"
+    }
   }
 } 

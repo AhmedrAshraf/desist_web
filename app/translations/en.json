@@ -423,5 +423,46 @@
       "primary": "Join Our Network",
       "secondary": "Learn More"
     }
+  },
+  "support": {
+    "hero": {
+      "title": "24/7 Support & Resources",
+      "description": "You're not alone. Get immediate support and access to resources whenever you need them.",
+      "chatButton": "Chat Now",
+      "callButton": "Call Support"
+    },
+    "emergency": {
+      "title": "Emergency Contacts",
+      "services": {
+        "title": "Emergency Services",
+        "number": "911"
+      },
+      "crisis": {
+        "title": "Crisis Hotline",
+        "number": "1-800-555-0000"
+      }
+    },
+    "immediate": {
+      "title": "Immediate Assistance",
+      "description": "Get help right away through these public services",
+      "crisis": {
+        "title": "Crisis Response",
+        "description": "24/7 crisis response available through these public organizations."
+      },
+      "advocacy": {
+        "title": "Advocacy Support",
+        "description": "Professional advocates to help navigate complex situations."
+      },
+      "housing": {
+        "title": "Safe Housing",
+        "description": "Emergency housing and shelter assistance when needed."
+      }
+    },
+    "mobile": {
+      "title": "Support in Your Pocket",
+      "description": "Download our app to access all support services and get help whenever you need it.",
+      "download": "Download App",
+      "learnMore": "Learn More"
+    }
   }
 } 

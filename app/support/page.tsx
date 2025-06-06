@@ -2,8 +2,11 @@
 import { CallToAction } from "../components/CallToAction";
 import { FeatureGrid } from "../components/FeatureGrid";
 import { HeroSection } from "../components/HeroSection";
+import { useTranslation } from "../context/TranslationContext";
 
 export default function SupportPage() {
+  const { t } = useTranslation();
+
   // const supportStats = [
   //   {
   //     value: "24/7",
@@ -91,26 +94,26 @@ export default function SupportPage() {
   const immediateServices = [
     {
       icon: "🚨",
-      title: "Crisis Response",
-      description: "24/7 crisis response available through these public organizations."
+      title: t('support.immediate.crisis.title'),
+      description: t('support.immediate.crisis.description')
     },
     {
       icon: "🤝",
-      title: "Advocacy Support",
-      description: "Professional advocates to help navigate complex situations."
+      title: t('support.immediate.advocacy.title'),
+      description: t('support.immediate.advocacy.description')
     },
     {
       icon: "🏠",
-      title: "Safe Housing",
-      description: "Emergency housing and shelter assistance when needed."
+      title: t('support.immediate.housing.title'),
+      description: t('support.immediate.housing.description')
     }
   ];
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <HeroSection
-        title="24/7 Support & Resources"
-        description="You're not alone. Get immediate support and access to resources whenever you need them."
+        title={t('support.hero.title')}
+        description={t('support.hero.description')}
         imageSrc="/images/support/support-center.jpg"
         imageAlt="Support team ready to help"
       >
@@ -122,7 +125,7 @@ export default function SupportPage() {
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
             >
-              Chat Now
+              {t('support.hero.chatButton')}
             </motion.a>
             <motion.a
               href="#call"
@@ -130,20 +133,20 @@ export default function SupportPage() {
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
             >
-              Call Support
+              {t('support.hero.callButton')}
             </motion.a>
           </div> */}
 
           <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-white mb-4">Emergency Contacts</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">{t('support.emergency.title')}</h2>
             <div className="grid md:grid-cols-2 gap-4 text-white">
               <div className="bg-white/10 rounded-lg p-4">
-                <div className="font-bold">Emergency Services</div>
-                <div className="text-xl">911</div>
+                <div className="font-bold">{t('support.emergency.services.title')}</div>
+                <div className="text-xl">{t('support.emergency.services.number')}</div>
               </div>
               <div className="bg-white/10 rounded-lg p-4">
-                <div className="font-bold">Crisis Hotline</div>
-                <div className="text-xl">1-800-555-0000</div>
+                <div className="font-bold">{t('support.emergency.crisis.title')}</div>
+                <div className="text-xl">{t('support.emergency.crisis.number')}</div>
               </div>
             </div>
           </div>
@@ -164,8 +167,8 @@ export default function SupportPage() {
 
       {/* Immediate Services */}
       <FeatureGrid
-        title="Immediate Assistance"
-        description="Get help right away through these public services"
+        title={t('support.immediate.title')}
+        description={t('support.immediate.description')}
         features={immediateServices}
         columns={3}
         variant="minimal"
@@ -173,14 +176,14 @@ export default function SupportPage() {
 
       {/* Mobile Support */}
       <CallToAction
-        title="Support in Your Pocket"
-        description="Download our app to access all support services and get help whenever you need it."
+        title={t('support.mobile.title')}
+        description={t('support.mobile.description')}
         primaryAction={{
-          label: "Download App",
+          label: t('support.mobile.download'),
           href: "#download"
         }}
         secondaryAction={{
-          label: "Learn More",
+          label: t('support.mobile.learnMore'),
           href: "/about"
         }}
         pageType="default"
