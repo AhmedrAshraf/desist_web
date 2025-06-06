@@ -696,5 +696,46 @@
       "en": "English",
       "es": "Español"
     }
+  },
+  "about": {
+    "hero": {
+      "title": "Sobre Nuestra Misión",
+      "description": "Somos una organización impulsada por la comunidad dedicada a proteger y empoderar a las comunidades marginadas a través de la unidad, la educación y el apoyo mutuo.",
+      "joinButton": "Únete a Nosotros"
+    },
+    "story": {
+      "title": "Nuestra Historia",
+      "paragraph1": "Fundada por miembros de la comunidad que reconocieron la necesidad de apoyo y protección organizada, DESIST! se ha convertido en una red de individuos y organizaciones dedicadas que trabajan juntas para crear espacios más seguros para todos.",
+      "paragraph2": "Creemos en el poder de la acción comunitaria, la ayuda mutua y la solidaridad. A través de la educación, las redes de respuesta rápida y la organización comunitaria, trabajamos para proteger a nuestros vecinos y construir comunidades más fuertes y resilientes."
+    },
+    "values": {
+      "title": "Nuestros Valores",
+      "unity": {
+        "title": "Unidad",
+        "description": "Nos mantenemos unidos, reconociendo que nuestra fortaleza radica en nuestra solidaridad y apoyo mutuo."
+      },
+      "education": {
+        "title": "Educación",
+        "description": "El conocimiento es poder. Empoderamos a nuestra comunidad a través de talleres, capacitación y compartir recursos."
+      },
+      "action": {
+        "title": "Acción",
+        "description": "Tomamos medidas concretas para proteger y apoyar a los miembros de nuestra comunidad cuando más lo necesitan."
+      },
+      "community": {
+        "title": "Comunidad",
+        "description": "Construimos redes de apoyo fuertes y resilientes que celebran nuestra diversidad y humanidad compartida."
+      }
+    },
+    "mobile": {
+      "title": "Únete al Movimiento en Móvil",
+      "description": "Descarga nuestra aplicación para mantenerte conectado con la comunidad y acceder a recursos sobre la marcha."
+    },
+    "cta": {
+      "title": "Únete a Nuestra Comunidad",
+      "description": "Sé parte de nuestra misión para proteger y empoderar a las comunidades marginadas a través de la unidad y el apoyo.",
+      "primaryAction": "Únete a Nosotros",
+      "secondaryAction": "Saber Más"
+    }
   }
 } 

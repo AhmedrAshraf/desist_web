@@ -707,5 +707,46 @@
       "en": "English",
       "es": "Español"
     }
+  },
+  "about": {
+    "hero": {
+      "title": "About Our Mission",
+      "description": "We are a community-driven organization dedicated to protecting and empowering marginalized communities through unity, education, and mutual support.",
+      "joinButton": "Join Us"
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "Founded by community members who recognized the need for organized support and protection, DESIST! has grown into a network of dedicated individuals and organizations working together to create safer spaces for all.",
+      "paragraph2": "We believe in the power of community action, mutual aid, and solidarity. Through education, rapid response networks, and community organizing, we work to protect our neighbors and build stronger, more resilient communities."
+    },
+    "values": {
+      "title": "Our Values",
+      "unity": {
+        "title": "Unity",
+        "description": "We stand together, recognizing that our strength lies in our solidarity and mutual support."
+      },
+      "education": {
+        "title": "Education",
+        "description": "Knowledge is power. We empower our community through workshops, training, and resource sharing."
+      },
+      "action": {
+        "title": "Action",
+        "description": "We take concrete steps to protect and support our community members when they need it most."
+      },
+      "community": {
+        "title": "Community",
+        "description": "We build strong, resilient networks of support that celebrate our diversity and shared humanity."
+      }
+    },
+    "mobile": {
+      "title": "Join the Movement on Mobile",
+      "description": "Download our app to stay connected with the community and access resources on the go."
+    },
+    "cta": {
+      "title": "Join Our Community",
+      "description": "Be part of our mission to protect and empower marginalized communities through unity and support.",
+      "primaryAction": "Join Us",
+      "secondaryAction": "Learn More"
+    }
   }
 } 

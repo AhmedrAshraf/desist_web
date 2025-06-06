@@ -3,13 +3,16 @@ import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { HeroSection } from "../components/HeroSection";
 import { CallToAction } from "../components/CallToAction";
+import { useTranslation } from "../context/TranslationContext";
 
 export default function AboutPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HeroSection
-        title="About Our Mission"
-        description="We are a community-driven organization dedicated to protecting and empowering marginalized communities through unity, education, and mutual support."
+        title={t('about.hero.title')}
+        description={t('about.hero.description')}
         imageSrc="/images/community/unity/community-circle.jpg"
         imageAlt="Community members standing together in solidarity"
       >
@@ -20,7 +23,7 @@ export default function AboutPage() {
             whileTap={{ scale: 0.95 }}
             className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
-            Join Us
+            {t('about.hero.joinButton')}
           </motion.a>
         </div>
       </HeroSection>
@@ -30,55 +33,51 @@ export default function AboutPage() {
         {/* <div className="max-w-3xl mx-auto"> */}
           <section id="learn-more" className="mb-16">
             <h2 className="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-6">
-              Our Story
+              {t('about.story.title')}
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Founded by community members who recognized the need for organized support and protection,
-              DESIST! has grown into a network of dedicated individuals and organizations working
-              together to create safer spaces for all.
+              {t('about.story.paragraph1')}
             </p>
             <p className="text-gray-700 dark:text-gray-300">
-              We believe in the power of community action, mutual aid, and solidarity. Through
-              education, rapid response networks, and community organizing, we work to protect our
-              neighbors and build stronger, more resilient communities.
+              {t('about.story.paragraph2')}
             </p>
           </section>
 
           <section className="mb-16">
             <h2 className="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-6">
-              Our Values
+              {t('about.values.title')}
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border-l-4 border-blue-900">
                 <h3 className="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-3">
-                  Unity
+                  {t('about.values.unity.title')}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
-                  We stand together, recognizing that our strength lies in our solidarity and mutual support.
+                  {t('about.values.unity.description')}
                 </p>
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border-l-4 border-blue-900">
                 <h3 className="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-3">
-                  Education
+                  {t('about.values.education.title')}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
-                  Knowledge is power. We empower our community through workshops, training, and resource sharing.
+                  {t('about.values.education.description')}
                 </p>
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border-l-4 border-blue-900">
                 <h3 className="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-3">
-                  Action
+                  {t('about.values.action.title')}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
-                  We take concrete steps to protect and support our community members when they need it most.
+                  {t('about.values.action.description')}
                 </p>
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border-l-4 border-blue-900">
                 <h3 className="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-3">
-                  Community
+                  {t('about.values.community.title')}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
-                  We build strong, resilient networks of support that celebrate our diversity and shared humanity.
+                  {t('about.values.community.description')}
                 </p>
               </div>
             </div>
@@ -95,10 +94,10 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-              Join the Movement on Mobile
+              {t('about.mobile.title')}
             </h2>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Download our app to stay connected with the community and access resources on the go.
+              {t('about.mobile.description')}
             </p>
             <AppDownloadCTA />
           </motion.div>
@@ -107,14 +106,14 @@ export default function AboutPage() {
 
       {/* Call to Action */}
       <CallToAction
-        title="Join Our Community"
-        description="Be part of our mission to protect and empower marginalized communities through unity and support."
+        title={t('about.cta.title')}
+        description={t('about.cta.description')}
         primaryAction={{
-          label: "Join Us",
+          label: t('about.cta.primaryAction'),
           href: "/join"
         }}
         secondaryAction={{
-          label: "Learn More",
+          label: t('about.cta.secondaryAction'),
           href: "/about"
         }}
         pageType="about"
