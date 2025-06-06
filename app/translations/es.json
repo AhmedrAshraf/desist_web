@@ -660,5 +660,25 @@
       "primary": "Contáctanos",
       "secondary": "Encuentra Oficina Local"
     }
+  },
+  "footer": {
+    "description": "Empowering communities through technology to create safer spaces for everyone. Join us in building a more secure future.",
+    "quickLinks": {
+      "title": "Quick Links",
+      "about": "About Us",
+      "resources": "Resources",
+      "contact": "Contact",
+      "privacy": "Privacy Policy"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "email": "support@wedesist.com"
+    },
+    "bottom": {
+      "copyright": "© {year} DESIST!. All rights reserved.",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy"
+    }
   }
 } 

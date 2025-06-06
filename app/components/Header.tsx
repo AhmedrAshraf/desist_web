@@ -19,6 +19,11 @@ const navigation = [
   { name: "common.navigation.contact", href: "/contact" },
 ] as const;
 
+const flagEmoji = {
+  en: "🇺🇸",
+  es: "🇪🇸"
+};
+
 // Memoized Logo component with preloaded image
 export const Logo = memo(() => (
   <Link href="/" className="flex items-center gap-4 group relative" prefetch={false}>
@@ -125,6 +130,7 @@ const LanguageSelector = memo(() => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
       >
+        <span className="text-lg">{flagEmoji[language]}</span>
         {language.toUpperCase()}
         <svg
           className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
@@ -136,24 +142,24 @@ const LanguageSelector = memo(() => {
         </svg>
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
+        <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
           <button
             onClick={() => {
               setLanguage('en');
               setIsOpen(false);
             }}
-            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
           >
-            English
+            <span className="text-lg">{flagEmoji['en']}</span> English
           </button>
           <button
             onClick={() => {
               setLanguage('es');
               setIsOpen(false);
             }}
-            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
           >
-            Español
+            <span className="text-lg">{flagEmoji['es']}</span> Español
           </button>
         </div>
       )}

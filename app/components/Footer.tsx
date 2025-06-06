@@ -2,8 +2,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Logo } from "./Header";
+import { useTranslation } from "../context/TranslationContext";
 
 export function Footer() {
+  const { t, language } = useTranslation();
+  const year = new Date().getFullYear();
   return (
     <footer className="bg-white/50 dark:bg-gray-900/50 text-gray-900 dark:text-white">
       <div className="container mx-auto px-4 py-12">
@@ -11,11 +14,10 @@ export function Footer() {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="inline-block mb-4">
-            <Logo />
+              <Logo />
             </Link>
             <p className="text-gray-900 dark:text-white mb-4 max-w-md">
-              Empowering communities through technology to create safer spaces for
-              everyone. Join us in building a more secure future.
+              {t('footer.description')}
             </p>
             <div className="flex space-x-4">
               <motion.a
@@ -82,14 +84,14 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-4 text-lg">Quick Links</h3>
+            <h3 className="text-white font-semibold mb-4 text-lg">{t('footer.quickLinks.title')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/about"
                   className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
-                  About Us
+                  {t('footer.quickLinks.about')}
                 </Link>
               </li>
               <li>
@@ -97,7 +99,7 @@ export function Footer() {
                   href="/resources"
                   className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
-                  Resources
+                  {t('footer.quickLinks.resources')}
                 </Link>
               </li>
               <li>
@@ -105,7 +107,7 @@ export function Footer() {
                   href="/contact"
                   className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
-                  Contact
+                  {t('footer.quickLinks.contact')}
                 </Link>
               </li>
               <li>
@@ -113,7 +115,7 @@ export function Footer() {
                   href="/privacy"
                   className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
-                  Privacy Policy
+                  {t('footer.quickLinks.privacy')}
                 </Link>
               </li>
             </ul>
@@ -121,7 +123,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">Contact Us</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4 text-lg">{t('footer.contact.title')}</h3>
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
                 <svg
@@ -141,7 +143,7 @@ export function Footer() {
                   href="mailto:support@wedesist.com"
                   className="text-gray-900 dark:text-white transition-colors duration-300"
                 >
-                  support@wedesist.com
+                  {t('footer.contact.email')}
                 </a>
               </li>
             </ul>
@@ -152,26 +154,26 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/20">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-900 dark:text-white text-sm">
-              © {new Date().getFullYear()} DESIST!. All rights reserved.
+              {t('footer.bottom.copyright').replace('{year}', String(year))}
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link
                 href="/terms"
                 className="text-gray-900 dark:text-white text-sm transition-colors duration-300"
               >
-                Terms of Service
+                {t('footer.bottom.terms')}
               </Link>
               <Link
                 href="/privacy"
                 className="text-gray-900 dark:text-white text-sm transition-colors duration-300"
               >
-                Privacy Policy
+                {t('footer.bottom.privacy')}
               </Link>
               <Link
                 href="/cookies"
                 className="text-gray-900 dark:text-white text-sm transition-colors duration-300"
               >
-                Cookie Policy
+                {t('footer.bottom.cookies')}
               </Link>
             </div>
           </div>
