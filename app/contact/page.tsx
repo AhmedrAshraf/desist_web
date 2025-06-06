@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { AppDownloadCTA } from "../components/AppDownloadCTA";
 import { HeroSection } from "../components/HeroSection";
 import { CallToAction } from "../components/CallToAction";
+import { useTranslation } from "../context/TranslationContext";
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -63,10 +65,10 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <HeroSection
-        title="Get in Touch"
-        description="Have questions or want to get involved? We're here to help. Reach out to our team and become part of our community."
+        title={t('contact.hero.title')}
+        description={t('contact.hero.description')}
         imageSrc="/images/community/stories/community-speaker.jpg"
-        imageAlt="Community members engaged in conversation"
+        imageAlt={t('contact.hero.title')}
       >
         {/* <div className="flex gap-4">
           <motion.a
@@ -100,7 +102,7 @@ export default function ContactPage() {
               {/* Contact Form */}
               <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold mb-6 text-blue-900 dark:text-blue-100">
-                  Send us a Message
+                  {t('contact.form.title')}
                 </h2>
                 {status.type && (
                   <div
@@ -120,7 +122,7 @@ export default function ContactPage() {
                         htmlFor="name"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                       >
-                        Name
+                        {t('contact.form.name.label')}
                       </label>
                       <input
                         type="text"
@@ -130,7 +132,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Your name"
+                        placeholder={t('contact.form.name.placeholder')}
                       />
                     </div>
                     <div>
@@ -138,7 +140,7 @@ export default function ContactPage() {
                         htmlFor="email"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                       >
-                        Email
+                        {t('contact.form.email.label')}
                       </label>
                       <input
                         type="email"
@@ -148,7 +150,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="your.email@example.com"
+                        placeholder={t('contact.form.email.placeholder')}
                       />
                     </div>
                   </div>
@@ -158,7 +160,7 @@ export default function ContactPage() {
                       htmlFor="subject"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                     >
-                      Subject
+                      {t('contact.form.subject.label')}
                     </label>
                     <input
                       type="text"
@@ -168,7 +170,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="What is this regarding?"
+                      placeholder={t('contact.form.subject.placeholder')}
                     />
                   </div>
 
@@ -177,7 +179,7 @@ export default function ContactPage() {
                       htmlFor="message"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                     >
-                      Message
+                      {t('contact.form.message.label')}
                     </label>
                     <textarea
                       id="message"
@@ -187,7 +189,7 @@ export default function ContactPage() {
                       required
                       rows={6}
                       className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Your message here..."
+                      placeholder={t('contact.form.message.placeholder')}
                     />
                   </div>
 
@@ -203,7 +205,7 @@ export default function ContactPage() {
                           : "bg-blue-600 hover:bg-blue-700"
                       }`}
                     >
-                      {isSubmitting ? "Sending..." : "Send Message"}
+                      {isSubmitting ? t('contact.form.sending') : t('contact.form.submit')}
                     </motion.button>
                   </div>
                 </form>
@@ -213,12 +215,12 @@ export default function ContactPage() {
               <div className="space-y-8">
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
                   <h2 className="text-2xl font-bold mb-6 text-blue-900 dark:text-blue-100">
-                    Other Ways to Reach Us
+                    {t('contact.contactInfo.title')}
                   </h2>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Email</h3>
-                      <p className="text-gray-700 dark:text-gray-300">support@wedesist.com</p>
+                      <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">{t('contact.contactInfo.email.label')}</h3>
+                      <p className="text-gray-700 dark:text-gray-300">{t('contact.contactInfo.email.value')}</p>
                     </div>
                     {/* <div>
                       <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Phone</h3>
@@ -236,7 +238,7 @@ export default function ContactPage() {
 
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700">
                   <h2 className="text-2xl font-bold mb-6 text-blue-900 dark:text-blue-100">
-                    Connect with Us
+                    {t('contact.social.title')}
                   </h2>
                   <div className="space-y-4">
                     <a
@@ -244,21 +246,21 @@ export default function ContactPage() {
                       className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
                     >
                       <span className="text-2xl">🐦</span>
-                      Twitter
+                      {t('contact.social.twitter')}
                     </a>
                     <a
                       href="#"
                       className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
                     >
                       <span className="text-2xl">📸</span>
-                      Instagram
+                      {t('contact.social.instagram')}
                     </a>
                     <a
                       href="#"
                       className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
                     >
                       <span className="text-2xl">👥</span>
-                      Facebook
+                      {t('contact.social.facebook')}
                     </a>
                   </div>
                 </div>
@@ -277,10 +279,10 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-              Get Support on the Go
+              {t('contact.mobile.title')}
             </h2>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Download our app to access support features and connect with our community anytime, anywhere.
+              {t('contact.mobile.description')}
             </p>
             <AppDownloadCTA />
           </motion.div>
@@ -289,14 +291,14 @@ export default function ContactPage() {
 
       {/* Call to Action */}
       <CallToAction
-        title="Get in Touch"
-        description="Have questions or need support? Our team is here to help you 24/7."
+        title={t('contact.cta.title')}
+        description={t('contact.cta.description')}
         primaryAction={{
-          label: "Contact Us",
+          label: t('contact.cta.primary'),
           href: "#contact-form"
         }}
         secondaryAction={{
-          label: "Find Local Office",
+          label: t('contact.cta.secondary'),
           href: "#locations"
         }}
         pageType="contact"

@@ -614,5 +614,57 @@
       "description": "Join thousands of users making their communities safer",
       "button": "Get Started Today"
     }
+  },
+  "contact": {
+    "hero": {
+      "title": "Get in Touch",
+      "description": "Have questions or want to get involved? We're here to help. Reach out to our team and become part of our community."
+    },
+    "form": {
+      "title": "Send us a Message",
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your.email@example.com"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "What is this regarding?"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Your message here..."
+      },
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! We'll get back to you soon.",
+      "error": "Failed to send message"
+    },
+    "contactInfo": {
+      "title": "Other Ways to Reach Us",
+      "email": {
+        "label": "Email",
+        "value": "support@wedesist.com"
+      }
+    },
+    "social": {
+      "title": "Connect with Us",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "facebook": "Facebook"
+    },
+    "mobile": {
+      "title": "Get Support on the Go",
+      "description": "Download our app to access support features and connect with our community anytime, anywhere."
+    },
+    "cta": {
+      "title": "Get in Touch",
+      "description": "Have questions or need support? Our team is here to help you 24/7.",
+      "primary": "Contact Us",
+      "secondary": "Find Local Office"
+    }
   }
 } 

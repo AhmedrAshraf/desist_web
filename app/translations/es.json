@@ -608,5 +608,57 @@
       "description": "Únete a miles de usuarios haciendo sus comunidades más seguras",
       "button": "Comienza Hoy"
     }
+  },
+  "contact": {
+    "hero": {
+      "title": "Contáctanos",
+      "description": "¿Tienes preguntas o quieres involucrarte? Estamos aquí para ayudar. Comunícate con nuestro equipo y forma parte de nuestra comunidad."
+    },
+    "form": {
+      "title": "Envíanos un Mensaje",
+      "name": {
+        "label": "Nombre",
+        "placeholder": "Tu nombre"
+      },
+      "email": {
+        "label": "Correo Electrónico",
+        "placeholder": "tu.correo@ejemplo.com"
+      },
+      "subject": {
+        "label": "Asunto",
+        "placeholder": "¿De qué se trata?"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Tu mensaje aquí..."
+      },
+      "submit": "Enviar Mensaje",
+      "sending": "Enviando...",
+      "success": "¡Mensaje enviado con éxito! Te responderemos pronto.",
+      "error": "Error al enviar el mensaje"
+    },
+    "contactInfo": {
+      "title": "Otras Formas de Contactarnos",
+      "email": {
+        "label": "Correo Electrónico",
+        "value": "support@wedesist.com"
+      }
+    },
+    "social": {
+      "title": "Conéctate con Nosotros",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "facebook": "Facebook"
+    },
+    "mobile": {
+      "title": "Obtén Soporte en Movimiento",
+      "description": "Descarga nuestra aplicación para acceder a funciones de soporte y conectarte con nuestra comunidad en cualquier momento y lugar."
+    },
+    "cta": {
+      "title": "Contáctanos",
+      "description": "¿Tienes preguntas o necesitas soporte? Nuestro equipo está aquí para ayudarte 24/7.",
+      "primary": "Contáctanos",
+      "secondary": "Encuentra Oficina Local"
+    }
   }
 } 
