@@ -1,0 +1,44 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "about": "About",
+      "community": "Community",
+      "incidents": "Incidents",
+      "legalHelp": "Legal Help",
+      "resources": "Resources",
+      "support": "Support",
+      "download": "Download",
+      "contact": "Contact",
+      "menu": "Menu"
+    },
+    "buttons": {
+      "contact": "Contact",
+      "learnMore": "Learn More",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit"
+    },
+    "footer": {
+      "copyright": "© 2024 DESIST! All rights reserved.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Stand Against Harassment",
+      "subtitle": "Join the movement to create safer spaces for everyone",
+      "cta": "Get Started"
+    }
+  },
+  "legal": {
+    "attorney": {
+      "contact": "Contact Attorney",
+      "cases": "cases handled",
+      "languages": "Languages"
+    }
+  }
+} 

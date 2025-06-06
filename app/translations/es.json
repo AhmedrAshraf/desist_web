@@ -1,0 +1,44 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "community": "Comunidad",
+      "incidents": "Incidentes",
+      "legalHelp": "Ayuda Legal",
+      "resources": "Recursos",
+      "support": "Soporte",
+      "download": "Descargar",
+      "contact": "Contacto",
+      "menu": "Menú"
+    },
+    "buttons": {
+      "contact": "Contactar",
+      "learnMore": "Saber Más",
+      "submit": "Enviar",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "delete": "Eliminar",
+      "edit": "Editar"
+    },
+    "footer": {
+      "copyright": "© 2024 DESIST! Todos los derechos reservados.",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "¡Alto al Acoso!",
+      "subtitle": "Únete al movimiento para crear espacios más seguros para todos",
+      "cta": "Comenzar"
+    }
+  },
+  "legal": {
+    "attorney": {
+      "contact": "Contactar Abogado",
+      "cases": "casos atendidos",
+      "languages": "Idiomas"
+    }
+  }
+} 

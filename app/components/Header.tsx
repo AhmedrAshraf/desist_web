@@ -6,16 +6,17 @@ import { useState, useEffect, useCallback, memo, useRef } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useTranslation } from "../context/TranslationContext";
 
 const navigation = [
-  { name: "About", href: "/about" },
-  { name: "Community", href: "/community" },
-  { name: "Incidents", href: "/incidents" },
-  { name: "Legal Help", href: "/legal-help" },
-  { name: "Resources", href: "/resources" },
-  { name: "Support", href: "/support" },
-  { name: "Download", href: "/download" },
-  { name: "Contact", href: "/contact" },
+  { name: "common.navigation.about", href: "/about" },
+  { name: "common.navigation.community", href: "/community" },
+  { name: "common.navigation.incidents", href: "/incidents" },
+  { name: "common.navigation.legalHelp", href: "/legal-help" },
+  { name: "common.navigation.resources", href: "/resources" },
+  { name: "common.navigation.support", href: "/support" },
+  { name: "common.navigation.download", href: "/download" },
+  { name: "common.navigation.contact", href: "/contact" },
 ] as const;
 
 // Memoized Logo component with preloaded image
@@ -49,6 +50,7 @@ Logo.displayName = 'Logo';
 // Optimized navigation item with reduced motion support
 const NavItem = memo(({ item, isActive }: { item: typeof navigation[number]; isActive: boolean }) => {
   const shouldReduceMotion = useReducedMotion();
+  const { t } = useTranslation();
 
   return (
     <Link
@@ -60,7 +62,7 @@ const NavItem = memo(({ item, isActive }: { item: typeof navigation[number]; isA
           : "text-gray-700 hover:text-blue-900 dark:text-gray-300 dark:hover:text-blue-100"
       }`}
     >
-      {item.name}
+      {t(item.name)}
       {isActive && !shouldReduceMotion && (
         <motion.div
           layoutId="activeTab"
@@ -103,7 +105,7 @@ MenuButton.displayName = 'MenuButton';
 // Language selector component
 const LanguageSelector = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState("EN");
+  const { language, setLanguage } = useTranslation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -123,7 +125,7 @@ const LanguageSelector = memo(() => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
       >
-        {currentLang}
+        {language.toUpperCase()}
         <svg
           className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           fill="none"
@@ -137,7 +139,7 @@ const LanguageSelector = memo(() => {
         <div className="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
           <button
             onClick={() => {
-              setCurrentLang("EN");
+              setLanguage('en');
               setIsOpen(false);
             }}
             className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
@@ -146,7 +148,7 @@ const LanguageSelector = memo(() => {
           </button>
           <button
             onClick={() => {
-              setCurrentLang("ES");
+              setLanguage('es');
               setIsOpen(false);
             }}
             className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
@@ -167,6 +169,7 @@ export const Header = () => {
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
   const shouldReduceMotion = useReducedMotion();
+  const { t } = useTranslation();
 
   // Optimized scroll handler with RAF
   const handleScroll = useCallback(() => {
@@ -259,7 +262,7 @@ export const Header = () => {
             >
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
-                  <span className="font-semibold text-lg text-blue-900 dark:text-blue-100">Menu</span>
+                  <span className="font-semibold text-lg text-blue-900 dark:text-blue-100">{t('common.navigation.menu')}</span>
                   <MenuButton isOpen={true} onClick={() => setIsMobileMenuOpen(false)} />
                 </div>
                 <nav className="flex-1 p-4 overflow-y-auto">
@@ -277,7 +280,7 @@ export const Header = () => {
                               : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
                           }`}
                         >
-                          {item.name}
+                          {t(item.name)}
                         </Link>
                       );
                     })}
