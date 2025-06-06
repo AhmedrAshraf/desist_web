@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useTranslation } from "../context/TranslationContext";
 
 export function NewHero() {
+  const { t } = useTranslation();
 
   return (
     <div className="relative min-h-screen flex items-center">
@@ -20,12 +22,12 @@ export function NewHero() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Your Personal{" "}
-              <span className="text-blue-600 dark:text-blue-400">Safety Guardian</span>
+              {t('hero.title.main')}{" "}
+              <span className="text-blue-600 dark:text-blue-400">{t('hero.title.highlight')}</span>
             </h1>
             
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-              Join thousands protecting their communities. Download DESIST now and take control of your safety.
+              {t('hero.description')}
             </p>
 
             {/* Download Buttons */}
@@ -45,8 +47,8 @@ export function NewHero() {
                     className="w-6 h-6"
                   />
                   <div className="text-left">
-                    <div className="text-xs text-white dark:text-gray-600">Download on the</div>
-                    <div className="text-sm font-semibold text-white dark:text-gray-900">App Store</div>
+                    <div className="text-xs text-white dark:text-gray-600">{t('hero.stores.apple.download')}</div>
+                    <div className="text-sm font-semibold text-white dark:text-gray-900">{t('hero.stores.apple.name')}</div>
                   </div>
                 </div>
               </motion.a>
@@ -66,8 +68,8 @@ export function NewHero() {
                     className="w-6 h-6"
                   />
                   <div className="text-left">
-                    <div className="text-xs text-white dark:text-gray-600">Get it on</div>
-                    <div className="text-sm font-semibold text-white dark:text-gray-900">Google Play</div>
+                    <div className="text-xs text-white dark:text-gray-600">{t('hero.stores.google.download')}</div>
+                    <div className="text-sm font-semibold text-white dark:text-gray-900">{t('hero.stores.google.name')}</div>
                   </div>
                 </div>
               </motion.a>
@@ -76,16 +78,16 @@ export function NewHero() {
             {/* Trust Indicators */}
             <div className="grid grid-cols-3 gap-6 text-center">
               <div className="p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">100K+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Active Users</div>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{t('hero.stats.users.value')}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.users.label')}</div>
               </div>
               <div className="p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">4.8★</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">App Rating</div>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{t('hero.stats.rating.value')}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.rating.label')}</div>
               </div>
               <div className="p-4 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">50+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Cities</div>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{t('hero.stats.cities.value')}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{t('hero.stats.cities.label')}</div>
               </div>
             </div>
           </motion.div>
@@ -120,8 +122,8 @@ export function NewHero() {
                     🛡️
                   </div>
                   <div>
-                    <div className="font-semibold dark:text-white">Real-time Alerts</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Stay informed 24/7</div>
+                    <div className="font-semibold dark:text-white">{t('hero.features.alerts.title')}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{t('hero.features.alerts.description')}</div>
                   </div>
                 </div>
               </motion.div>
@@ -137,8 +139,8 @@ export function NewHero() {
                     📱
                   </div>
                   <div>
-                    <div className="font-semibold dark:text-white">Quick Response</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">One-tap assistance</div>
+                    <div className="font-semibold dark:text-white">{t('hero.features.response.title')}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{t('hero.features.response.description')}</div>
                   </div>
                 </div>
               </motion.div>

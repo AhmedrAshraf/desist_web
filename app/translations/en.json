@@ -464,5 +464,155 @@
       "download": "Download App",
       "learnMore": "Learn More"
     }
+  },
+  "hero": {
+    "title": {
+      "main": "Your Personal",
+      "highlight": "Safety Guardian"
+    },
+    "description": "Join thousands protecting their communities. Download DESIST now and take control of your safety.",
+    "stores": {
+      "apple": {
+        "download": "Download on the",
+        "name": "App Store"
+      },
+      "google": {
+        "download": "Get it on",
+        "name": "Google Play"
+      }
+    },
+    "stats": {
+      "users": {
+        "value": "100K+",
+        "label": "Active Users"
+      },
+      "rating": {
+        "value": "4.8★",
+        "label": "App Rating"
+      },
+      "cities": {
+        "value": "50+",
+        "label": "Cities"
+      }
+    },
+    "features": {
+      "alerts": {
+        "title": "Real-time Alerts",
+        "description": "Stay informed 24/7"
+      },
+      "response": {
+        "title": "Quick Response",
+        "description": "One-tap assistance"
+      }
+    }
+  },
+  "appFeatures": {
+    "title": "Everything You Need to Stay Safe",
+    "description": "DESIST provides comprehensive safety features designed to protect you and your community",
+    "features": {
+      "protection": {
+        "title": "Real-time Protection",
+        "description": "Get instant alerts about incidents in your area and stay informed about potential risks."
+      },
+      "network": {
+        "title": "Community Network",
+        "description": "Connect with nearby allies and build a strong support network within your community."
+      },
+      "response": {
+        "title": "Emergency Response",
+        "description": "One-tap access to emergency services and quick connection to local support resources."
+      },
+      "resources": {
+        "title": "Safety Resources",
+        "description": "Access a comprehensive library of safety guides, legal resources, and educational content."
+      }
+    },
+    "download": "Download Now"
+  },
+  "notifications": {
+    "title": "Stay Informed in Real-Time",
+    "description": "Get instant notifications about safety concerns in your area. Our advanced alert system keeps you informed and protected 24/7.",
+    "features": {
+      "alerts": {
+        "title": "Instant Alerts",
+        "description": "Real-time notifications about safety concerns"
+      },
+      "location": {
+        "title": "Location-Based",
+        "description": "Targeted alerts for your neighborhood"
+      },
+      "customizable": {
+        "title": "Customizable",
+        "description": "Set your notification preferences"
+      }
+    },
+    "demo": {
+      "alert": {
+        "title": "Safety Alert",
+        "message": "Suspicious activity reported near Downtown area"
+      },
+      "info": {
+        "title": "Community Update",
+        "message": "New safety workshop this weekend"
+      },
+      "success": {
+        "title": "Incident Resolved",
+        "message": "All clear in the neighborhood"
+      }
+    }
+  },
+  "stats": {
+    "title": "Making Communities Safer",
+    "description": "Join thousands of users who trust DESIST to protect what matters most",
+    "metrics": {
+      "users": {
+        "label": "Protected Users",
+        "value": "100000",
+        "suffix": "+"
+      },
+      "incidents": {
+        "label": "Incidents Prevented",
+        "value": "5000",
+        "suffix": "+"
+      },
+      "communities": {
+        "label": "Communities",
+        "value": "250",
+        "suffix": "+"
+      },
+      "satisfaction": {
+        "label": "User Satisfaction",
+        "value": "98",
+        "suffix": "%"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Trusted by Communities Nationwide",
+    "description": "See how DESIST is making a difference in neighborhoods across the country",
+    "quotes": [
+      {
+        "text": "DESIST has transformed how our neighborhood handles safety concerns. The real-time alerts have made a real difference.",
+        "author": "Sarah Chen",
+        "role": "Community Organizer",
+        "location": "San Francisco, CA"
+      },
+      {
+        "text": "The emergency response feature helped me get immediate assistance when I needed it most. Every community needs this app.",
+        "author": "Marcus Johnson",
+        "role": "Small Business Owner",
+        "location": "Chicago, IL"
+      },
+      {
+        "text": "As a community leader, I've seen firsthand how DESIST brings people together to create safer neighborhoods.",
+        "author": "Lisa Rodriguez",
+        "role": "Neighborhood Watch Coordinator",
+        "location": "Austin, TX"
+      }
+    ],
+    "cta": {
+      "description": "Join thousands of users making their communities safer",
+      "button": "Get Started Today"
+    }
   }
 } 

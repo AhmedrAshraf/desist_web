@@ -458,5 +458,155 @@
       "download": "Descargar App",
       "learnMore": "Saber Más"
     }
+  },
+  "hero": {
+    "title": {
+      "main": "Tu Guardián de",
+      "highlight": "Seguridad Personal"
+    },
+    "description": "Únete a miles protegiendo sus comunidades. Descarga DESIST ahora y toma el control de tu seguridad.",
+    "stores": {
+      "apple": {
+        "download": "Descarga en",
+        "name": "App Store"
+      },
+      "google": {
+        "download": "Disponible en",
+        "name": "Google Play"
+      }
+    },
+    "stats": {
+      "users": {
+        "value": "100K+",
+        "label": "Usuarios Activos"
+      },
+      "rating": {
+        "value": "4.8★",
+        "label": "Calificación"
+      },
+      "cities": {
+        "value": "50+",
+        "label": "Ciudades"
+      }
+    },
+    "features": {
+      "alerts": {
+        "title": "Alertas en Tiempo Real",
+        "description": "Mantente informado 24/7"
+      },
+      "response": {
+        "title": "Respuesta Rápida",
+        "description": "Asistencia con un toque"
+      }
+    }
+  },
+  "appFeatures": {
+    "title": "Todo lo que Necesitas para Mantenerte Seguro",
+    "description": "DESIST proporciona características de seguridad integrales diseñadas para protegerte a ti y a tu comunidad",
+    "features": {
+      "protection": {
+        "title": "Protección en Tiempo Real",
+        "description": "Recibe alertas instantáneas sobre incidentes en tu área y mantente informado sobre posibles riesgos."
+      },
+      "network": {
+        "title": "Red Comunitaria",
+        "description": "Conéctate con aliados cercanos y construye una red de apoyo fuerte dentro de tu comunidad."
+      },
+      "response": {
+        "title": "Respuesta de Emergencia",
+        "description": "Acceso con un toque a servicios de emergencia y conexión rápida con recursos de apoyo locales."
+      },
+      "resources": {
+        "title": "Recursos de Seguridad",
+        "description": "Accede a una biblioteca completa de guías de seguridad, recursos legales y contenido educativo."
+      }
+    },
+    "download": "Descargar Ahora"
+  },
+  "notifications": {
+    "title": "Mantente Informado en Tiempo Real",
+    "description": "Recibe notificaciones instantáneas sobre preocupaciones de seguridad en tu área. Nuestro sistema avanzado de alertas te mantiene informado y protegido 24/7.",
+    "features": {
+      "alerts": {
+        "title": "Alertas Instantáneas",
+        "description": "Notificaciones en tiempo real sobre preocupaciones de seguridad"
+      },
+      "location": {
+        "title": "Basado en Ubicación",
+        "description": "Alertas dirigidas para tu vecindario"
+      },
+      "customizable": {
+        "title": "Personalizable",
+        "description": "Configura tus preferencias de notificación"
+      }
+    },
+    "demo": {
+      "alert": {
+        "title": "Alerta de Seguridad",
+        "message": "Actividad sospechosa reportada cerca del área del Centro"
+      },
+      "info": {
+        "title": "Actualización Comunitaria",
+        "message": "Nuevo taller de seguridad este fin de semana"
+      },
+      "success": {
+        "title": "Incidente Resuelto",
+        "message": "Todo despejado en el vecindario"
+      }
+    }
+  },
+  "stats": {
+    "title": "Haciendo las Comunidades Más Seguras",
+    "description": "Únete a miles de usuarios que confían en DESIST para proteger lo que más importa",
+    "metrics": {
+      "users": {
+        "label": "Usuarios Protegidos",
+        "value": "100000",
+        "suffix": "+"
+      },
+      "incidents": {
+        "label": "Incidentes Prevenidos",
+        "value": "5000",
+        "suffix": "+"
+      },
+      "communities": {
+        "label": "Comunidades",
+        "value": "250",
+        "suffix": "+"
+      },
+      "satisfaction": {
+        "label": "Satisfacción de Usuarios",
+        "value": "98",
+        "suffix": "%"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Confiado por Comunidades en Todo el País",
+    "description": "Mira cómo DESIST está marcando la diferencia en vecindarios de todo el país",
+    "quotes": [
+      {
+        "text": "DESIST ha transformado cómo nuestro vecindario maneja las preocupaciones de seguridad. Las alertas en tiempo real han marcado una diferencia real.",
+        "author": "Sarah Chen",
+        "role": "Organizadora Comunitaria",
+        "location": "San Francisco, CA"
+      },
+      {
+        "text": "La función de respuesta de emergencia me ayudó a obtener asistencia inmediata cuando más la necesitaba. Cada comunidad necesita esta aplicación.",
+        "author": "Marcus Johnson",
+        "role": "Dueño de Pequeño Negocio",
+        "location": "Chicago, IL"
+      },
+      {
+        "text": "Como líder comunitaria, he visto de primera mano cómo DESIST une a las personas para crear vecindarios más seguros.",
+        "author": "Lisa Rodriguez",
+        "role": "Coordinadora de Vigilancia Vecinal",
+        "location": "Austin, TX"
+      }
+    ],
+    "cta": {
+      "description": "Únete a miles de usuarios haciendo sus comunidades más seguras",
+      "button": "Comienza Hoy"
+    }
   }
 } 

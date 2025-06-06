@@ -2,32 +2,28 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useTranslation } from "../context/TranslationContext";
 
-const notifications = [
+const notificationTypes = [
   {
     type: "alert",
-    title: "Safety Alert",
-    message: "Suspicious activity reported near Downtown area",
     icon: "🚨",
     color: "bg-red-500"
   },
   {
     type: "info",
-    title: "Community Update",
-    message: "New safety workshop this weekend",
     icon: "📢",
     color: "bg-blue-500"
   },
   {
     type: "success",
-    title: "Incident Resolved",
-    message: "All clear in the neighborhood",
     icon: "✅",
     color: "bg-green-500"
   }
 ];
 
 export function NotificationDemo() {
+  const { t } = useTranslation();
   const [activeNotification, setActiveNotification] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -35,7 +31,7 @@ export function NotificationDemo() {
     const interval = setInterval(() => {
       setIsVisible(false);
       setTimeout(() => {
-        setActiveNotification((prev) => (prev + 1) % notifications.length);
+        setActiveNotification((prev) => (prev + 1) % notificationTypes.length);
         setIsVisible(true);
       }, 500);
     }, 4000);
@@ -59,10 +55,10 @@ export function NotificationDemo() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Stay Informed in Real-Time
+              {t('notifications.title')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-              Get instant notifications about safety concerns in your area. Our advanced alert system keeps you informed and protected 24/7.
+              {t('notifications.description')}
             </p>
             
             <div className="space-y-6">
@@ -71,8 +67,8 @@ export function NotificationDemo() {
                   🚨
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Instant Alerts</h3>
-                  <p className="text-gray-600 dark:text-gray-300">Real-time notifications about safety concerns</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t('notifications.features.alerts.title')}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{t('notifications.features.alerts.description')}</p>
                 </div>
               </div>
               
@@ -81,8 +77,8 @@ export function NotificationDemo() {
                   📍
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Location-Based</h3>
-                  <p className="text-gray-600 dark:text-gray-300">Targeted alerts for your neighborhood</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t('notifications.features.location.title')}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{t('notifications.features.location.description')}</p>
                 </div>
               </div>
               
@@ -91,8 +87,8 @@ export function NotificationDemo() {
                   🔔
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Customizable</h3>
-                  <p className="text-gray-600 dark:text-gray-300">Set your notification preferences</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t('notifications.features.customizable.title')}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{t('notifications.features.customizable.description')}</p>
                 </div>
               </div>
             </div>
@@ -125,15 +121,15 @@ export function NotificationDemo() {
                         className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg"
                       >
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 ${notifications[activeNotification].color} rounded-full flex items-center justify-center text-white text-xl`}>
-                            {notifications[activeNotification].icon}
+                          <div className={`w-10 h-10 ${notificationTypes[activeNotification].color} rounded-full flex items-center justify-center text-white text-xl`}>
+                            {notificationTypes[activeNotification].icon}
                           </div>
                           <div>
                             <div className="font-semibold text-gray-900 dark:text-white">
-                              {notifications[activeNotification].title}
+                              {t(`notifications.demo.${notificationTypes[activeNotification].type}.title`)}
                             </div>
                             <div className="text-sm text-gray-600 dark:text-gray-300">
-                              {notifications[activeNotification].message}
+                              {t(`notifications.demo.${notificationTypes[activeNotification].type}.message`)}
                             </div>
                           </div>
                         </div>

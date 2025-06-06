@@ -3,34 +3,27 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { useTranslation } from "../context/TranslationContext";
 
 const stats = [
   {
-    number: 100000,
-    label: "Protected Users",
+    key: "users",
     icon: "👥",
-    suffix: "+",
     color: "from-blue-500/20 to-purple-500/20"
   },
   {
-    number: 5000,
-    label: "Incidents Prevented",
+    key: "incidents",
     icon: "🛡️",
-    suffix: "+",
     color: "from-green-500/20 to-teal-500/20"
   },
   {
-    number: 250,
-    label: "Communities",
+    key: "communities",
     icon: "🏘️",
-    suffix: "+",
     color: "from-orange-500/20 to-red-500/20"
   },
   {
-    number: 98,
-    label: "User Satisfaction",
+    key: "satisfaction",
     icon: "⭐",
-    suffix: "%",
     color: "from-yellow-500/20 to-amber-500/20"
   }
 ];
@@ -67,6 +60,8 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function AppStats() {
+  const { t } = useTranslation();
+
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Background Elements */}
@@ -82,17 +77,17 @@ export function AppStats() {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            Making Communities Safer
+            {t('stats.title')}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Join thousands of users who trust DESIST to protect what matters most
+            {t('stats.description')}
           </p>
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <motion.div
-              key={stat.label}
+              key={stat.key}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -103,9 +98,14 @@ export function AppStats() {
               <div className="relative bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg">
                 <div className="text-4xl mb-4">{stat.icon}</div>
                 <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                  <AnimatedCounter value={stat.number} suffix={stat.suffix} />
+                  <AnimatedCounter 
+                    value={parseInt(t(`stats.metrics.${stat.key}.value`))} 
+                    suffix={t(`stats.metrics.${stat.key}.suffix`)} 
+                  />
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
+                <div className="text-gray-600 dark:text-gray-300">
+                  {t(`stats.metrics.${stat.key}.label`)}
+                </div>
               </div>
             </motion.div>
           ))}
