@@ -686,5 +686,26 @@
       "privacy": "Privacy Policy",
       "cookies": "Cookie Policy"
     }
+  },
+  "header": {
+    "logo": {
+      "title": "DESIST!",
+      "subtitle": "Community Protection"
+    },
+    "navigation": {
+      "about": "About",
+      "community": "Community",
+      "incidents": "Incidents",
+      "legalHelp": "Legal Help",
+      "resources": "Resources",
+      "support": "Support",
+      "download": "Download",
+      "contact": "Contact",
+      "menu": "Menu"
+    },
+    "language": {
+      "en": "English",
+      "es": "Español"
+    }
   }
 } 

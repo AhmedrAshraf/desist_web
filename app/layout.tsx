@@ -27,11 +27,11 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider>
           <TranslationProvider>
-            <Header />
-            <main className="pt-16 md:pt-20">
-              {children}
-            </main>
-            <Footer />
+          <Header />
+          <main className="pt-16 md:pt-20">
+            {children}
+          </main>
+          <Footer />
           </TranslationProvider>
         </ThemeProvider>
       </body>

@@ -5,7 +5,7 @@ import { Logo } from "./Header";
 import { useTranslation } from "../context/TranslationContext";
 
 export function Footer() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
   return (
     <footer className="bg-white/50 dark:bg-gray-900/50 text-gray-900 dark:text-white">

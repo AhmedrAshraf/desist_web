@@ -9,14 +9,14 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useTranslation } from "../context/TranslationContext";
 
 const navigation = [
-  { name: "common.navigation.about", href: "/about" },
-  { name: "common.navigation.community", href: "/community" },
-  { name: "common.navigation.incidents", href: "/incidents" },
-  { name: "common.navigation.legalHelp", href: "/legal-help" },
-  { name: "common.navigation.resources", href: "/resources" },
-  { name: "common.navigation.support", href: "/support" },
-  { name: "common.navigation.download", href: "/download" },
-  { name: "common.navigation.contact", href: "/contact" },
+  { name: "header.navigation.about", href: "/about" },
+  { name: "header.navigation.community", href: "/community" },
+  { name: "header.navigation.incidents", href: "/incidents" },
+  { name: "header.navigation.legalHelp", href: "/legal-help" },
+  { name: "header.navigation.resources", href: "/resources" },
+  { name: "header.navigation.support", href: "/support" },
+  { name: "header.navigation.download", href: "/download" },
+  { name: "header.navigation.contact", href: "/contact" },
 ] as const;
 
 const flagEmoji = {
@@ -25,31 +25,34 @@ const flagEmoji = {
 };
 
 // Memoized Logo component with preloaded image
-export const Logo = memo(() => (
-  <Link href="/" className="flex items-center gap-4 group relative" prefetch={false}>
-    <div className="relative">
-      {/* <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 will-change-[opacity] transition-opacity duration-300" /> */}
+export const Logo = memo(() => {
+  const { t } = useTranslation();
+  return (
+    <Link href="/" className="flex items-center gap-4 group relative" prefetch={false}>
       <div className="relative">
-        <Image 
-          src="/desist.png" 
-          alt="Logo" 
-          width={48} 
-          height={48} 
-          className="rounded-full will-change-transform transition-transform duration-300 group-hover:scale-105" 
-          priority
-        />
+        {/* <div className="absolute -inset-0.5 bg-blue-200 rounded-full blur opacity-40 group-hover:opacity-75 will-change-[opacity] transition-opacity duration-300" /> */}
+        <div className="relative">
+          <Image 
+            src="/desist.png" 
+            alt="Logo" 
+            width={48} 
+            height={48} 
+            className="rounded-full will-change-transform transition-transform duration-300 group-hover:scale-105" 
+            priority
+          />
+        </div>
       </div>
-    </div>
-    <div className="flex flex-col">
-      <span className="font-bold text-2xl text-blue-900 dark:text-blue-100">
-        DESIST!
-      </span>
-      <span className="text-xs text-gray-700 dark:text-gray-300">
-        Community Protection
-      </span>
-    </div>
-  </Link>
-));
+      <div className="flex flex-col">
+        <span className="font-bold text-2xl text-blue-900 dark:text-blue-100">
+          {t('header.logo.title')}
+        </span>
+        <span className="text-xs text-gray-700 dark:text-gray-300">
+          {t('header.logo.subtitle')}
+        </span>
+      </div>
+    </Link>
+  );
+});
 Logo.displayName = 'Logo';
 
 // Optimized navigation item with reduced motion support
@@ -110,7 +113,7 @@ MenuButton.displayName = 'MenuButton';
 // Language selector component
 const LanguageSelector = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
-  const { language, setLanguage } = useTranslation();
+  const { language, setLanguage, t } = useTranslation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,7 +134,7 @@ const LanguageSelector = memo(() => {
         className="flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
       >
         <span className="text-lg">{flagEmoji[language]}</span>
-        {language.toUpperCase()}
+        {t(`header.language.${language}`)}
         <svg
           className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           fill="none"
@@ -150,7 +153,7 @@ const LanguageSelector = memo(() => {
             }}
             className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
           >
-            <span className="text-lg">{flagEmoji['en']}</span> English
+            <span className="text-lg">{flagEmoji['en']}</span> {t('header.language.en')}
           </button>
           <button
             onClick={() => {
@@ -159,7 +162,7 @@ const LanguageSelector = memo(() => {
             }}
             className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
           >
-            <span className="text-lg">{flagEmoji['es']}</span> Español
+            <span className="text-lg">{flagEmoji['es']}</span> {t('header.language.es')}
           </button>
         </div>
       )}
@@ -268,7 +271,7 @@ export const Header = () => {
             >
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
-                  <span className="font-semibold text-lg text-blue-900 dark:text-blue-100">{t('common.navigation.menu')}</span>
+                  <span className="font-semibold text-lg text-blue-900 dark:text-blue-100">{t('header.navigation.menu')}</span>
                   <MenuButton isOpen={true} onClick={() => setIsMobileMenuOpen(false)} />
                 </div>
                 <nav className="flex-1 p-4 overflow-y-auto">

@@ -20,11 +20,6 @@
       "save": "Guardar",
       "delete": "Eliminar",
       "edit": "Editar"
-    },
-    "footer": {
-      "copyright": "© 2024 DESIST! Todos los derechos reservados.",
-      "privacy": "Política de Privacidad",
-      "terms": "Términos de Servicio"
     }
   },
   "home": {
@@ -662,23 +657,44 @@
     }
   },
   "footer": {
-    "description": "Empowering communities through technology to create safer spaces for everyone. Join us in building a more secure future.",
+    "description": "Empoderando comunidades a través de la tecnología para crear espacios más seguros para todos. Únete a nosotros en la construcción de un futuro más seguro.",
     "quickLinks": {
-      "title": "Quick Links",
-      "about": "About Us",
-      "resources": "Resources",
-      "contact": "Contact",
-      "privacy": "Privacy Policy"
+      "title": "Enlaces Rápidos",
+      "about": "Acerca de Nosotros",
+      "resources": "Recursos",
+      "contact": "Contacto",
+      "privacy": "Política de Privacidad"
     },
     "contact": {
-      "title": "Contact Us",
+      "title": "Contáctanos",
       "email": "support@wedesist.com"
     },
     "bottom": {
-      "copyright": "© {year} DESIST!. All rights reserved.",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "cookies": "Cookie Policy"
+      "copyright": "© {year} DESIST!. Todos los derechos reservados.",
+      "terms": "Términos de Servicio",
+      "privacy": "Política de Privacidad",
+      "cookies": "Política de Cookies"
+    }
+  },
+  "header": {
+    "logo": {
+      "title": "DESIST!",
+      "subtitle": "Protección Comunitaria"
+    },
+    "navigation": {
+      "about": "Acerca de",
+      "community": "Comunidad",
+      "incidents": "Incidentes",
+      "legalHelp": "Ayuda Legal",
+      "resources": "Recursos",
+      "support": "Soporte",
+      "download": "Descargar",
+      "contact": "Contacto",
+      "menu": "Menú"
+    },
+    "language": {
+      "en": "English",
+      "es": "Español"
     }
   }
 } 

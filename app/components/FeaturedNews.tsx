@@ -46,35 +46,35 @@ export default function FeaturedNews() {
     <section className="py-12 px-4 rounded-2xl">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 flex justify-between items-center">
-          <div className="text-left">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="text-left">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               {t('home.news.title')}
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
               {t('home.news.description')}
-            </p>
-          </div>
-          <div className="text-center">
-            <Link
-              href="/blog"
-              className="inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
-            >
+          </p>
+        </div>
+        <div className="text-center">
+          <Link
+            href="/blog"
+            className="inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
+          >
               {t('home.news.viewAll')}
-              <svg
-                className="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </Link>
-          </div>
+            <svg
+              className="w-5 h-5 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
+          </Link>
+        </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

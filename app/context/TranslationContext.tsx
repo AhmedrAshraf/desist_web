@@ -6,13 +6,15 @@ import esTranslations from '../translations/es.json';
 
 type Language = 'en' | 'es';
 
+type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+
 interface TranslationContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
 }
 
-const translations = {
+const translations: Record<Language, JsonValue> = {
   en: enTranslations,
   es: esTranslations,
 };
@@ -37,10 +39,10 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
 
   const t = (key: string): string => {
     const keys = key.split('.');
-    let value: any = translations[language];
+    let value: JsonValue = translations[language];
 
     for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
+      if (value && typeof value === 'object' && value !== null && !Array.isArray(value) && k in value) {
         value = value[k];
       } else {
         return key; // Return the key if translation is not found
