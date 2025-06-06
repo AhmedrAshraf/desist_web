@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import supabase from "../../../utils/supabase";
 import dynamic from 'next/dynamic';
 import { StatsDisplay } from "../../components/StatsDisplay";
+import { useTranslation } from "../../context/TranslationContext";
 
 const DynamicMap = dynamic(() => import("../../components/DynamicMap"), {
   ssr: false,
@@ -47,6 +48,7 @@ export default function AllIncidentsPage() {
   const [sortBy, setSortBy] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchIncidents();
@@ -122,7 +124,7 @@ export default function AllIncidentsPage() {
   const incidentStats = [
     {
       value: incidents.length.toString(),
-      label: "Total Reports",
+      label: t('incidents.stats.totalReports'),
       icon: "📊",
       color: "bg-blue-100 dark:bg-blue-900/30"
     },
@@ -146,13 +148,13 @@ export default function AllIncidentsPage() {
         <div className="container mx-auto max-w-6xl px-4 py-8">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              All Incidents
+              {t('incidents.all.title')}
             </h1>
             <a
               href="/incidents"
               className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium flex items-center gap-2"
             >
-              Back to Overview
+              {t('incidents.all.back')}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
@@ -174,7 +176,7 @@ export default function AllIncidentsPage() {
                 <div className="flex items-center gap-4 flex-1">
                   <input
                     type="text"
-                    placeholder="Search incidents..."
+                    placeholder={t('incidents.all.search')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white flex-1"
@@ -184,9 +186,9 @@ export default function AllIncidentsPage() {
                     onChange={(e) => setSortBy(e.target.value)}
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   >
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                    <option value="type">By Type</option>
+                    <option value="newest">{t('incidents.all.sort.newest')}</option>
+                    <option value="oldest">{t('incidents.all.sort.oldest')}</option>
+                    <option value="type">{t('incidents.all.sort.type')}</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-4">
@@ -195,10 +197,10 @@ export default function AllIncidentsPage() {
                     onChange={(e) => setFilter(e.target.value)}
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   >
-                    <option value="all">All Incidents</option>
-                    <option value="active">Active</option>
-                    <option value="resolved">Resolved</option>
-                    <option value="investigating">Under Investigation</option>
+                    <option value="all">{t('incidents.all.filter.all')}</option>
+                    <option value="active">{t('incidents.all.filter.active')}</option>
+                    <option value="resolved">{t('incidents.all.filter.resolved')}</option>
+                    <option value="investigating">{t('incidents.all.filter.investigating')}</option>
                   </select>
                   <div className="flex rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden">
                     <button
@@ -209,7 +211,7 @@ export default function AllIncidentsPage() {
                           : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
                       }`}
                     >
-                      List
+                      {t('incidents.all.views.list')}
                     </button>
                     <button
                       onClick={() => setViewMode('map')}
@@ -219,7 +221,7 @@ export default function AllIncidentsPage() {
                           : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
                       }`}
                     >
-                      Map
+                      {t('incidents.all.views.map')}
                     </button>
                   </div>
                   {viewMode === 'list' && (
@@ -334,17 +336,17 @@ export default function AllIncidentsPage() {
                     disabled={currentPage === 1}
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white disabled:opacity-50"
                   >
-                    Previous
+                    {t('incidents.all.previous')}
                   </button>
                   <span className="text-gray-600 dark:text-gray-400">
-                    Page {currentPage} of {totalPages}
+                    {t('incidents.all.page')} {currentPage} {t('incidents.all.of')} {totalPages}
                   </span>
                   <button
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white disabled:opacity-50"
                   >
-                    Next
+                    {t('incidents.all.next')}
                   </button>
                 </div>
               )}

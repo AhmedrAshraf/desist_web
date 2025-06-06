@@ -234,6 +234,92 @@
       }
     }
   },
+  "incidents": {
+    "all": {
+      "title": "Todos los Incidentes",
+      "back": "Volver a la Vista General",
+      "search": "Buscar incidentes...",
+      "sort": {
+        "newest": "Más Recientes",
+        "oldest": "Más Antiguos",
+        "type": "Por Tipo"
+      },
+      "filter": {
+        "all": "Todos los Incidentes",
+        "active": "Activos",
+        "resolved": "Resueltos",
+        "investigating": "En Investigación"
+      },
+      "views": {
+        "list": "Lista",
+        "map": "Mapa"
+      },
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página",
+      "of": "de",
+      "centerOnMe": "Centrar en Mí",
+      "viewAll": "Ver Todos",
+      "yourLocation": "Tu Ubicación"
+    },
+    "hero": {
+      "title": "Reportes de Incidentes",
+      "description": "Juntos podemos hacer nuestra comunidad más segura. Reporta incidentes y mantente informado sobre lo que sucede en tu área.",
+      "reportButton": "Reportar Incidente"
+    },
+    "stats": {
+      "totalReports": "Reportes Totales"
+    },
+    "features": {
+      "title": "Características de Reportes",
+      "description": "Herramientas poderosas para ayudarte a reportar y rastrear incidentes",
+      "anonymous": {
+        "title": "Reportes Anónimos",
+        "description": "Envía reportes sin revelar tu identidad. Tu privacidad es nuestra prioridad."
+      },
+      "mobile": {
+        "title": "Reportes Móviles",
+        "description": "Reporta incidentes sobre la marcha usando nuestra aplicación móvil."
+      },
+      "location": {
+        "title": "Seguimiento de Ubicación",
+        "description": "Servicios de ubicación opcionales para ayudar a identificar patrones de incidentes."
+      },
+      "alerts": {
+        "title": "Alertas en Tiempo Real",
+        "description": "Recibe notificaciones sobre incidentes en tu área."
+      },
+      "media": {
+        "title": "Subida de Medios",
+        "description": "Sube fotos y videos de forma segura como evidencia."
+      },
+      "updates": {
+        "title": "Actualizaciones Comunitarias",
+        "description": "Mantente informado sobre resoluciones y resultados de incidentes."
+      }
+    },
+    "recent": {
+      "title": "Incidentes Recientes",
+      "viewAll": "Ver Todos los Incidentes",
+      "filters": {
+        "all": "Todos los Incidentes",
+        "active": "Activos",
+        "resolved": "Resueltos",
+        "investigating": "En Investigación"
+      },
+      "views": {
+        "list": "Lista",
+        "map": "Mapa"
+      },
+      "location": "Ubicación no especificada"
+    },
+    "cta": {
+      "title": "Descarga Nuestra Aplicación Móvil",
+      "description": "Reporta incidentes, recibe alertas y mantente conectado con tu comunidad sobre la marcha.",
+      "primary": "Obtener la App",
+      "secondary": "Saber Más"
+    }
+  },
   "legal": {
     "attorney": {
       "contact": "Contactar Abogado",

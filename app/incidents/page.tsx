@@ -7,6 +7,7 @@ import { StatsDisplay } from "../components/StatsDisplay";
 import { FeatureGrid } from "../components/FeatureGrid";
 import { CallToAction } from "../components/CallToAction";
 import { HeroSection } from "../components/HeroSection";
+import { useTranslation } from "../context/TranslationContext";
 
 const DynamicMap = dynamic(() => import("../components/DynamicMap"), {
   ssr: false,
@@ -46,6 +47,7 @@ export default function IncidentsPage() {
   const [filter, setFilter] = useState("all");
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [listLayout, setListLayout] = useState<'list' | 'grid'>('grid');
+  const { t } = useTranslation();
   const showAll = false;
   const INITIAL_DISPLAY_COUNT = 3;
 
@@ -102,7 +104,7 @@ export default function IncidentsPage() {
   const incidentStats = [
     {
       value: incidents.length.toString(),
-      label: "Total Reports",
+      label: t('incidents.stats.totalReports'),
       icon: "📊",
       color: "bg-blue-100 dark:bg-blue-900/30"
     },
@@ -122,41 +124,41 @@ export default function IncidentsPage() {
   const reportingFeatures = [
     {
       icon: "🔒",
-      title: "Anonymous Reporting",
-      description: "Submit reports without revealing your identity. Your privacy is our priority."
+      title: t('incidents.features.anonymous.title'),
+      description: t('incidents.features.anonymous.description')
     },
     {
       icon: "📱",
-      title: "Mobile Reporting",
-      description: "Report incidents on the go using our mobile app."
+      title: t('incidents.features.mobile.title'),
+      description: t('incidents.features.mobile.description')
     },
     {
       icon: "📍",
-      title: "Location Tracking",
-      description: "Optional location services to help identify incident patterns."
+      title: t('incidents.features.location.title'),
+      description: t('incidents.features.location.description')
     },
     {
       icon: "🔔",
-      title: "Real-time Alerts",
-      description: "Get notified about incidents in your area."
+      title: t('incidents.features.alerts.title'),
+      description: t('incidents.features.alerts.description')
     },
     {
       icon: "📸",
-      title: "Media Upload",
-      description: "Securely upload photos and videos as evidence."
+      title: t('incidents.features.media.title'),
+      description: t('incidents.features.media.description')
     },
     {
       icon: "👥",
-      title: "Community Updates",
-      description: "Stay informed about incident resolutions and outcomes."
+      title: t('incidents.features.updates.title'),
+      description: t('incidents.features.updates.description')
     }
   ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <HeroSection
-        title="Incident Reports"
-        description="Together we can make our community safer. Report incidents and stay informed about what's happening in your area."
+        title={t('incidents.hero.title')}
+        description={t('incidents.hero.description')}
         imageSrc="/images/incidents/command-center.jpg"
         imageAlt="Community incident reporting and tracking"
       >
@@ -167,7 +169,7 @@ export default function IncidentsPage() {
             whileTap={{ scale: 0.95 }}
             className="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
           >
-            Report Incident
+            {t('incidents.hero.reportButton')}
           </motion.a>
         </div>
       </HeroSection>
@@ -177,8 +179,8 @@ export default function IncidentsPage() {
 
       {/* Reporting Features */}
       <FeatureGrid
-        title="Reporting Features"
-        description="Powerful tools to help you report and track incidents"
+        title={t('incidents.features.title')}
+        description={t('incidents.features.description')}
         features={reportingFeatures}
         columns={3}
         variant="bordered"
@@ -190,13 +192,13 @@ export default function IncidentsPage() {
           {/* Title and View All Link */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Recent Incidents
+              {t('incidents.recent.title')}
             </h2>
             <a
               href="/incidents/all"
               className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium flex items-center gap-2"
             >
-              View All Incidents
+              {t('incidents.recent.viewAll')}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
@@ -212,10 +214,10 @@ export default function IncidentsPage() {
                   onChange={(e) => setFilter(e.target.value)}
                   className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 >
-                  <option value="all">All Incidents</option>
-                  <option value="active">Active</option>
-                  <option value="resolved">Resolved</option>
-                  <option value="investigating">Under Investigation</option>
+                  <option value="all">{t('incidents.recent.filters.all')}</option>
+                  <option value="active">{t('incidents.recent.filters.active')}</option>
+                  <option value="resolved">{t('incidents.recent.filters.resolved')}</option>
+                  <option value="investigating">{t('incidents.recent.filters.investigating')}</option>
                 </select>
                 <div className="flex rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden">
                   <button
@@ -226,7 +228,7 @@ export default function IncidentsPage() {
                         : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
                     }`}
                   >
-                    List
+                    {t('incidents.recent.views.list')}
                   </button>
                   <button
                     onClick={() => setViewMode('map')}
@@ -236,7 +238,7 @@ export default function IncidentsPage() {
                         : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
                     }`}
                   >
-                    Map
+                    {t('incidents.recent.views.map')}
                   </button>
                 </div>
                 {viewMode === 'list' && (
@@ -302,7 +304,7 @@ export default function IncidentsPage() {
                       </p>
                       <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
                         <p className="truncate max-w-[250px]" title={incident.address}>
-                          📍 {incident.address || 'Location not specified'}
+                          📍 {incident.address || t('incidents.recent.location')}
                         </p>
                         <p>🕒 {formatDate(incident.created_at)}</p>
                       </div>
@@ -328,7 +330,7 @@ export default function IncidentsPage() {
                           </p>
                           <div className="flex items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
                             <span className="truncate max-w-[250px]" title={incident.address}>
-                              📍 {incident.address || 'Location not specified'}
+                              📍 {incident.address || t('incidents.recent.location')}
                             </span>
                             <span>🕒 {formatDate(incident.created_at)}</span>
                           </div>
@@ -348,14 +350,14 @@ export default function IncidentsPage() {
 
       {/* Call to Action */}
       <CallToAction
-        title="Download Our Mobile App"
-        description="Report incidents, receive alerts, and stay connected with your community on the go."
+        title={t('incidents.cta.title')}
+        description={t('incidents.cta.description')}
         primaryAction={{
-          label: "Get the App",
+          label: t('incidents.cta.primary'),
           href: "#download"
         }}
         secondaryAction={{
-          label: "Learn More",
+          label: t('incidents.cta.secondary'),
           href: "/about"
         }}
         pageType="incidents"

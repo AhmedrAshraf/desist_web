@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import LocationPermissionHandler from './LocationPermissionHandler';
-
+import { useTranslation } from '../context/TranslationContext';
 // Fix for default marker icons in Leaflet with Next.js
 const DefaultIcon = L.icon({
   iconUrl: '/images/marker-icon.png',
@@ -81,6 +81,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
 
   const handleLocationGranted = useCallback((position: GeolocationPosition) => {
     const { latitude: lat, longitude: lng } = position.coords;
@@ -267,7 +268,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
             >
               <Popup>
                 <div className="text-sm">
-                  <strong>Your Location</strong>
+                  <strong>{t('incidents.all.yourLocation')}</strong>
                 </div>
               </Popup>
             </Marker>
@@ -321,13 +322,13 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
             onClick={() => userLocation && mapInstance?.setView(userLocation, mapZoom)}
             className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
           >
-            Center on Me
+            {t('incidents.all.centerOnMe')}
           </button>
           <button
             onClick={handleViewAllClick}
             className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
           >
-            View All
+            {t('incidents.all.viewAll')}
           </button>
         </div>
       </div>

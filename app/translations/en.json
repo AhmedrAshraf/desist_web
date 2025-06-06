@@ -234,6 +234,92 @@
       }
     }
   },
+  "incidents": {
+    "all": {
+      "title": "All Incidents",
+      "back": "Back to Overview",
+      "search": "Search incidents...",
+      "sort": {
+        "newest": "Newest First",
+        "oldest": "Oldest First",
+        "type": "By Type"
+      },
+      "filter": {
+        "all": "All Incidents",
+        "active": "Active",
+        "resolved": "Resolved",
+        "investigating": "Under Investigation"
+      },
+      "views": {
+        "list": "List",
+        "map": "Map"
+      },
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "centerOnMe": "Center on Me",
+      "viewAll": "View All",
+      "yourLocation": "Your Location"
+    },
+    "hero": {
+      "title": "Incident Reports",
+      "description": "Together we can make our community safer. Report incidents and stay informed about what's happening in your area.",
+      "reportButton": "Report Incident"
+    },
+    "stats": {
+      "totalReports": "Total Reports"
+    },
+    "features": {
+      "title": "Reporting Features",
+      "description": "Powerful tools to help you report and track incidents",
+      "anonymous": {
+        "title": "Anonymous Reporting",
+        "description": "Submit reports without revealing your identity. Your privacy is our priority."
+      },
+      "mobile": {
+        "title": "Mobile Reporting",
+        "description": "Report incidents on the go using our mobile app."
+      },
+      "location": {
+        "title": "Location Tracking",
+        "description": "Optional location services to help identify incident patterns."
+      },
+      "alerts": {
+        "title": "Real-time Alerts",
+        "description": "Get notified about incidents in your area."
+      },
+      "media": {
+        "title": "Media Upload",
+        "description": "Securely upload photos and videos as evidence."
+      },
+      "updates": {
+        "title": "Community Updates",
+        "description": "Stay informed about incident resolutions and outcomes."
+      }
+    },
+    "recent": {
+      "title": "Recent Incidents",
+      "viewAll": "View All Incidents",
+      "filters": {
+        "all": "All Incidents",
+        "active": "Active",
+        "resolved": "Resolved",
+        "investigating": "Under Investigation"
+      },
+      "views": {
+        "list": "List",
+        "map": "Map"
+      },
+      "location": "Location not specified"
+    },
+    "cta": {
+      "title": "Download Our Mobile App",
+      "description": "Report incidents, receive alerts, and stay connected with your community on the go.",
+      "primary": "Get the App",
+      "secondary": "Learn More"
+    }
+  },
   "legal": {
     "attorney": {
       "contact": "Contact Attorney",
