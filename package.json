@@ -24,7 +24,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
-    "react-leaflet-cluster": "^2.1.0",
+    "supercluster": "^8.0.1",
+    "use-supercluster": "^1.1.0",
     "rss-parser": "^3.13.0",
     "uuid": "^11.1.0"
   },
