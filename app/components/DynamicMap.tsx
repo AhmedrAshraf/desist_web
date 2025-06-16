@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import LocationPermissionHandler from './LocationPermissionHandler';
 import { useTranslation } from '../context/TranslationContext';
+import useSupercluster from 'use-supercluster';
+import { BBox } from 'geojson';
+
 // Fix for default marker icons in Leaflet with Next.js
 const DefaultIcon = L.icon({
   iconUrl: '/images/marker-icon.png',
@@ -50,6 +50,125 @@ function ChangeView({ center, zoom }: { center: [number, number]; zoom: number }
   return null;
 }
 
+// Add ClusterMarkers component
+function ClusterMarkers({ locations, createCustomIcon }: { 
+  locations: MapLocation[], 
+  createCustomIcon: (color: string) => L.DivIcon 
+}) {
+  const map = useMap();
+  const [bounds, setBounds] = useState<BBox | undefined>(undefined);
+  const [zoom, setZoom] = useState(map.getZoom());
+
+  // Update bounds and zoom when map moves
+  useEffect(() => {
+    const updateMap = () => {
+      const b = map.getBounds();
+      setBounds([
+        b.getWest(),
+        b.getSouth(),
+        b.getEast(),
+        b.getNorth()
+      ]);
+      setZoom(map.getZoom());
+    };
+    
+    updateMap();
+    map.on('moveend', updateMap);
+    return () => {
+      map.off('moveend', updateMap);
+    };
+  }, [map]);
+
+  // Format GeoJSON points for supercluster
+  const points = locations.map(item => ({
+    type: 'Feature' as const,
+    properties: { 
+      ...item,
+      color: item.type.toLowerCase() === 'incidents' 
+        ? (item.status?.toLowerCase() === 'active' ? 'red' 
+          : item.status?.toLowerCase() === 'resolved' ? 'green' 
+          : item.status?.toLowerCase() === 'investigating' ? 'orange' 
+          : 'gray')
+        : 'red'
+    },
+    geometry: {
+      type: 'Point' as const,
+      coordinates: [item.longitude, item.latitude]
+    }
+  }));
+
+  const { clusters, supercluster } = useSupercluster({
+    points,
+    bounds,
+    zoom,
+    options: { radius: 75, maxZoom: 20 }
+  });
+
+  if (!bounds) return null;
+
+  return (
+    <>
+      {clusters.map(cluster => {
+        const [longitude, latitude] = cluster.geometry.coordinates;
+        const { cluster: isCluster, point_count: pointCount } = cluster.properties;
+
+        if (isCluster) {
+          return (
+            <Marker
+              key={`cluster-${cluster.id}`}
+              position={[latitude, longitude]}
+              icon={L.divIcon({
+                html: `<div class="cluster-marker">${pointCount}</div>`,
+                className: "custom-cluster-icon",
+                iconSize: L.point(40, 40, true)
+              })}
+              eventHandlers={{
+                click: () => {
+                  const expansionZoom = Math.min(
+                    supercluster.getClusterExpansionZoom(cluster.id),
+                    20
+                  );
+                  map.setView([latitude, longitude], expansionZoom);
+                }
+              }}
+            />
+          );
+        }
+
+        // For individual points
+        const item = cluster.properties;
+        return (
+          <Marker
+            key={`point-${item.id}`}
+            position={[latitude, longitude]}
+            icon={createCustomIcon(item.color)}
+          >
+            <Popup>
+              <div className="text-sm">
+                <strong className="block mb-1">{item.title}</strong>
+                <p className="mb-1">{item.description}</p>
+                <p className="text-gray-600">{item.address}</p>
+                {item.date && (
+                  <p className="text-gray-600 mt-1">{new Date(item.date).toLocaleDateString()}</p>
+                )}
+                {item.status && (
+                  <span className={`
+                    inline-block px-2 py-1 mt-2 rounded-full text-xs
+                    ${item.status.toLowerCase() === 'active' ? 'bg-red-100 text-red-800' :
+                      item.status.toLowerCase() === 'resolved' ? 'bg-green-100 text-green-800' :
+                      'bg-yellow-100 text-yellow-800'}
+                  `}>
+                    {item.status}
+                  </span>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
+    </>
+  );
+}
 
 function getUserLocation(): Promise<{ lat: number; lng: number }> {
   return new Promise((resolve, reject) => {
@@ -154,22 +273,6 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
     initializeMap();
   }, [initialCenter]);
 
-  const getMarkerColor = (item: MapLocation) => {
-    if (item.type.toLowerCase() === 'incidents') {
-      switch (item.status?.toLowerCase()) {
-        case 'active':
-          return 'red';
-        case 'resolved':
-          return 'green';
-        case 'investigating':
-          return 'orange';
-        default:
-          return 'gray';
-      }
-    }
-    return 'red';
-  };
-
   const createCustomIcon = (color: string) => {
     return L.divIcon({
       html: `
@@ -248,6 +351,26 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
       onLocationError={handleLocationError}
     >
       <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
+        <style jsx global>{`
+          .custom-cluster-icon {
+            background: none;
+          }
+          
+          .cluster-marker {
+            color: #fff;
+            background: #1978c8;
+            border-radius: 50%;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 0 0 5px rgba(25, 120, 200, 0.3);
+          }
+        `}</style>
         <MapContainer
           center={mapCenter}
           zoom={mapZoom}
@@ -263,8 +386,8 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
           
           {userLocation && (
             <Marker
-              position={userLocation}
-              icon={createCustomIcon('red')}
+              position={[userLocation.lat, userLocation.lng]}
+              icon={createCustomIcon('blue')}
             >
               <Popup>
                 <div className="text-sm">
@@ -274,41 +397,10 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
             </Marker>
           )}
 
-          <MarkerClusterGroup
-            chunkedLoading
-            maxClusterRadius={50}
-            spiderfyOnMaxZoom={true}
-            showCoverageOnHover={false}
-          >
-            {locations.map((item) => (
-              <Marker
-                key={item.id}
-                position={[item.latitude, item.longitude]}
-                icon={createCustomIcon(getMarkerColor(item))}
-              >
-                <Popup>
-                  <div className="text-sm">
-                    <strong className="block mb-1">{item.title}</strong>
-                    <p className="mb-1">{item.description}</p>
-                    <p className="text-gray-600">{item.address}</p>
-                    {item.date && (
-                      <p className="text-gray-600 mt-1">{new Date(item.date).toLocaleDateString()}</p>
-                    )}
-                    {item.status && (
-                      <span className={`
-                        inline-block px-2 py-1 mt-2 rounded-full text-xs
-                        ${item.status.toLowerCase() === 'active' ? 'bg-red-100 text-red-800' :
-                          item.status.toLowerCase() === 'resolved' ? 'bg-green-100 text-green-800' :
-                          'bg-yellow-100 text-yellow-800'}
-                      `}>
-                        {item.status}
-                      </span>
-                    )}
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MarkerClusterGroup>
+          <ClusterMarkers 
+            locations={locations} 
+            createCustomIcon={createCustomIcon} 
+          />
         </MapContainer>
 
         {locationError && (
@@ -319,7 +411,7 @@ export default function DynamicMap({ locations, center: initialCenter, zoom: ini
 
         <div className="absolute bottom-4 right-4 z-[1000] flex gap-2">
           <button
-            onClick={() => userLocation && mapInstance?.setView(userLocation, mapZoom)}
+            onClick={() => userLocation && mapInstance?.setView([userLocation.lat, userLocation.lng], mapZoom)}
             className="px-4 py-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 text-gray-900 transition-colors text-sm font-medium"
           >
             {t('incidents.all.centerOnMe')}
