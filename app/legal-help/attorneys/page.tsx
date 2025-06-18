@@ -1,45 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { HeroSection } from "../../components/HeroSection";
 import { useAttorneys } from "../../context/AttorneysContext";
 
-interface Attorney {
-  id: string;
-  name: string;
-  specialization: string;
-  location: string;
-  detailedLocation: string;
-  rating: number;
-  cases: number;
-  image: string;
-  languages: string[];
-  featured: boolean;
-  phone?: string;
-  website?: string;
-  address?: string;
-  email?: string;
-  barNumber?: string;
-  education?: string[];
-  experience?: string;
-  lat?: number;
-  lng?: number;
-}
-
-// interface Lawyer {
-//   id: string;
-//   name: string;
-//   specialization: string[];
-//   address: string;
-//   phone: string;
-//   email: string;
-//   rating: number;
-//   latitude: number;
-//   longitude: number;
-//   website?: string;
-// }
-
-// Sample data for demonstration
 const practiceAreas = [
   "Immigration Law",
   "Family Law",

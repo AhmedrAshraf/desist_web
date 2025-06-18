@@ -1,4 +1,20 @@
-import { Attorney } from '@/types/attorney';
+interface Attorney {
+  id: string;
+  name: string;
+  specialization: string;
+  location: string;
+  detailedLocation: string;
+  rating: number;
+  cases: number;
+  image: string;
+  languages: string[];
+  featured: boolean;
+  lat: number;
+  lng: number;
+  phone: string;
+  email: string;
+  barNumber: string;
+}
 
 interface LocationParams {
   lat: number;

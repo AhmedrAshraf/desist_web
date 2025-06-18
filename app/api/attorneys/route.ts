@@ -23,6 +23,38 @@ interface Attorney {
   lng?: number;
 }
 
+interface OverpassElement {
+  type: string;
+  id: number;
+  lat: number;
+  lon: number;
+  tags: {
+    name?: string;
+    office?: string;
+    phone?: string;
+    website?: string;
+    email?: string;
+    address?: string;
+    "addr:full"?: string;
+    "addr:street"?: string;
+    "addr:housenumber"?: string;
+    "addr:city"?: string;
+    "addr:state"?: string;
+    "addr:postcode"?: string;
+    [key: string]: string | undefined;
+  };
+}
+
+interface OverpassResponse {
+  version: number;
+  generator: string;
+  osm3s: {
+    timestamp_osm_base: string;
+    copyright: string;
+  };
+  elements: OverpassElement[];
+}
+
 // Function to search for attorneys using Overpass API
 async function searchAttorneys(lat: number, lng: number, radius: number) {
   console.log('\n=== STARTING ATTORNEY SEARCH ===');
@@ -44,7 +76,7 @@ async function searchAttorneys(lat: number, lng: number, radius: number) {
 
     console.log('Making request to Overpass API with query:', query);
     
-    const response = await axios.post('https://overpass-api.de/api/interpreter', query, {
+    const response = await axios.post<OverpassResponse>('https://overpass-api.de/api/interpreter', query, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
@@ -61,7 +93,7 @@ async function searchAttorneys(lat: number, lng: number, radius: number) {
     }
 
     // Transform Overpass data to attorney format
-    const attorneys: Attorney[] = response.data.elements.map((element: any, index: number) => ({
+    const attorneys: Attorney[] = response.data.elements.map((element, index) => ({
       id: element.id.toString(),
       name: element.tags.name || `Attorney ${index + 1}`,
       specialization: element.tags.office || "General Practice",
