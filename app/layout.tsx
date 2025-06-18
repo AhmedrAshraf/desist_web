@@ -5,6 +5,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { TranslationProvider } from "./context/TranslationContext";
+import { AttorneysProvider } from "./context/AttorneysContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,11 +28,13 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider>
           <TranslationProvider>
-          <Header />
-          <main className="pt-16 md:pt-20">
-            {children}
-          </main>
-          <Footer />
+            <AttorneysProvider>
+              <Header />
+              <main className="pt-16 md:pt-20">
+                {children}
+              </main>
+              <Footer />
+            </AttorneysProvider>
           </TranslationProvider>
         </ThemeProvider>
       </body>

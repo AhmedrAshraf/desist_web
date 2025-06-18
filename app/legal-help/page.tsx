@@ -6,6 +6,7 @@ import { CallToAction } from "../components/CallToAction";
 import { FeatureGrid } from "../components/FeatureGrid";
 import { HeroSection } from "../components/HeroSection";
 import { useTranslation } from "../context/TranslationContext";
+import { useAttorneys } from "../context/AttorneysContext";
 
 interface Attorney {
   id: string;
@@ -74,14 +75,17 @@ export default function LegalHelpPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
-  const [attorneys, setAttorneys] = useState<Attorney[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { attorneys, setAttorneys, loading, setLoading, error, setError } = useAttorneys();
   const { t } = useTranslation();
   // const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
 
   const fetchAttorneys = useCallback(async (lat: number, lng: number) => {
     try {
+      console.log('Legal-help page: Starting to fetch attorneys...');
+      setLoading(true);
+      setError(null);
+      
+      console.log('Legal-help page: Fetching attorneys with params:', { lat, lng, radius: 50 });
       const response = await fetch(`/api/lawyers?lat=${lat}&lng=${lng}&radius=50`);
       
       if (!response.ok) {
@@ -89,46 +93,51 @@ export default function LegalHelpPage() {
       }
 
       const data = await response.json();
+      console.log('Legal-help page: API response data:', data);
+      console.log('Legal-help page: Received lawyers count:', data.lawyers?.length || 0);
 
       if (!data.lawyers || data.lawyers.length === 0) {
+        console.log('Legal-help page: No lawyers found in response');
         setAttorneys([]);
       } else {
-        // Transform API data to attorney format and limit to 5
-        const transformedAttorneys = data.lawyers
-          .slice(0, 5) // Limit to 5 attorneys
-          .map((lawyer: Lawyer, index: number) => ({
-            id: lawyer.id,
-            name: lawyer.name,
-            specialization: lawyer.specialization?.[0] || "General Practice",
-            location: lawyer.address?.split(',')[0] || "Location not available",
-            detailedLocation: lawyer.address || "Address not available",
-            rating: lawyer.rating || 0,
-            cases: Math.floor(Math.random() * 200) + 50,
-            image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
-            languages: ["English"],
-            featured: index < 2, // Make first two featured
-            phone: lawyer.phone,
-            website: lawyer.website,
-            address: lawyer.address,
-            email: lawyer.email,
-            lat: lawyer.latitude,
-            lng: lawyer.longitude
-          }));
+        console.log('Legal-help page: Transforming lawyers data...');
+        // Transform API data to attorney format
+        const transformedAttorneys = data.lawyers.map((lawyer: any, index: number) => ({
+          id: lawyer.id,
+          name: lawyer.name,
+          specialization: lawyer.specialization?.[0] || "General Practice",
+          location: lawyer.address?.split(',')[0] || "Location not available",
+          detailedLocation: lawyer.address || "Address not available",
+          rating: lawyer.rating || 0,
+          cases: Math.floor(Math.random() * 200) + 50,
+          image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
+          languages: ["English"],
+          featured: index < 2,
+          phone: lawyer.phone,
+          website: lawyer.website,
+          address: lawyer.address,
+          email: lawyer.email,
+          lat: lawyer.latitude,
+          lng: lawyer.longitude
+        }));
+        console.log('Legal-help page: Setting transformed attorneys:', transformedAttorneys.length);
         setAttorneys(transformedAttorneys);
       }
-      
-      setLoading(false);
     } catch (err) {
       const errorMessage = `Error fetching attorneys: ${err instanceof Error ? err.message : 'Unknown error'}`;
+      console.error('Legal-help page:', errorMessage);
       setError(errorMessage);
       setAttorneys([]);
+    } finally {
+      console.log('Legal-help page: Setting loading to false');
       setLoading(false);
     }
-  }, []);
+  }, [setAttorneys, setLoading, setError]);
 
   const initializeLocation = useCallback(async () => {
     if ("geolocation" in navigator) {
       try {
+        console.log('Legal-help page: Requesting location...');
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, {
             enableHighAccuracy: true,
@@ -138,8 +147,10 @@ export default function LegalHelpPage() {
         });
 
         const { latitude: lat, longitude: lng } = position.coords;
+        console.log('Legal-help page: Location obtained:', { lat, lng });
         await fetchAttorneys(lat, lng);
       } catch (error) {
+        console.error('Legal-help page: Location error:', error);
         if (error instanceof GeolocationPositionError) {
           if (error.code === error.PERMISSION_DENIED) {
             setError("Location access was denied. Please enable location access in your browser settings to use this feature.");
@@ -156,12 +167,14 @@ export default function LegalHelpPage() {
         setLoading(false);
       }
     } else {
+      console.log('Legal-help page: Geolocation not supported');
       setError("Geolocation is not supported by your browser");
       setLoading(false);
     }
-  }, [fetchAttorneys]);
+  }, [fetchAttorneys, setError, setLoading]);
 
   useEffect(() => {
+    console.log('Legal-help page: Component mounted, initializing location...');
     initializeLocation();
   }, [initializeLocation]);
 

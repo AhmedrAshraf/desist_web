@@ -91,9 +91,6 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
   console.log('Search parameters:', { lat, lng, radius });
   
   try {
-    // Convert radius from km to degrees (roughly)
-    // const radiusDegrees = radius / 111.32;
-    
     // Create Overpass QL query
     const query = `
       [out:json][timeout:25];
@@ -107,7 +104,7 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
       out skel qt;
     `;
 
-    console.log('Making request to Overpass API...');
+    console.log('Making request to Overpass API with query:', query);
     
     const response = await axios.post('https://overpass-api.de/api/interpreter', query, {
       headers: {
@@ -122,6 +119,7 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
 
     if (!response.data.elements || response.data.elements.length === 0) {
       console.log('No lawyers found in Overpass API, using mock data');
+      console.log('Mock data sample:', mockLawyers[0]);
       return mockLawyers;
     }
 
@@ -159,6 +157,7 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
     });
 
     console.log(`Found ${lawyers.length} lawyers in the area`);
+    console.log('First lawyer sample:', lawyers[0]);
     return lawyers;
 
   } catch (error) {
@@ -171,12 +170,13 @@ async function searchLawyers(lat: number, lng: number, radius: number) {
       });
     }
     console.log('Using mock data due to error');
+    console.log('Mock data sample:', mockLawyers[0]);
     return mockLawyers;
   }
 }
 
 export async function GET(request: Request) {
-  console.log('\n=== NEW API REQUEST ===');
+  console.log('\n=== NEW LAWYERS API REQUEST ===');
   
   try {
     const { searchParams } = new URL(request.url);
@@ -198,12 +198,15 @@ export async function GET(request: Request) {
     const userLng = parseFloat(lng);
     const radiusKm = parseFloat(radius);
 
-    console.log('User location:', { userLat, userLng, radiusKm });
+    console.log('Parsed user location:', { userLat, userLng, radiusKm });
 
     // Search for lawyers in the area
+    console.log('Calling searchLawyers function');
     const lawyers = await searchLawyers(userLat, userLng, radiusKm);
+    console.log('searchLawyers returned:', { count: lawyers.length });
 
     // Filter by exact distance
+    console.log('Filtering lawyers by exact distance');
     const filteredLawyers = lawyers.filter(lawyer => {
       const distance = calculateDistance(
         userLat,
@@ -211,11 +214,24 @@ export async function GET(request: Request) {
         lawyer.latitude,
         lawyer.longitude
       );
-      return distance <= radiusKm;
+      const isWithinRadius = distance <= radiusKm;
+      if (!isWithinRadius) {
+        console.log(`Lawyer ${lawyer.name} excluded: distance ${distance.toFixed(2)}km > radius ${radiusKm}km`);
+      }
+      return isWithinRadius;
     });
 
     console.log(`Returning ${filteredLawyers.length} lawyers within ${radiusKm}km radius`);
-    console.log('=== REQUEST COMPLETE ===\n');
+    
+    // Check if the response is empty
+    if (filteredLawyers.length === 0) {
+      console.log('WARNING: No lawyers found after filtering. Using mock data as fallback.');
+      // Return mock data as fallback
+      return NextResponse.json({ lawyers: mockLawyers });
+    }
+    
+    console.log('Sample of returned data:', filteredLawyers.slice(0, 2));
+    console.log('=== LAWYERS API REQUEST COMPLETE ===\n');
 
     return NextResponse.json({ lawyers: filteredLawyers });
 

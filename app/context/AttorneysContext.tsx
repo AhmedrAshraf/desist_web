@@ -1,0 +1,150 @@
+"use client";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+
+interface Attorney {
+  id: string;
+  name: string;
+  specialization: string;
+  location: string;
+  detailedLocation: string;
+  rating: number;
+  cases: number;
+  image: string;
+  languages: string[];
+  featured: boolean;
+  phone?: string;
+  website?: string;
+  address?: string;
+  email?: string;
+  barNumber?: string;
+  education?: string[];
+  experience?: string;
+  lat?: number;
+  lng?: number;
+}
+
+interface AttorneysContextType {
+  attorneys: Attorney[];
+  setAttorneys: (attorneys: Attorney[]) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+  error: string | null;
+  setError: (error: string | null) => void;
+}
+
+const AttorneysContext = createContext<AttorneysContextType | undefined>(undefined);
+
+export function AttorneysProvider({ children }: { children: ReactNode }) {
+  const [attorneys, setAttorneys] = useState<Attorney[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchAttorneys = async (lat: number, lng: number) => {
+    try {
+      console.log('AttorneysContext: Starting to fetch attorneys...');
+      setLoading(true);
+      setError(null);
+      
+      console.log('AttorneysContext: Fetching attorneys with params:', { lat, lng, radius: 50 });
+      const response = await fetch(`/api/lawyers?lat=${lat}&lng=${lng}&radius=50`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('AttorneysContext: API response data:', data);
+      console.log('AttorneysContext: Received lawyers count:', data.lawyers?.length || 0);
+
+      if (!data.lawyers || data.lawyers.length === 0) {
+        console.log('AttorneysContext: No lawyers found in response');
+        setAttorneys([]);
+      } else {
+        console.log('AttorneysContext: Transforming lawyers data...');
+        const transformedAttorneys = data.lawyers.map((lawyer: any, index: number) => ({
+          id: lawyer.id,
+          name: lawyer.name,
+          specialization: lawyer.specialization?.[0] || "General Practice",
+          location: lawyer.address?.split(',')[0] || "Location not available",
+          detailedLocation: lawyer.address || "Address not available",
+          rating: lawyer.rating || 0,
+          cases: Math.floor(Math.random() * 200) + 50,
+          image: `/images/attorneys/attorney${Math.floor(Math.random() * 3) + 1}.jpg`,
+          languages: ["English"],
+          featured: index < 2,
+          phone: lawyer.phone,
+          website: lawyer.website,
+          address: lawyer.address,
+          email: lawyer.email,
+          lat: lawyer.latitude,
+          lng: lawyer.longitude
+        }));
+        console.log('AttorneysContext: Setting transformed attorneys:', transformedAttorneys.length);
+        setAttorneys(transformedAttorneys);
+      }
+    } catch (err) {
+      const errorMessage = `Error fetching attorneys: ${err instanceof Error ? err.message : 'Unknown error'}`;
+      console.error('AttorneysContext:', errorMessage);
+      setError(errorMessage);
+      setAttorneys([]);
+    } finally {
+      console.log('AttorneysContext: Setting loading to false');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log('AttorneysContext: Initializing...');
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude: lat, longitude: lng } = position.coords;
+          console.log('AttorneysContext: Location obtained:', { lat, lng });
+          await fetchAttorneys(lat, lng);
+        },
+        (error) => {
+          console.error('AttorneysContext: Location error:', error);
+          // Use default location (Karachi) if geolocation fails
+          const defaultLat = 24.8607;
+          const defaultLng = 67.0011;
+          console.log('AttorneysContext: Using default location:', { defaultLat, defaultLng });
+          fetchAttorneys(defaultLat, defaultLng);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    } else {
+      console.log('AttorneysContext: Geolocation not supported, using default location');
+      // Use default location (Karachi) if geolocation is not supported
+      const defaultLat = 24.8607;
+      const defaultLng = 67.0011;
+      fetchAttorneys(defaultLat, defaultLng);
+    }
+  }, []);
+
+  // Add effect to log state changes
+  useEffect(() => {
+    console.log('AttorneysContext state updated:', {
+      attorneysCount: attorneys.length,
+      loading,
+      error
+    });
+  }, [attorneys, loading, error]);
+
+  return (
+    <AttorneysContext.Provider value={{ attorneys, setAttorneys, loading, setLoading, error, setError }}>
+      {children}
+    </AttorneysContext.Provider>
+  );
+}
+
+export function useAttorneys() {
+  const context = useContext(AttorneysContext);
+  if (context === undefined) {
+    throw new Error('useAttorneys must be used within an AttorneysProvider');
+  }
+  return context;
+} 
